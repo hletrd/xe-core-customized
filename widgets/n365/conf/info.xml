@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget version="0.1">
+    <title xml:lang="ko">밤365</title>
+    <description xml:lang="ko">밤365</description>
+    <version>0.1</version>
+    <date>2019-10-23</date>
+    <author email_address="01@0101010101.com" link="//">
+        <name xml:lang="ko">Jiyong Youn</name>
+    </author>
+</widget>
