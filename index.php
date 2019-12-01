@@ -32,6 +32,7 @@
 /**
  * @brief Declare constants for generic use and for checking to avoid a direct call from the Web
  **/
+$GLOBALS['time_start'] = microtime(true);
 define('__XE__',   TRUE);
 /**
  * @brief Include the necessary configuration files
