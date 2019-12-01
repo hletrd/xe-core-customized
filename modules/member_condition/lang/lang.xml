@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<lang>
+	<item name="member_condition_module">
+		<value xml:lang="ko"><![CDATA[회원 가입 질문 모듈]]></value>
+	</item>
+	<item name="member_condition_module_settings">
+		<value xml:lang="ko"><![CDATA[회원 가입 질문 설정]]></value>
+	</item>
+	<item name="member_condition_answer">
+		<value xml:lang="ko"><![CDATA[회원 가입 답변]]></value>
+	</item>
+	<item name="about_member_condition_answer">
+		<value xml:lang="ko"><![CDATA[가입 답변]]></value>
+	</item>
+	<item name="member_condition_question_blocked">
+		<value xml:lang="ko"><![CDATA[가입 질문이 맞지 않습니다.]]></value>
+	</item>
+</lang>

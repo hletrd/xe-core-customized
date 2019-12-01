@@ -1,0 +1,20 @@
+<div class="x_page-header">
+	<h1>
+		{$lang->member_condition_module}
+	</h1>
+</div>
+<h1>{$lang->member_condition_module_settings}</h1>
+<form id="fo_obj" class="x_form-horizontal" action="./" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="act" value="procMember_conditionAdminConfig" />
+	<div class="x_control-group">
+		<label class="x_control-label" for="answer">{$lang->member_condition_answer}</label>
+		<div class="x_controls">
+			<input type="text" name="answer" id="answer" value="{$answer}">
+		</div>
+	</div>
+	<div class="x_clearfix btnArea">
+		<div class="x_pull-right">
+			<button type="submit" class="x_btn x_btn-primary">{$lang->cmd_save}</button>
+		</div>
+	</div>
+</form>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="0.1">
+	<title xml:lang="ko">회원 가입 질문</title>
+	<description xml:lang="ko">회원 가입 질문을 설정하세요</description>
+	<version>1.0.0</version>
+	<date>2019-11-23</date>
+	<category>member</category>
+	<license>-</license>
+
+	<author email_address="01@0101010101.com" link="https://atik.kr">
+		<name xml:lang="ko">윤지용</name>
+	</author>
+</module>

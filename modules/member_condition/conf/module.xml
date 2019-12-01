@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module>
+	<grants />
+	<permissions />
+	<actions>
+		<action name="dispMember_conditionAdminConfig" type="view" admin_index="true" menu_name="member_condition_module" menu_index="true" />
+		<action name="procMember_conditionAdminConfig" type="controller" method="POST" />
+	</actions>
+	<menus>
+		<menu name="member_condition_module">
+			<title xml:lang="ko">회원 가입 질문</title>
+		</menu>
+	</menus>
+</module>
