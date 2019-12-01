@@ -1,0 +1,31 @@
+<ul class="sk5_gallery"<!--// style="width:{$widget_info->cols_list_count*($widget_info->thumbnail_width+14)}px;" -->>
+{@$_idx=0}
+	<!--@foreach($widget_info->content_items as $key => $item)-->
+	<li class="<!--@if($_idx>0 && $_idx % $widget_info->cols_list_count==0)-->clearLeft <!--@end-->hletrd-main-thumbnail" style="<!--@if($_idx >= $widget_info->list_count)-->display:none;<!--@end-->">
+		<!--@foreach($widget_info->option_view_arr as $k => $v)-->
+			<!--@if($v=='thumbnail')-->
+			<div class="tmb_wrp">
+				<a href="{$item->getLink()}" class="thumb hletrd-main-thumbnail" target="_blank"|cond="$widget_info->new_window">
+					<!--@if($item->getThumbnail())-->
+						<img src="{$item->getThumbnail()}" class="no_img hletrd-main-thumbnail-img" />
+					<!--@else-->
+						<div class="no_img hletrd-main-thumbnail-img"><!--{$lang->none_image}-->No Image</div>
+					<!--@end-->
+				</a>
+			</div>
+		 <!--@end-->
+	<!--@end-->
+	<p style="margin-bottom: 4px;"><b>{$item->getTitle($widget_info->subject_cut_size)}</b>&emsp;{$item->getNickName()}</p>
+	<p style="margin-top: 0px; margin-bottom: 10px; text-align: center;">{$item->getRegDate('Y-m-d')}</p>
+
+	</li>
+	{@$_idx++}
+	<!--@end-->
+</ul>
+
+<!--@if($widget_info->page_count > 1 && $widget_info->list_count<$_idx)-->
+<div class="sk5_pg">
+	<button type="button" class="direction" title="{$lang->cmd_prev}" onclick="content_widget_prev(jQuery(this).parents('div.sk5_pg').prev('ul.sk5_gallery'),{$widget_info->list_count});return false;">&lsaquo; Prev</button>
+	<button type="button" class="direction" title="{$lang->cmd_next}" onclick="content_widget_next(jQuery(this).parents('div.sk5_pg').prev('ul.sk5_gallery'),{$widget_info->list_count});return false;">Next &rsaquo;</button>
+</div>
+<!--@end-->
