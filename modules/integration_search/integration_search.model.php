@@ -5,6 +5,12 @@
  *
  * @author XEHub (developers@xpressengine.com)
  */
+
+define('def_lcount', 50);
+define('def_pcount', 1e18);
+define('def_lcount_file', 10);
+define('def_pcount_file', 1e18);
+
 class integration_searchModel extends module
 {
 	/**
@@ -15,7 +21,6 @@ class integration_searchModel extends module
 	function init()
 	{
 	}
-
 	/**
 	 * Search documents
 	 *
@@ -28,7 +33,7 @@ class integration_searchModel extends module
 	 *
 	 * @return BaseObject output document list
 	 */
-	function getDocuments($target, $module_srls_list, $search_target, $search_keyword, $page=1, $list_count = 20)
+	function getDocuments($target, $module_srls_list, $search_target, $search_keyword, $page=1, $list_count = def_lcount)
 	{
 		if(is_array($module_srls_list)) $module_srls_list = implode(',',$module_srls_list);
 
@@ -47,11 +52,11 @@ class integration_searchModel extends module
 
 		$args->page = $page;
 		$args->list_count = $list_count;
-		$args->page_count = 10;
+		$args->page_count = def_pcount;
 		$args->search_target = $search_target;
 		$args->search_keyword = $search_keyword;
-		$args->sort_index = 'list_order';
-		$args->order_type = 'asc';
+		$args->sort_index = 'regdate';
+		$args->order_type = 'desc';
 		$args->statusList = array('PUBLIC');
 		if(!$args->module_srl) unset($args->module_srl);
 		// Get a list of documents
@@ -71,7 +76,7 @@ class integration_searchModel extends module
 	 *
 	 * @return BaseObject output comment list
 	 */
-	function getComments($target, $module_srls_list, $search_keyword, $page=1, $list_count = 20)
+	function getComments($target, $module_srls_list, $search_keyword, $page=1, $list_count = def_lcount)
 	{
 		$args = new stdClass();
 
@@ -91,7 +96,7 @@ class integration_searchModel extends module
 
 		$args->page = $page;
 		$args->list_count = $list_count;
-		$args->page_count = 10;
+		$args->page_count = def_pcount;
 		$args->search_target = 'content';
 		$args->search_keyword = $search_keyword;
 		$args->sort_index = 'list_order';
@@ -130,8 +135,8 @@ class integration_searchModel extends module
 		$args->page_count = 10;
 		$args->search_target = $search_target;
 		$args->search_keyword = $search_keyword;
-		$args->sort_index = 'list_order';
-		$args->order_type = 'asc';
+		$args->sort_index = 'regdate';
+		$args->order_type = 'desc';
 		// Get a list of documents
 		$output = $oTrackbackModel->getTotalTrackbackList($args);
 		if(!$output->toBool()|| !$output->data) return $output;
@@ -150,7 +155,7 @@ class integration_searchModel extends module
 	 *
 	 * @return BaseObject output file list
 	 */
-	function _getFiles($target, $module_srls_list, $search_keyword, $page, $list_count, $direct_download = 'Y')
+	function _getFiles($target, $module_srls_list, $search_keyword, $page, $list_count=def_lcount_file, $direct_download = 'Y')
 	{
 		$args = new stdClass();
 
@@ -160,10 +165,10 @@ class integration_searchModel extends module
 		else $args->module_srl = $module_srls;
 		$args->page = $page;
 		$args->list_count = $list_count;
-		$args->page_count = 10;
+		$args->page_count = def_pcount_file;
 		$args->search_target = 'filename';
 		$args->search_keyword = $search_keyword;
-		$args->sort_index = 'files.file_srl';
+		$args->sort_index = 'files.regdate';
 		$args->order_type = 'desc';
 		$args->isvalid = 'Y';
 		$args->direct_download = $direct_download=='Y'?'Y':'N';
@@ -249,7 +254,7 @@ class integration_searchModel extends module
 	 *
 	 * @return BaseObject
 	 */
-	function getImages($target, $module_srls_list, $search_keyword, $page=1, $list_count = 20)
+	function getImages($target, $module_srls_list, $search_keyword, $page=1, $list_count = def_lcount_file)
 	{
 		return $this->_getFiles($target, $module_srls_list, $search_keyword, $page, $list_count);
 	}
@@ -265,7 +270,7 @@ class integration_searchModel extends module
 	 *
 	 * @return BaseObject
 	 */
-	function getFiles($target, $module_srls_list, $search_keyword, $page=1, $list_count = 20)
+	function getFiles($target, $module_srls_list, $search_keyword, $page=1, $list_count = def_lcount_file)
 	{
 		return $this->_getFiles($target, $module_srls_list, $search_keyword, $page, $list_count, 'N');
 	}
