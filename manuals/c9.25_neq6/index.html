@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>C9.25</title>
+
+
+<style type="text/css">
+body {
+  font-family: Helvetica, arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: white;
+  padding: 30px; }
+
+body > *:first-child {
+  margin-top: 0 !important; }
+body > *:last-child {
+  margin-bottom: 0 !important; }
+
+a {
+  color: #4183C4; }
+a.absent {
+  color: #cc0000; }
+a.anchor {
+  display: block;
+  padding-left: 30px;
+  margin-left: -30px;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0; }
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+  cursor: text;
+  position: relative; }
+
+h1:hover a.anchor, h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor, h5:hover a.anchor, h6:hover a.anchor {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA09pVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoMTMuMCAyMDEyMDMwNS5tLjQxNSAyMDEyLzAzLzA1OjIxOjAwOjAwKSAgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OUM2NjlDQjI4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OUM2NjlDQjM4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo5QzY2OUNCMDg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo5QzY2OUNCMTg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PsQhXeAAAABfSURBVHjaYvz//z8DJYCRUgMYQAbAMBQIAvEqkBQWXI6sHqwHiwG70TTBxGaiWwjCTGgOUgJiF1J8wMRAIUA34B4Q76HUBelAfJYSA0CuMIEaRP8wGIkGMA54bgQIMACAmkXJi0hKJQAAAABJRU5ErkJggg==) no-repeat 10px center;
+  text-decoration: none; }
+
+h1 tt, h1 code {
+  font-size: inherit; }
+
+h2 tt, h2 code {
+  font-size: inherit; }
+
+h3 tt, h3 code {
+  font-size: inherit; }
+
+h4 tt, h4 code {
+  font-size: inherit; }
+
+h5 tt, h5 code {
+  font-size: inherit; }
+
+h6 tt, h6 code {
+  font-size: inherit; }
+
+h1 {
+  font-size: 28px;
+  color: black; }
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #cccccc;
+  color: black; }
+
+h3 {
+  font-size: 18px; }
+
+h4 {
+  font-size: 16px; }
+
+h5 {
+  font-size: 14px; }
+
+h6 {
+  color: #777777;
+  font-size: 14px; }
+
+p, blockquote, ul, ol, dl, li, table, pre {
+  margin: 15px 0; }
+
+hr {
+  background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC) repeat-x 0 0;
+  border: 0 none;
+  color: #cccccc;
+  height: 4px;
+  padding: 0;
+}
+
+body > h2:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+body > h1:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+  body > h1:first-child + h2 {
+    margin-top: 0;
+    padding-top: 0; }
+body > h3:first-child, body > h4:first-child, body > h5:first-child, body > h6:first-child {
+  margin-top: 0;
+  padding-top: 0; }
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0; }
+
+h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
+  margin-top: 0; }
+
+li p.first {
+  display: inline-block; }
+li {
+  margin: 0; }
+ul, ol {
+  padding-left: 30px; }
+
+ul :first-child, ol :first-child {
+  margin-top: 0; }
+
+dl {
+  padding: 0; }
+  dl dt {
+    font-size: 14px;
+    font-weight: bold;
+    font-style: italic;
+    padding: 0;
+    margin: 15px 0 5px; }
+    dl dt:first-child {
+      padding: 0; }
+    dl dt > :first-child {
+      margin-top: 0; }
+    dl dt > :last-child {
+      margin-bottom: 0; }
+  dl dd {
+    margin: 0 0 15px;
+    padding: 0 15px; }
+    dl dd > :first-child {
+      margin-top: 0; }
+    dl dd > :last-child {
+      margin-bottom: 0; }
+
+blockquote {
+  border-left: 4px solid #dddddd;
+  padding: 0 15px;
+  color: #777777; }
+  blockquote > :first-child {
+    margin-top: 0; }
+  blockquote > :last-child {
+    margin-bottom: 0; }
+
+table {
+  padding: 0;border-collapse: collapse; }
+  table tr {
+    border-top: 1px solid #cccccc;
+    background-color: white;
+    margin: 0;
+    padding: 0; }
+    table tr:nth-child(2n) {
+      background-color: #f8f8f8; }
+    table tr th {
+      font-weight: bold;
+      border: 1px solid #cccccc;
+      margin: 0;
+      padding: 6px 13px; }
+    table tr td {
+      border: 1px solid #cccccc;
+      margin: 0;
+      padding: 6px 13px; }
+    table tr th :first-child, table tr td :first-child {
+      margin-top: 0; }
+    table tr th :last-child, table tr td :last-child {
+      margin-bottom: 0; }
+
+img {
+  max-width: 100%; }
+
+span.frame {
+  display: block;
+  overflow: hidden; }
+  span.frame > span {
+    border: 1px solid #dddddd;
+    display: block;
+    float: left;
+    overflow: hidden;
+    margin: 13px 0 0;
+    padding: 7px;
+    width: auto; }
+  span.frame span img {
+    display: block;
+    float: left; }
+  span.frame span span {
+    clear: both;
+    color: #333333;
+    display: block;
+    padding: 5px 0 0; }
+span.align-center {
+  display: block;
+  overflow: hidden;
+  clear: both; }
+  span.align-center > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: center; }
+  span.align-center span img {
+    margin: 0 auto;
+    text-align: center; }
+span.align-right {
+  display: block;
+  overflow: hidden;
+  clear: both; }
+  span.align-right > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px 0 0;
+    text-align: right; }
+  span.align-right span img {
+    margin: 0;
+    text-align: right; }
+span.float-left {
+  display: block;
+  margin-right: 13px;
+  overflow: hidden;
+  float: left; }
+  span.float-left span {
+    margin: 13px 0 0; }
+span.float-right {
+  display: block;
+  margin-left: 13px;
+  overflow: hidden;
+  float: right; }
+  span.float-right > span {
+    display: block;
+    overflow: hidden;
+    margin: 13px auto 0;
+    text-align: right; }
+
+code, tt {
+  margin: 0 2px;
+  padding: 0 5px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px; }
+
+pre code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent; }
+
+.highlight pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px; }
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px; }
+  pre code, pre tt {
+    background-color: transparent;
+    border: none; }
+
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+
+kbd {
+  display: inline-block;
+  padding: 3px 5px;
+  font-size: 11px;
+  line-height: 10px;
+  color: #555;
+  vertical-align: middle;
+  background-color: #fcfcfc;
+  border: solid 1px #ccc;
+  border-bottom-color: #bbb;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #bbb
+}
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:0 auto;
+    }
+}
+@media print {
+	table, pre {
+		page-break-inside: avoid;
+	}
+	pre {
+		word-wrap: break-word;
+	}
+}
+</style>
+
+<style type="text/css">
+/**
+ * okaidia theme for JavaScript, CSS and HTML
+ * Loosely based on Monokai textmate theme by http://www.monokai.nl/
+ * @author ocodia
+ */
+
+code[class*="language-"],
+pre[class*="language-"] {
+	color: #f8f8f2;
+	background: none;
+	text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	background: #272822;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+	white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: slategray;
+}
+
+.token.punctuation {
+	color: #f8f8f2;
+}
+
+.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.tag,
+.token.constant,
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.boolean,
+.token.number {
+	color: #ae81ff;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: #a6e22e;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string,
+.token.variable {
+	color: #f8f8f2;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.function {
+	color: #e6db74;
+}
+
+.token.keyword {
+	color: #66d9ef;
+}
+
+.token.regex,
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<h2 id="toc_0">C9.25 및 NEQ6 설치 매뉴얼</h2>
+
+<h3 id="toc_1">구성품 확인</h3>
+
+<p><img src="C-01.jpg" alt=""></p>
+
+<ol>
+<li>C9.25가 들어 있는 거대하고 무거운 플라스틱 케이스</li>
+<li>삼각대가 들어 있는 가방</li>
+<li>하이퍼스타가 들어 있는 가방</li>
+<li>NEQ6가 들어 있는 끔찍하게 무거운 알루미늄 케이스</li>
+<li>무게추가 들어 있는 무거운 가방</li>
+<li>파워뱅크 (12V 30Ah) 또는 작고 무거운 납축전지</li>
+</ol>
+
+<hr>
+
+<h3 id="toc_2">NEQ6 설치</h3>
+
+<ul>
+<li>기본적으로 C9.25는 NEQ6 위에 설치한다. 그런데 NEQ6와 EM-200의 적위 헤드(망원경 접속부)는 동일하므로 NEQ6에 FS-102를 결합하거나, EM-200에 C9.25를 결합할 수 있다. 하지만 동아리의 EM-200은 노후화가 심한 상태이므로 가급적 C9.25를 올리지 않는 것이 좋다. 물론 본인이 책임질 수 있다면 올려도 된다.</li>
+</ul>
+
+<p><img src="C00.jpg" alt=""></p>
+
+<ul>
+<li><p>평평한 곳에 수평을 맞춰 NEQ6용 스테인리스 삼각대를 설치한다. 이 때 금속 막대가 튀어나온 부분(alignment peg)이 북쪽으로 향하도록 한다.</p>
+
+<ul>
+<li> NEQ6와 EM-200은 삼각대 및 체결 나사 규격이 다르다. 삼각대를 바꿔 사용할 경우 설치가 되지 않거나 해체가 되지 않을 수 있으니 절대로 삼각대를 바꿔서 사용하면 안 된다.</li>
+<li>NEQ6와 EM-200의 체결 나사는 비슷해 보이지만 각각 12mm, 1/2인치로 다른 나사이다.</li>
+</ul></li>
+</ul>
+
+<p><img src="C01.jpg" alt=""></p>
+
+<ul>
+<li>삼각대 하단 끝부분의 나사를 풀고, 아이피스 플레이트를 끼운 뒤 나사를 조인다. 이 때 나사를 끝까지 조이지 않는다. 아이피스 플레이트는 설치하지 않아도 무방하다.</li>
+</ul>
+
+<p><img src="C02.jpg" alt=""></p>
+
+<ul>
+<li>금속 막대에 주의하며 NEQ6를 삼각대에 올린다.
+
+<ul>
+<li><strong>NEQ6를 올리는 중에 적경 및 적위축이 갑자기 회전하지 않도록 클램프를 조여 고정한 뒤 올린다.</strong></li>
+<li>NEQ6가 심각대에 잘 올라가지 않는다면 alignment peg 양 옆에 있는 검은색 방위각 조절 나사를 조금 풀어 본다.</li>
+</ul></li>
+</ul>
+
+<p><img src="C03.jpg" alt=""></p>
+
+<ul>
+<li>삼각대 중앙의 나사를 끝까지 조여 NEQ6를 단단히 고정시킨다. 아이피스 플레이트를 설치했을 경우 플레이트 아래의 나사도 단단히 조인다.</li>
+</ul>
+
+<p><img src="C04.jpg" alt=""></p>
+
+<ul>
+<li>무게추봉을 고정하는 클램프를 풀어 무게추봉을 꺼낸다.</li>
+</ul>
+
+<p><img src="C05.jpg" alt=""></p>
+
+<ul>
+<li>무게추봉을 고정하는 클램프를 조여 무게추봉을 고정시킨다. 이후 무게추봉 끝부분의 스토퍼 나사를 분리한다.</li>
+</ul>
+
+<p><img src="C06.jpg" alt="">
+<img src="C07.jpg" alt=""></p>
+
+<ul>
+<li>무게추를 끼우고 나사를 조여 고정시킨다. 이 때 무게추는 나사가 위로 가도록 끼워야 한다. 무게추를 끼운 뒤에는 무게추봉 끝부분의 스토퍼 나사를 단단히 조인다.
+
+<ul>
+<li>반드시 무게추봉이 아래로 향한 상태에서 작업한다. 무게추봉이 옆으로 향한 상태에서 무게추를 끼울 경우 클러치가 미끄러져 갑자기 회전할 수 있다.</li>
+<li>무게추 두 개를 모두 끝까지 빼면 대략적으로 균형이 맞는다.</li>
+</ul></li>
+</ul>
+
+<p><img src="C18.jpg" alt=""></p>
+
+<ul>
+<li>Synscan 핸드 컨트롤러를 적도의 본체의 뭔가 핸드 컨트롤러를 연결하면 될 것만 같은 단자에 연결한다. </li>
+</ul>
+
+<p><img src="C19.jpg" alt="">
+<img src="C20.jpg" alt=""></p>
+
+<ul>
+<li>전원 케이블은 시가잭 케이블(길이 60cm)과 연장선의 두 부분으로 구성되어 있다. 전원 케이블을 찾아 적도의의 전원 포트에 연결한다.</li>
+</ul>
+
+<p><img src="C21.jpg" alt="">
+<img src="C22.jpg" alt=""></p>
+
+<ul>
+<li>파워뱅크에 시가잭 전원을 연결하고 전원을 켠다.
+
+<ul>
+<li>파워뱅크의 전원스위치와 LCD는 상당히 밝다. 적당한 도구나 물체 등으로 잘 가리는 것이 좋다.</li>
+<li>NEQ6는 DC 포트가 일반적인 케이블과 동일한 방향(중심 +, 주변 -)으로 되어 있다. 혹시 납축전지에 집게로 연결할 경우 같은 색끼리 연결한다.</li>
+</ul></li>
+</ul>
+
+<p><img src="C23.jpg" alt=""></p>
+
+<ul>
+<li>NEQ6의 전원을 켜면 극축 망원경에 붉은 배경 조명이 켜질 것이다. 경통과 각종 장비를 모두 올린 뒤, 이 상태로 극축 망원경을 보며 극축을 정렬한다. 이 때 적위축을 약간 틀어 적위축에 뚫린 구멍이 극축 망원경과 평행이 되도록 해야 한다.
+
+<ul>
+<li>장비를 올리면 극축이 틀어지므로 극축은 장비를 모두 올린 뒤 맞춰야 한다.</li>
+<li>NEQ6의 극축 조절은 방위각 조절 나사 두 개와 고도 조절 나사 두 개로 이루어진다. 각각 양 쪽의 나사가 밀고 당기는 형식으로 되어 있으므로 한 쪽의 나사를 풀면서 반대쪽 나사를 조이면 된다.</li>
+<li>NEQ6의 극축망원경 접안부 아래에 위치한 고도를 올리는 나사는 엄청나게 조이기 어렵다. 이것은 NEQ6 설계상의 결함으로 인한 고질적인 문제로, NEQ6 최대의 단점 중 하나이다. 이것 하나 때문에 NEQ6를 대규모로 개조하거나 아예 다른 적도의로 기변하는 사용자도 있다. 알아서 잘 조여 본다.</li>
+<li>장비와 무게추를 다른 사람이 들어 주면 고도를 올리는 나사를 조이기가 아주 약간 쉬워진다.</li>
+</ul></li>
+</ul>
+
+<hr>
+
+<h3 id="toc_3">C9.25 설치</h3>
+
+<p><img src="C08.jpg" alt=""></p>
+
+<ul>
+<li>도브테일 홀더를 두 개의 M8 렌치로 고정시킨다. M8 렌치볼트는 NEQ6 적위 헤드 부분에 끼워져 있을 것이다. 육각렌치는 6mm 사이즈를 사용한다.
+
+<ul>
+<li>본인이 나중에 책임질 수 있는 만큼만 조인다. 너무 강하게 조이면 적위 헤드의 알루미늄이 손상될 수 있다.</li>
+</ul></li>
+</ul>
+
+<p><img src="C09.jpg" alt=""></p>
+
+<ul>
+<li>적위축을 고정하는 클램프를 풀어 도브테일 홀더가 수평으로 오게 한다. 고정 나사가 위로 향하도록 해야 한다. 고정 나사를 적당히 풀어 경통이 들어갈 수 있도록 한다.
+
+<ul>
+<li><strong>고정 나사가 옆으로 향한 상태에서 경통을 올리면 위험하다.</strong></li>
+<li>고정 나사를 너무 풀면 나사가 빠져버릴 수 있다. 이 경우 와셔와 스프링을 분실하기 매우 쉬우므로 주의한다.</li>
+</ul></li>
+</ul>
+
+<p><img src="C10.jpg" alt=""></p>
+
+<ul>
+<li>C9.25를 조심스레 올리고 도브테일 홀더의 나사를 끝까지 잠가 고정시킨다.
+
+<ul>
+<li><strong>경우에 따라 나사가 잘 안 돌아가 고정된 것처럼 느껴지더라도 실제로는 끝까지 잠기지 않은 경우가 있다. 이 경우 경통을 세웠을 때 낙하할 수 있으니 반드시 잘 확인해야 한다.</strong></li>
+<li>C9.25에 아이피스를 물려 사용할 경우 경통을 한계까지 앞으로 밀어도 균형이 맞지 않는다. 안시용으로 사용할 경우 큰 문제는 없으므로 그냥 사용해도 무방하다.</li>
+</ul></li>
+</ul>
+
+<p><img src="C11.jpg" alt="">
+<img src="C12.jpg" alt=""></p>
+
+<ul>
+<li>파인더를 장착한다.
+
+<ul>
+<li>종종 파인더가 제대로 장착된 듯해 보여도 끝까지 들어가지 않은 경우가 있다. 파인더가 끝까지 들어가지 않으면 정렬이 불가능하므로 끝까지 장착한다.</li>
+</ul></li>
+</ul>
+
+<hr>
+
+<h3 id="toc_4">C9.25에 아이피스 사용하기</h3>
+
+<p><img src="C16.jpg" alt=""></p>
+
+<ul>
+<li>천정미러와 아이피스를 확인한다.
+
+<ul>
+<li>천정미러는 천정미러가 들어 있을 것만 같이 생긴 골판지 상자에 들어 있다.</li>
+<li>C9.25에 자주 사용하는 Luminos 23mm 아이피스는 왠지 아이피스가 들어 있을 것만 같이 생긴 박스에 들어 있다.</li>
+</ul></li>
+</ul>
+
+<p><img src="C13.jpg" alt=""></p>
+
+<ul>
+<li>천정미러를 아이피스 장착부에 장착한다.
+
+<ul>
+<li>너무 단단히 조이면 나중에 분리하기가 어려우므로 본인이 책임질 수 있는 만큼 조인다.</li>
+</ul></li>
+</ul>
+
+<p><img src="C14.jpg" alt="">
+<img src="C15.jpg" alt=""></p>
+
+<ul>
+<li>기본적으로 천정미러에는 1.25인치 아이피스 어댑터가 끼워져 있어 동아리 내 대부분의 아이피스를 그대로 사용할 수 있다. 한편 일반적으로 C9.25에는 2인치 아이피스인 Luminos 23mm를 사용한다. 이를 장착하려면 1.25인치 어댑터를 먼저 분리한다.</li>
+</ul>
+
+<p><img src="C17.jpg" alt=""></p>
+
+<ul>
+<li>아이피스를 끼우고 옆면 나사를 조여 고정한다. 이후 적당히 초점을 맞춘다.</li>
+</ul>
+
+<p><img src="C40.jpg" alt="">
+* C9.25의 경통 뒷면에는 3개의 나사 또는 노브가 있으며, 원뿔 모양 나사 2개와 원기둥 모양 나사 1개가 있다. 이 중 원뿔 모양 나사는 초점 고정 나사이며, 원기둥 모양 나사가 초점 조절 노브이다.
+ * <strong>초점을 조절할 때는 반드시 초점 고정 나사를 먼저 풀고 조절한다. 초점 고정 나사를 풀지 않고 초점을 조절하면 주경 고정 부위가 손상될 수도 있다.</strong>
+ * 본인이 뒷감당을 할 수 있다면 물론 초점 고정 나사를 풀지 않고 초점을 조절해도 무방하다. 감사드립니다.</p>
+
+<p><img src="C24.jpg" alt=""></p>
+
+<ul>
+<li>설치가 완료된 모습</li>
+</ul>
+
+<hr>
+
+<h3 id="toc_5">Synscan 컨트롤러 사용하기</h3>
+
+<p><img src="C25.jpg" alt=""></p>
+
+<ul>
+<li>컨트롤러가 켜지면 위와 같은 화면이 나타날 것이다. ENTER 키를 누른다.</li>
+</ul>
+
+<p><img src="C26.jpg" alt=""></p>
+
+<ul>
+<li>현재 관측소의 좌표를 입력한다. 스마트폰의 GPS 정보 앱으로 쉽게 현재 위치를 확인할 수 있다.</li>
+</ul>
+
+<p><img src="C27.jpg" alt="">
+<img src="C28.jpg" alt="">
+<img src="C29.jpg" alt=""></p>
+
+<ul>
+<li>시간대와 현재 날짜 및 시간을 입력한다.</li>
+<li>북한으로 소관을 가지 않는 이상 시간대를 바꿀 일은 없을 것이다.</li>
+<li>천체는 상당히 빠르게 움직이기 때문에 시간은 가급적 초 단위까지 정확히 입력해 주는 것이 좋다.</li>
+</ul>
+
+<p><img src="C30.jpg" alt="">
+<img src="C31.jpg" alt=""></p>
+
+<ul>
+<li>Begin Alignment라며 Align을 시작할지 묻는다. 필요에 따라 Align을 진행한다.
+
+<ul>
+<li>Alignment를 진행할 경우, 처음 시작 위치는 앞의 &lsquo;설치가 완료된 모습&#39;과 같이, 경통이 위, 무게추가 아래에 놓이고 경통이 북쪽을 향한 상태여야 한다. <strong>다른 위치에서 align을 시작하면 align이 제대로 이루어지지 않거나 경통이 상각대, 적도의 등에 충돌할 수 있다.</strong></li>
+</ul></li>
+</ul>
+
+<hr>
+
+<h3 id="toc_6">Hyperstar 사용하기</h3>
+
+<p><img src="C32.jpg" alt="">
+<img src="C33.jpg" alt=""></p>
+
+<ul>
+<li>부경 테두리의 고정 링을 돌려서 풀어낸다.
+
+<ul>
+<li><strong>경통이 수평 또는 땅을 향한 상태에서 부경 고정 링을 풀면 부경을 떨어뜨릴 수 있다. 본인의 키가 작더라도 반드시 경통을 위로 향한 상태에서 부경 고정 링을 분리한다.</strong></li>
+<li>나중에 부경을 다시 끼울 때에는, 부경의 홈과 부경 고정 부위의 튀어나온 돌기를 맞추어 조립한다.</li>
+</ul></li>
+</ul>
+
+<p><img src="C34.jpg" alt="">
+<img src="C35.jpg" alt=""></p>
+
+<ul>
+<li>하이퍼스타 앞쪽의 보호 캡을 돌려서 풀어낸다.
+
+<ul>
+<li>돌려서 빠지는 부분 앞에 그냥 뺄 수 있는 캡이 있는데 그게 아니다.</li>
+<li>여기에 부경과 부경 고정 링을 끼워서 안전하게 보관할 수 있다.</li>
+</ul></li>
+</ul>
+
+<p><img src="C36.jpg" alt=""></p>
+
+<ul>
+<li>부경을 분리한 부분에 하이퍼스타를 돌려 끼운다.
+
+<ul>
+<li>하이퍼스타에 붙어 있는 6개의 나사는 광축 조절 나사이다. 광축을 맞추고자 하는 것이 아니면 가급적 건드리지 않는다.</li>
+<li>근데 언젠가 보니 광축 조절 나사가 풀려 있더라. 아마 안 맞을 것이다. ㅅㄱㅇ</li>
+</ul></li>
+</ul>
+
+<p><img src="C37.jpg" alt=""></p>
+
+<ul>
+<li>하이퍼스타 뒷면의 캡을 분리한다.
+
+<ul>
+<li>이건 돌려 빼는 게 아니라 당겨 빼는 캡이다.</li>
+</ul></li>
+</ul>
+
+<p><img src="C39.jpg" alt=""></p>
+
+<ul>
+<li>카메라를 장착한다. 캐논 카메라를 장착해야 한다면 원래 장착되어 있는 소니 어댑터를 분리하고 캐논 어댑터를 연결한다.</li>
+</ul>
+
+<hr>
+
+<h3 id="toc_7">NEQ6 해체 시 주의사항</h3>
+
+<ul>
+<li>M8 렌치는 다시 NEQ6의 적위 헤드에 끼워 놓는다.</li>
+<li>케이스에 넣을 때에는 적위 헤드를 아래로 향하도록 한다.</li>
+<li>케이블과 다른 구성품을 케이스에 넣기 전 NEQ6 본체를 먼저 넣는다.</li>
+<li>적도의를 보관할 때에는 항상 적경과 적위축을 고정하는 클램프를 풀어 놓는다. 클램프를 잠근 채 보관하면 웜 기어가 손상될 우려가 있다.</li>
+</ul>
+
+
+
+<script type="text/javascript">
+var _self="undefined"!=typeof window?window:"undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?self:{},Prism=function(){var e=/\blang(?:uage)?-(\w+)\b/i,t=0,n=_self.Prism={util:{encode:function(e){return e instanceof a?new a(e.type,n.util.encode(e.content),e.alias):"Array"===n.util.type(e)?e.map(n.util.encode):e.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/\u00a0/g," ")},type:function(e){return Object.prototype.toString.call(e).match(/\[object (\w+)\]/)[1]},objId:function(e){return e.__id||Object.defineProperty(e,"__id",{value:++t}),e.__id},clone:function(e){var t=n.util.type(e);switch(t){case"Object":var a={};for(var r in e)e.hasOwnProperty(r)&&(a[r]=n.util.clone(e[r]));return a;case"Array":return e.map&&e.map(function(e){return n.util.clone(e)})}return e}},languages:{extend:function(e,t){var a=n.util.clone(n.languages[e]);for(var r in t)a[r]=t[r];return a},insertBefore:function(e,t,a,r){r=r||n.languages;var l=r[e];if(2==arguments.length){a=arguments[1];for(var i in a)a.hasOwnProperty(i)&&(l[i]=a[i]);return l}var o={};for(var s in l)if(l.hasOwnProperty(s)){if(s==t)for(var i in a)a.hasOwnProperty(i)&&(o[i]=a[i]);o[s]=l[s]}return n.languages.DFS(n.languages,function(t,n){n===r[e]&&t!=e&&(this[t]=o)}),r[e]=o},DFS:function(e,t,a,r){r=r||{};for(var l in e)e.hasOwnProperty(l)&&(t.call(e,l,e[l],a||l),"Object"!==n.util.type(e[l])||r[n.util.objId(e[l])]?"Array"!==n.util.type(e[l])||r[n.util.objId(e[l])]||(r[n.util.objId(e[l])]=!0,n.languages.DFS(e[l],t,l,r)):(r[n.util.objId(e[l])]=!0,n.languages.DFS(e[l],t,null,r)))}},plugins:{},highlightAll:function(e,t){var a={callback:t,selector:'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code'};n.hooks.run("before-highlightall",a);for(var r,l=a.elements||document.querySelectorAll(a.selector),i=0;r=l[i++];)n.highlightElement(r,e===!0,a.callback)},highlightElement:function(t,a,r){for(var l,i,o=t;o&&!e.test(o.className);)o=o.parentNode;o&&(l=(o.className.match(e)||[,""])[1],i=n.languages[l]),t.className=t.className.replace(e,"").replace(/\s+/g," ")+" language-"+l,o=t.parentNode,/pre/i.test(o.nodeName)&&(o.className=o.className.replace(e,"").replace(/\s+/g," ")+" language-"+l);var s=t.textContent,u={element:t,language:l,grammar:i,code:s};if(!s||!i)return n.hooks.run("complete",u),void 0;if(n.hooks.run("before-highlight",u),a&&_self.Worker){var c=new Worker(n.filename);c.onmessage=function(e){u.highlightedCode=e.data,n.hooks.run("before-insert",u),u.element.innerHTML=u.highlightedCode,r&&r.call(u.element),n.hooks.run("after-highlight",u),n.hooks.run("complete",u)},c.postMessage(JSON.stringify({language:u.language,code:u.code,immediateClose:!0}))}else u.highlightedCode=n.highlight(u.code,u.grammar,u.language),n.hooks.run("before-insert",u),u.element.innerHTML=u.highlightedCode,r&&r.call(t),n.hooks.run("after-highlight",u),n.hooks.run("complete",u)},highlight:function(e,t,r){var l=n.tokenize(e,t);return a.stringify(n.util.encode(l),r)},tokenize:function(e,t){var a=n.Token,r=[e],l=t.rest;if(l){for(var i in l)t[i]=l[i];delete t.rest}e:for(var i in t)if(t.hasOwnProperty(i)&&t[i]){var o=t[i];o="Array"===n.util.type(o)?o:[o];for(var s=0;s<o.length;++s){var u=o[s],c=u.inside,g=!!u.lookbehind,h=!!u.greedy,f=0,d=u.alias;u=u.pattern||u;for(var p=0;p<r.length;p++){var m=r[p];if(r.length>e.length)break e;if(!(m instanceof a)){u.lastIndex=0;var y=u.exec(m),v=1;if(!y&&h&&p!=r.length-1){var b=r[p+1].matchedStr||r[p+1],k=m+b;if(p<r.length-2&&(k+=r[p+2].matchedStr||r[p+2]),u.lastIndex=0,y=u.exec(k),!y)continue;var w=y.index+(g?y[1].length:0);if(w>=m.length)continue;var _=y.index+y[0].length,P=m.length+b.length;if(v=3,P>=_){if(r[p+1].greedy)continue;v=2,k=k.slice(0,P)}m=k}if(y){g&&(f=y[1].length);var w=y.index+f,y=y[0].slice(f),_=w+y.length,S=m.slice(0,w),O=m.slice(_),j=[p,v];S&&j.push(S);var A=new a(i,c?n.tokenize(y,c):y,d,y,h);j.push(A),O&&j.push(O),Array.prototype.splice.apply(r,j)}}}}}return r},hooks:{all:{},add:function(e,t){var a=n.hooks.all;a[e]=a[e]||[],a[e].push(t)},run:function(e,t){var a=n.hooks.all[e];if(a&&a.length)for(var r,l=0;r=a[l++];)r(t)}}},a=n.Token=function(e,t,n,a,r){this.type=e,this.content=t,this.alias=n,this.matchedStr=a||null,this.greedy=!!r};if(a.stringify=function(e,t,r){if("string"==typeof e)return e;if("Array"===n.util.type(e))return e.map(function(n){return a.stringify(n,t,e)}).join("");var l={type:e.type,content:a.stringify(e.content,t,r),tag:"span",classes:["token",e.type],attributes:{},language:t,parent:r};if("comment"==l.type&&(l.attributes.spellcheck="true"),e.alias){var i="Array"===n.util.type(e.alias)?e.alias:[e.alias];Array.prototype.push.apply(l.classes,i)}n.hooks.run("wrap",l);var o="";for(var s in l.attributes)o+=(o?" ":"")+s+'="'+(l.attributes[s]||"")+'"';return"<"+l.tag+' class="'+l.classes.join(" ")+'" '+o+">"+l.content+"</"+l.tag+">"},!_self.document)return _self.addEventListener?(_self.addEventListener("message",function(e){var t=JSON.parse(e.data),a=t.language,r=t.code,l=t.immediateClose;_self.postMessage(n.highlight(r,n.languages[a],a)),l&&_self.close()},!1),_self.Prism):_self.Prism;var r=document.currentScript||[].slice.call(document.getElementsByTagName("script")).pop();return r&&(n.filename=r.src,document.addEventListener&&!r.hasAttribute("data-manual")&&document.addEventListener("DOMContentLoaded",n.highlightAll)),_self.Prism}();"undefined"!=typeof module&&module.exports&&(module.exports=Prism),"undefined"!=typeof global&&(global.Prism=Prism);
+</script>
+
+
+</body>
+
+</html>
