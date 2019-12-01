@@ -1,0 +1,22 @@
+@charset utf-8;
+strong.noKeyword{font-size:16px;display:block;margin:50px 0 0 10px;}
+.searchResult{margin:10px 0 0 10px;padding:0;}
+.searchResult li{width:100%;margin-bottom:15px;clear:both;overflow:hidden;list-style:none;}
+.searchResult li .thumbnail{float:left;margin-right:14px;}
+.searchResult li dl{margin:5px 0 0;padding:0;}
+.searchResult.comment li dl dt a{color:#444;text-decoration:none;font-weight:normal}
+.searchResult li dl dt .category{color:#818181;}
+.searchResult li dl dt .category a{color:#818181;border:none;text-decoration:none;}
+.searchResult li dl dd{line-height:18px;color:#555;margin:0 0 4px;padding:0;}
+.searchResult li address .read{font:0;color:#818181;}
+div.isMore a{color:#666;text-decoration:underline;}
+.pagination{text-align:center;}
+.searchResult li dl dt,.searchImageResult li dl dt{color:#d8d8d8;margin:0 0 1px;padding:0;}
+.searchResult li address{color:#d8d8d8;font-size:12px;margin-top:5px;}
+.searchResult li address strong{color:#3e3e3e;font-size:1em;font-weight:400;}
+.searchResult li address img{vertical-align:middle;margin-right:2px;}
+.searchResult li address .time,.searchResult li address .readNum{color:#818181;font-size:.9em}
+.searchResult li address .recom{color:#818181;}
+
+.searchImageResult li.thumbnail{float:left;overflow:hidden;width:128px;height:190px;margin:0 15px 15px 0}
+.searchImageResult li .address{color:#999;font-size:.9em}

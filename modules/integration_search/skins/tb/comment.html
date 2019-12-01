@@ -1,0 +1,37 @@
+<!--#include("header.html")-->
+<!--@if(!count($output->data))-->
+    <div class="alert alert-info">{$lang->msg_no_result}</div>
+<!--@else-->
+    <ul class="searchResult comment">
+    <!--@foreach($output->data as $no => $comment)-->
+        <li>
+            <!--@if($comment->thumbnailExists(80))-->
+            <a href="{$comment->getPermanentUrl()}" onclick="window.open(this.href);return false;"><img src="{$comment->getThumbnail(80)}" alt="" width="80" height="80" class="thumb" /></a>
+            <!--@end-->
+            <dl>
+                <dt><a href="{$comment->getPermanentUrl()}" onclick="window.open(this.href);return false;">{$comment->getSummary(400)}</a></dt>
+            </dl>
+            <address><strong>{$comment->getNickName()}</strong> | <span class="time">{$comment->getRegdate("Y-m-d H:i")}</span></address>
+        </li>
+    <!--@end-->
+    </ul>
+
+    <!--@if($where == 'comment' && $output->page_navigation)-->
+        <div class="pagination a1">
+			<ul>
+				<li><a href="{getAutoEncodedUrl('page','')}" class="prevEnd">&lsaquo; {$lang->first_page}</a> </li>
+            <!--@while($page_no = $output->page_navigation->getNextPage())-->
+                <!--@if($page == $page_no)-->
+                    <li class="active"><a>{$page_no}</a></li>
+                <!--@else-->
+                    <li><a href="{getAutoEncodedUrl('page',$page_no)}">{$page_no}</a></li>
+                <!--@end-->
+            <!--@end-->
+            <li><a href="{getAutoEncodedUrl('page',$output->page_navigation->last_page)}" <!--@if(!$last_division)-->class="nextEnd"<!--@end-->>{$lang->last_page} &rsaquo;</a></li>
+            <!--@if($last_division)-->
+            <a href="{getAutoEncodedUrl('page',1,'document_srl','','search_target',$search_target,'is_keyword',$is_keyword,'division',$last_division,'last_division','')}" class="nextEnd">{$lang->cmd_search_next}</a>
+            <!--@end-->
+			</ul>
+        </div>
+    <!--@end-->
+<!--@end-->
