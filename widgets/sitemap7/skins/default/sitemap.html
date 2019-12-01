@@ -1,0 +1,128 @@
+<!--%import("./css/widget.css")-->
+
+<!--@if($widget_info->sitemap_widget_colorset=='blue')-->
+<!--%import("./css/blue.css")-->
+<!--@elseif($widget_info->sitemap_widget_colorset=='green')-->
+<!--%import("./css/green.css")-->
+<!--@elseif($widget_info->sitemap_widget_colorset=='orange')-->
+<!--%import("./css/orange.css")-->
+<!--@elseif($widget_info->sitemap_widget_colorset=='purple')-->
+<!--%import("./css/purple.css")-->
+<!--@elseif($widget_info->sitemap_widget_colorset=='red')-->
+<!--%import("./css/red.css")-->
+<!--@elseif($widget_info->sitemap_widget_colorset=='yellow')-->
+<!--%import("./css/yellow.css")-->
+<!--@else-->
+<!--%import("./css/black.css")-->
+<!--@end-->
+
+<style>
+#sitemapWidgetBox { height: {$widget_info->sitemap_widget_height};}
+#sitemapWidgetBox .siteMap .section { height: {$widget_info->sitemap_widget_section_height};}
+/* 링크 - 컬러셋 */
+#sitemapWidgetBox.black a:link { color:{$widget_info->sitemap_widget_link_color};}
+#sitemapWidgetBox.black a:visited { color:{$widget_info->sitemap_widget_link_visited_color}; }
+#sitemapWidgetBox.black a:hover { color: {$widget_info->sitemap_widget_link_hover_color}; }
+#sitemapWidgetBox.black a:active { color:{$widget_info->sitemap_widget_link_active_color}; }
+
+/* 사이트맵 - 컬러셋설정 */
+#sitemapWidgetBox.black { background-color:{$widget_info->sitemap_widget_background}; border:{$widget_info->sitemap_widget_border_size}px {$widget_info->sitemap_widget_border_kind} {$widget_info->sitemap_widget_border_color};}
+</style>
+
+{@ debugPrint($widget_info);}
+<div id="sitemapWidgetBox" class="{$widget_info->sitemap_widget_colorset}">
+	<div class="siteMap">
+	<!--@foreach($widget_info->sitemap_widget_menu->list as $k1 => $v1)-->
+		<!--@if($v1['link'])--><!-- 1차메뉴가 -->
+		<div class="section">
+			<h2>
+				<a href="{$v1['href']}"<!--@if($v1['open_window']=='Y')--> onclick="window.open(this.href);return false;"<!--@end-->>
+					{$v1['text']}
+				</a>
+			</h2>
+			<!--@if($v1['list'])--><!-- 2차메뉴가 있으면 -->
+				<ul>
+				<!--@foreach($v1['list'] as $k2 => $v2)-->
+					<!--@if($v1['link'])--><!-- 2차메뉴 -->
+					<li>
+						<a href="{$v2['href']}"<!--@if($v2['open_window']=='Y')--> onclick="window.open(this.href);return false;"<!--@end-->>
+							{$v2['text']}
+						</a>
+					</li>
+						<!--@if($v2['list'])--><!-- 3차메뉴가 있으면 -->
+						<ul>
+							<!--@foreach($v2['list'] as $k3 => $v3)-->
+								<!--@if($v3['link'])--><!-- 3차메뉴 -->
+								<li>
+									<a href="{$v3['href']}"<!--@if($v3['open_window']=='Y')--> onclick="window.open(this.href);return false;"<!--@end-->>
+										{$v3['text']}
+									</a>
+								</li>
+									<!--@if($v3['list'])--><!-- 4차메뉴가 있으면 -->
+									<ul>
+										<!--@foreach($v3['list'] as $k4 => $v4)-->
+											<!--@if($v4['text'])--><!-- 4차메뉴 -->
+												<li>
+													<a href="{$v4['href']}" <!--@if($v4['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>
+													{$v4['text']}
+													</a>
+													<!--@if($v4['list'])--><!-- 5차메뉴가 있으면 -->
+													<ul>
+														<!--@foreach($v4['list'] as $k5 => $v5)-->
+															<!--@if($v5['text'])--><!-- 5차메뉴 -->
+																<li>
+																	<a href="{$v5['href']}" <!--@if($v5['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>
+																	{$v5['text']}
+																	</a>
+																	<!--@if($v5['list'])--><!-- 6차메뉴가 있으면 -->
+																	<ul>
+																		<!--@foreach($v5['list'] as $k6 => $v6)-->
+																			<!--@if($v6['text'])--><!-- 6차메뉴 -->
+																				<li>
+																					<a href="{$v6['href']}" <!--@if($v6['open_window']=='Y')-->onclick="window.open(this.href);return false;"<!--@end-->>
+																					{$v6['text']}
+																					</a>
+																					<!--@if($v6['list'])--><!-- 7차메뉴가 있으면 -->
+																					
+																					<!--@end-->
+																				</li>
+																			<!--@end-->
+																		<!--@end-->
+																	</ul>
+																	<!--@end-->
+																</li>
+															<!--@end-->
+														<!--@end-->
+													</ul>
+													<!--@end-->
+												</li>
+											<!--@end-->
+										<!--@end-->
+									</ul>
+									<!--@end-->
+								<!--@end-->
+							<!--@end-->
+						</ul>
+						<!--@end-->
+					<!--@end-->
+				<!--@end-->
+				</ul>
+			<!--@end-->
+		</div>
+		<!--@end-->
+	<!--@end-->
+	</div>
+</div>
+
+{@$i=0;}<dl loop="$widget_info->sitemap_widget_menu2->list => $key1, $val1"  cond="$i=='0'">
+	<dt><a href="{$val1['href']}">{$val1['link']}</a></dt>
+	<!--@foreach($widget_info->sitemap_widget_menu2->list as $key1 => $val1)-->
+	<dd><a href="{$val1['href']}">{$val1['link']}</a></dd>
+	<!--@end-->{@$i++;}
+</dl>
+{@$i=0;}<dl loop="$widget_info->sitemap_widget_menu3->list => $key1, $val1"  cond="$i=='0'">
+	<dt><a href="{$val1['href']}">{$val1['link']}</a></dt>
+	<!--@foreach($widget_info->sitemap_widget_menu3->list as $key1 => $val1)-->
+	<dd><a href="{$val1['href']}">{$val1['link']}</a></dd>
+	<!--@end-->{@$i++;}
+</dl>

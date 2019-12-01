@@ -1,0 +1,13 @@
+/* 사이트맵 */
+#sitemapWidgetBox a:link { text-decoration: none;}
+#sitemapWidgetBox a:visited { text-decoration: none; }
+#sitemapWidgetBox a:hover { text-decoration: none; }
+#sitemapWidgetBox a:active { text-decoration: none; }
+
+#sitemapWidgetBox { padding:3px 0px 3px 10px; text-align:left; }
+#sitemapWidgetBox .siteMap { padding:10px 0 0 0px; }
+#sitemapWidgetBox .siteMap .section { float:left; margin:0;padding:0 15px 0px 13px; }
+#sitemapWidgetBox .siteMap .section h2 { font-size:11px;margin:5px 0 5px 0px;}
+#sitemapWidgetBox .siteMap .section ul { list-style-image:none;list-style-position:outside;list-style-type:none;margin:0;padding:0 0 0 0px;}
+#sitemapWidgetBox .siteMap .section ul li {display:block;height:15px; list-style-image:none;list-style-position:outside;list-style-type:none;margin:0;padding:5px 0 0 0px;}
+#sitemapWidgetBox .siteMap .section ul ul {list-style-image:none;list-style-position:outside;list-style-type:none;margin:0;padding:0 0 0 10px;}

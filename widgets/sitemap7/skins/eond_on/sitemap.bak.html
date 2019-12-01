@@ -1,0 +1,20 @@
+<!--@foreach($widget_info->sitemap_widget_menu->list as $k1 => $v1)-->
+<dl>
+	<dt><a href="{$v1['href']}"<!--@if($v1['open_window']=='Y')--> onclick="window.open(this.href);return false;"<!--@end-->>sss</a></dt>
+	<!--@foreach($v1['list'] as $k1 => $v1)-->
+	<dd><a href="{$v1['href']}"<!--@if($v1['open_window']=='Y')--> onclick="window.open(this.href);return false;"<!--@end-->>{$v1['text']}</a></dd><!--@end-->
+</dl><!--@end-->
+
+{@$i=0;}
+<li loop="$GNB01->list => $key1, $val1" cond="$i=='0'" class="depth1"><a href="{$val1['href']}">{$val1['link']}</a>
+	<ul class="depth2" style="display:none">
+		<li loop="$GNB01->list => $key1, $val1">
+			<dl>
+				<dt><a href="{$val1['href']}">{$val1['link']}</a></dt>
+				<dd loop="$val1['list'] => $key2, $val2"><a href="{$val2['href']}" target="_blank"|cond="$val2['open_window'] == 'Y'">{$val2['link']}</a>
+					<ol class="depth4"><li loop="$val2['list'] => $key3, $val3"><a href="{$val3['href']}" target="_blank"|cond="$val2['open_window'] == 'Y'">- {$val3['link']}</a></li></ol>
+				</dd>
+			</dl>
+		</li>
+	</ul>{@$i++;}
+</li>

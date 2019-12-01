@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+    <title xml:lang="ko">Sitemap 위젯 기본 스킨 </title>
+    <description xml:lang="ko">사이트맵을 출력합니다.</description>
+    <version>0.1</version>
+    <date>2011-02-11</date>
+    <link>http://www.xgenesis.org</link>
+
+    <author email_address="master@xgenesis.org" link="http://www.xgenesis.org/">
+        <name xml:lang="ko">jedison</name>
+    </author>
+
+</skin>

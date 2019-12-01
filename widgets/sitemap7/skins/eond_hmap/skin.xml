@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+    <title xml:lang="ko">Sitemap 위젯 행복지도 스킨 </title>
+    <description xml:lang="ko">사이트맵을 출력합니다.</description>
+    <version>0.1</version>
+    <date>2015-06-20</date>
+    <link>http://eond.com</link>
+
+    <author email_address="eond@eond.com" link="http://eond.com/">
+        <name xml:lang="ko">이온디</name>
+    </author>
+
+</skin>

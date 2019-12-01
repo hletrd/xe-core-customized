@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget version="0.2">
+    <title xml:lang="ko">Sitemap 위젯(PHP7)</title>
+    <description xml:lang="ko">메뉴를 로드하여 사이트맵을 구성해줍니다.</description>
+    <version>0.1.0</version>
+    <date>2011-01-20</date>
+
+    <author email_address="master@xgenesis.org" link="http://www.xgenesis.org/">
+        <name xml:lang="ko">jedison</name>
+    </author>
+    <extra_vars>
+        <group>
+	        <title xml:lang="ko">기본설정</title>
+	        <var id="sitemap_widget_menu">
+	            <type>menu</type>
+	            <name xml:lang="ko">메뉴</name>
+	            <description xml:lang="ko">
+	            	선택하신 메뉴를 사용하여 사이트맵을 생성합니다.<br/>
+	            	선택하지 않으면 사이트맵을 생성하지 않습니다.
+				</description>
+	        </var>
+			<var id="sitemap_widget_menu2">
+				<type>menu</type>
+				<name xml:lang="ko">메뉴2</name>
+				<description xml:lang="ko">
+					선택하신 메뉴를 사용하여 사이트맵을 생성합니다.<br/>
+					선택하지 않으면 사이트맵을 생성하지 않습니다.
+				</description>
+			</var>
+			<var id="sitemap_widget_menu3">
+				<type>menu</type>
+				<name xml:lang="ko">메뉴3</name>
+				<description xml:lang="ko">
+					선택하신 메뉴를 사용하여 사이트맵을 생성합니다.<br/>
+					선택하지 않으면 사이트맵을 생성하지 않습니다.
+				</description>
+			</var>
+			<var id="sitemap_widget_colorset" type="select">
+	            <name xml:lang="ko">컬러셋</name>
+	            <description xml:lang="ko">원하시는 컬러셋을 선택해주세요.선택된 컬러셋에 따라 기본적으로 사용하는 배경색과 버튼색이 달라집니다.</description>
+	            <options>
+	                <value>black</value>
+	                <name xml:lang="ko">검정색 (기본)</name>
+	            </options>
+	            <options>
+	                <value>blue</value>
+	                <name xml:lang="ko">파란색</name>
+	            </options>
+	            <options>
+	                <value>green</value>
+	                <name xml:lang="ko">녹색</name>
+	            </options>
+	            <options>
+	                <value>orange</value>
+	                <name xml:lang="ko">오렌지색</name>
+	            </options>
+	            <options>
+	                <value>purple</value>
+	                <name xml:lang="ko">보라색</name>
+	            </options>
+	            <options>
+	                <value>red</value>
+	                <name xml:lang="ko">빨간색</name>
+	            </options>
+	            <options>
+	                <value>yellow</value>
+	                <name xml:lang="ko">노란색</name>
+	            </options>
+	        </var>
+		</group>
+		
+		<group>
+	        <title xml:lang="ko">추가설정</title>
+	        <var id="sitemap_widget_background">
+	            <type>text</type>
+	            <name xml:lang="ko">배경색</name>
+	            <description xml:lang="ko">사이트맵의 배경색으로 사용합니다. 예) red 혹은 #ffffff</description>
+        	</var>
+	        <var id="sitemap_widget_height">
+	            <type>text</type>
+	            <name xml:lang="ko">사이트맵높이</name>
+	            <description xml:lang="ko">
+	            	입력하신 높이를 사이트맵높이로 설정합니다. 단위를 반드시 입력하셔야 합니다. (예: px, %)
+				</description>
+	        </var>
+	        <var id="sitemap_widget_section_height">
+	            <type>text</type>
+	            <name xml:lang="ko">최소섹션높이</name>
+	            <description xml:lang="ko">
+	            	입력하신 높이를 최소섹션높이로 설정합니다. 단위를 반드시 입력하셔야 합니다. (예: px, %)
+				</description>
+	        </var>
+        </group>
+		        
+        <group>
+	        <title xml:lang="ko">테두리설정</title>
+        	<var id="sitemap_widget_border_size">
+	            <type>text</type>
+	            <name xml:lang="ko">테두리크기</name>
+	            <description xml:lang="ko">사이트맵의 테두리크기를 입력하세요. 숫자로만 입력하셔야 합니다.</description>
+        	</var>
+        	<var id="sitemap_widget_border_kind">
+	            <type>text</type>
+	            <name xml:lang="ko">테두리종류</name>
+	            <description xml:lang="ko">사이트맵의 테두리종류를 선택하세요.</description>
+        	</var>
+        	<var id="sitemap_widget_border_color">
+	            <type>text</type>
+	            <name xml:lang="ko">테두리색</name>
+	            <description xml:lang="ko">사이트맵의 테두리색을 입력하세요. 예) red 혹은 #ffffff</description>
+        	</var>
+		</group>
+		        
+        <group>
+        	<title xml:lang="ko">링크색설정</title>
+	        <var id="sitemap_widget_link_color">
+	            <type>text</type>
+	            <name xml:lang="ko">링크</name>
+	            <description xml:lang="ko">링크가 걸린 텍스트의 색으로 사용합니다. 예) red 혹은 #ffffff</description>
+        	</var>
+        	<var id="sitemap_widget_link_visited_color">
+	            <type>text</type>
+	            <name xml:lang="ko">방문</name>
+	            <description xml:lang="ko">링크가 걸린 텍스트를 클릭했을 때 사용합니다. 예) red 혹은 #ffffff</description>
+        	</var>
+        	<var id="sitemap_widget_link_hover_color">
+	            <type>text</type>
+	            <name xml:lang="ko">오버</name>
+	            <description xml:lang="ko">링크가 걸린 텍스트위에 마우스를 가져다 놓으면 사용합니다. 예) red 혹은 #ffffff</description>
+        	</var>
+        	<var id="sitemap_widget_link_active_color">
+	            <type>text</type>
+	            <name xml:lang="ko">클릭</name>
+	            <description xml:lang="ko">링크가 걸린 텍스트를 마우스로 클릭할 때 사용합니다. 예) red 혹은 #ffffff</description>
+        	</var>        	
+        </group>
+    </extra_vars>
+</widget>

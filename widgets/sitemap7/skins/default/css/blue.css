@@ -1,0 +1,8 @@
+/* 링크 - 컬러셋 */
+#sitemapWidgetBox.blue a:link { color:#000069;}
+#sitemapWidgetBox.blue a:visited { color:#000069; }
+#sitemapWidgetBox.blue a:hover { color: #C0C0C0; }
+#sitemapWidgetBox.blue a:active { color:#000069; }
+
+/* 사이트맵 - 컬러셋설정 */
+#sitemapWidgetBox.blue { background-color:#dcdcff; border:3px solid #000069;}

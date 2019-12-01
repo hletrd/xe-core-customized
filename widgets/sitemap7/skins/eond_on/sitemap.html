@@ -1,0 +1,6 @@
+{@$i=0;}<dl loop="$widget_info->sitemap_widget_menu->list => $key1, $val1"  cond="$i=='0'">
+<dt><a href="{$val1['href']}">{$val1['link']}</a></dt>
+<!--@foreach($widget_info->sitemap_widget_menu->list as $key1 => $val1)-->
+<dd><a href="{$val1['href']}">{$val1['link']}</a></dd>
+<!--@end-->{@$i++;}
+</dl>

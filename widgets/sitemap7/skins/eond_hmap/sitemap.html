@@ -1,0 +1,104 @@
+<!--%import("./css/widget.css")-->
+
+<!--@if($widget_info->sitemap_widget_colorset=='blue')-->
+<!--%import("./css/blue.css")-->
+<!--@elseif($widget_info->sitemap_widget_colorset=='green')-->
+<!--%import("./css/green.css")-->
+<!--@elseif($widget_info->sitemap_widget_colorset=='orange')-->
+<!--%import("./css/orange.css")-->
+<!--@elseif($widget_info->sitemap_widget_colorset=='purple')-->
+<!--%import("./css/purple.css")-->
+<!--@elseif($widget_info->sitemap_widget_colorset=='red')-->
+<!--%import("./css/red.css")-->
+<!--@elseif($widget_info->sitemap_widget_colorset=='yellow')-->
+<!--%import("./css/yellow.css")-->
+<!--@else-->
+<!--%import("./css/black.css")-->
+<!--@end-->
+
+<style>
+#sitemapWidgetBox { height: {$widget_info->sitemap_widget_height};}
+#sitemapWidgetBox .siteMap .section { height: {$widget_info->sitemap_widget_section_height};}
+/* 링크 - 컬러셋 */
+#sitemapWidgetBox.black a:link { color:{$widget_info->sitemap_widget_link_color};}
+#sitemapWidgetBox.black a:visited { color:{$widget_info->sitemap_widget_link_visited_color}; }
+#sitemapWidgetBox.black a:hover { color: {$widget_info->sitemap_widget_link_hover_color}; }
+#sitemapWidgetBox.black a:active { color:{$widget_info->sitemap_widget_link_active_color}; }
+
+/* 사이트맵 - 컬러셋설정 */
+#sitemapWidgetBox.black { background-color:{$widget_info->sitemap_widget_background}; border:{$widget_info->sitemap_widget_border_size}px {$widget_info->sitemap_widget_border_kind} {$widget_info->sitemap_widget_border_color};}
+.sitemap_eond_hmap {}
+.sitemap_eond_hmap .wdg_sitemap{border:1px solid #eee;float:left;width: 190px;height:340px;margin:0 10px 10px 0;}
+.sitemap_eond_hmap .wdg_sitemap:first-child{display:none}
+.sitemap_eond_hmap .wdg_sitemap:nth-child(5){margin-right:0;}
+.sitemap_eond_hmap .wdg_sitemap h2{background:#F8F8F8;line-height:40px;padding:0 20px;}
+.sitemap_eond_hmap .wdg_sitemap h2 a{font-size:14px;}
+.sitemap_eond_hmap .wdg_sitemap > ul{padding:10px;}
+.sitemap_eond_hmap .wdg_sitemap > ul li {padding:0 10px;line-height:25px}
+.sitemap_eond_hmap .wdg_sitemap .dep1 a{font-size:16px;font-weight:bold;color:#75890C;font-family:dotum;line-height:30px;}
+.sitemap_eond_hmap .wdg_sitemap .dep2{padding-left:20px;}
+.sitemap_eond_hmap .wdg_sitemap .dep2:last-child{padding-bottom:5px;}
+.sitemap_eond_hmap .wdg_sitemap .dep3{display:none}
+.sitemap_eond_hmap .wdg_sitemap .dep4{}
+.sitemap_eond_hmap .wdg_sitemap .dep5{}
+
+</style>
+
+{@ debugPrint($widget_info);}
+<div class="sitemap_eond_hmap {$widget_info->sitemap_widget_colorset}"><!--  id="sitemapWidgetBox" -->
+
+	<!--@foreach($widget_info->sitemap_widget_menu->list as $k1 => $v1)-->
+		<!--@if($v1['link'])--><!-- 1차메뉴가 -->
+		<div class="wdg_sitemap">
+			<h2><a href="{$v1['href']}" target="_blank"|cond="$v1['open_window']=='Y'">{$v1['text']}</a></h2>
+			<!--@if($v1['list'])--><!-- 2차메뉴가 있으면 -->
+			<ul>
+			<!--@foreach($v1['list'] as $k2 => $v2)-->
+				<!--@if($v1['link'])--><!-- 2차메뉴 -->
+				<li class="dep1"><a href="{$v2['href']}" target="_blank"|cond="$v2['open_window']=='Y'">{$v2['text']}</a></li>
+					<!--@if($v2['list'])--><!-- 3차메뉴가 있으면 -->
+					<ul>
+						<!--@foreach($v2['list'] as $k3 => $v3)-->
+							<!--@if($v3['link'])--><!-- 3차메뉴 -->
+							<li class="dep2"><a href="{$v3['href']}" target="_blank"|cond="$v3['open_window']=='Y'">{$v3['text']}</a></li>
+								<!--@if($v3['list'])--><!-- 4차메뉴가 있으면 -->
+								<ul>
+									<!--@foreach($v3['list'] as $k4 => $v4)-->
+										<!--@if($v4['text'])--><!-- 4차메뉴 -->
+											<li class="dep3"><a href="{$v4['href']}" target="_blank"|cond="$v4['open_window']=='Y'">{$v4['text']}</a>
+												<!--@if($v4['list'])--><!-- 5차메뉴가 있으면 -->
+												<ul>
+													<!--@foreach($v4['list'] as $k5 => $v5)-->
+														<!--@if($v5['text'])--><!-- 5차메뉴 -->
+															<li class="dep4"><a href="{$v5['href']}" target="_blank"|cond="$v5['open_window']=='Y'">{$v5['text']}</a>
+																<!--@if($v5['list'])--><!-- 6차메뉴가 있으면 -->
+																<ul>
+																	<!--@foreach($v5['list'] as $k6 => $v6)-->
+																		<!--@if($v6['text'])--><!-- 6차메뉴 -->
+																			<li class="dep5"><a href="{$v6['href']}" target="_blank"|cond="$v6['open_window']=='Y'">{$v6['text']}</a><!--@if($v6['list'])--><!-- 7차메뉴가 있으면 --><!--@end--></li>
+																		<!--@end-->
+																	<!--@end-->
+																</ul>
+																<!--@end-->
+															</li>
+														<!--@end-->
+													<!--@end-->
+												</ul>
+												<!--@end-->
+											</li>
+										<!--@end-->
+									<!--@end-->
+								</ul>
+								<!--@end-->
+							<!--@end-->
+						<!--@end-->
+					</ul>
+					<!--@end-->
+				<!--@end-->
+			<!--@end-->
+			</ul>
+			<!--@end-->
+		</div>
+		<!--@end-->
+	<!--@end-->
+</div>

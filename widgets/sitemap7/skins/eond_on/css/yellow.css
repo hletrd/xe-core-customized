@@ -1,0 +1,9 @@
+/* 링크 - 컬러셋 */
+#sitemapWidgetBox.yellow a:link { color:#FFD700;}
+#sitemapWidgetBox.yellow a:visited { color:#FFD700; }
+#sitemapWidgetBox.yellow a:hover { color: #C0C0C0; }
+#sitemapWidgetBox.yellow a:active { color:#FFD700; }
+
+
+/* 사이트맵 - 컬러셋설정 */
+#sitemapWidgetBox.yellow { background-color:#feffcc; border:3px solid #FFD700;}
