@@ -1,0 +1,96 @@
+{@
+	if (!$module_info->thumbnail_width)  $module_info->thumbnail_width  = 256;
+	if (!$module_info->thumbnail_height) $module_info->thumbnail_height = 256;
+	if (!$module_info->content_cut_size) $module_info->content_cut_size = 240;
+}
+<style>
+.slideGallery {
+	margin:0 auto;
+	position:relative;
+    text-align: center;
+	overflow:hidden;
+	-webkit-backface-visibility:hidden;
+	-moz-backface-visibility:hidden;
+	-ms-backface-visibility:hidden;
+	-o-backface-visibility:hidden;
+	backface-visibility:hidden;
+	/* Fix of Webkit flickering */
+	z-index:1;
+}
+.slideGallery .swiper-slide .inner .caption {position:absolute;width:100%;bottom:0;padding:5px 0 15px 0;color: #ffffff;background-color: rgba(0, 0, 0, 0.25);}
+.slideGallery .swiper-slide .inner .caption h1.title a {color:#fff;}
+.thumb-wrap{position:relative;}
+
+.slideGallery .swiper-slide {width:{$module_info->thumbnail_width}px;}
+.slideGallery .swiper-slide .inner {float:left;width:{$module_info->thumbnail_width}px}
+
+.pagination-slideGallery { z-index: 5;}
+.pagination-slideGallery .swiper-pagination-bullet {
+    margin-right: 5px;
+}
+.pagination-slideGallery .swiper-button-next.swiper-button-disabled, .swiper-button-prev.swiper-button-disabled{opacity:0;}
+
+.swiper-pagination-switch { display: inline-block; width: 8px; height: 8px; border-radius: 8px; background: #222; margin-right: 5px; opacity: 0.8; border: 1px solid #fff; cursor: pointer;}
+.swiper-visible-switch { background: #aaa;}
+.swiper-active-switch { background: #fc0000;}
+</style>
+<load target="css/swiper.css" />
+<load target="js/swiper.jquery.min.js" />
+<include cond="Mobile::isMobileCheckByAgent()" target="list_btn_top_default.html" />
+<include cond="$module_info->use_category=='Y'" target="include_category.html" />
+<div class="board_list slide_list" id="slide_list">
+	<div class="nodoc" cond="!$document_list && !$notice_list">
+		<p style="text-align:center">{$lang->no_documents}</p>
+	</div>
+	<div class="article" cond="$document_list || $notice_list">
+		<block cond="$document_list || $notice_list">
+		<div class="notice" loop="$notice_list=>$no,$document">
+			<h1 class="title"><i class="icon-volume-up text-red"></i><span class="text-red"> {$lang->notice}</span>
+				<a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','')}">{$document->getTitle($module_info->subject_cut_size)}</a>
+				<a cond="$document->getCommentCount()" href="{getUrl('document_srl', $document->document_srl)}#comment" class="replyNum" title="Replies">{$document->getCommentCount()}]</a>
+				<a cond="$document->getTrackbackCount()" href="{getUrl('document_srl', $document->document_srl)}#trackback" class="trackbackNum" title="Trackbacks">[{$document->getTrackbackCount()}]</a>
+				{$document->printExtraImages(60*60*$module_info->duration_new)}
+				<span cond="$grant->manager" class="check pull-right"><input type="checkbox" name="cart" value="{$document->document_srl}" class="iCheck" title="Check This Article" onclick="doAddDocumentCart(this)" checked="checked"|cond="$document->isCarted()" /></span>
+			</h1>
+		</div>
+		</block>
+		<!--// LIST -->
+			{@$_idx=1}
+		<div class="slideGallery">
+			<div class="swiper-wrapper">
+			<block loop="$document_list=>$no,$document">
+				<!--@if($list_config['thumbnail'] && $document->thumbnailExists($module_info->thumbnail_width, $module_info->thumbnail_height, $module_info->thumbnail_type))-->
+				<div class="swiper-slide">
+						<a href="{getUrl('document_srl',$document->document_srl,'listStyle',$listStyle, 'cpage','')}"><img src="{$document->getThumbnail($module_info->thumbnail_width, $module_info->thumbnail_height, $module_info->thumbnail_type)}" alt="{$document->getTitle()}" /></a>
+						<div cond="$module_info->caption_use == 'yes'" class="caption">
+							<h1 class="title">
+								<a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','')}">{$document->getTitle($module_info->subject_cut_size)}</a>
+								<a cond="$document->getCommentCount()" href="{getUrl('document_srl', $document->document_srl)}#comment" class="replyNum" title="Replies">[{$document->getCommentCount()}]</a>
+								<span cond="$grant->manager" class="check pull-right"><input type="checkbox" name="cart" value="{$document->document_srl}" class="iCheck" title="Check This Article" onclick="doAddDocumentCart(this)" checked="checked"|cond="$document->isCarted()" /></span>
+							</h1>
+						</div>
+				</div>
+				<!--@end-->
+			{@$_idx++}
+			</block>
+			</div>
+			<div class="pagination-slideGallery"></div>
+			<div class="swiper-button-prev"></div>
+    			<div class="swiper-button-next"></div>
+		</div>
+			<!-- ///LIST -->
+	</div>
+</div>
+<include target="include_list_footer.html" />
+<script>
+  var mySliderGallery = new Swiper('.slideGallery',{
+    pagination: '.pagination-slideGallery',
+     // Navigation arrows
+    nextButton: '.swiper-button-next',
+    prevButton: '.swiper-button-prev',
+    paginationClickable: true,
+    calculateHeight: true,
+    slidesPerView: 1,
+		centeredSlides: true
+  })
+  </script>

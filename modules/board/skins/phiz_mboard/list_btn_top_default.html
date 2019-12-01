@@ -1,0 +1,42 @@
+<load target="js/jquery.waypoints.min.js" />
+<load target="js/shortcuts/sticky.min.js" />
+<div class="btn-top" id="btn-top">
+	<div class="nrow">
+		<div class="col s12">
+			<div class="btn-top-inner">
+				<span><a href="{getUrl('act','dispBoardWrite','document_srl','')}"class="btn-infinite" title="게시글쓰기"><i class="fa fa-pencil"></i></a></span>
+				<span class="btn-infinite search-btn"  title="검색"><a href="javascript:void(0)"><i class="fa fa-search"></i></a></span>
+				<span><a cond="$grant->manager" href="{getUrl('','module','document','act','dispDocumentManageDocument')}" class="btn-infinite" onclick="popopen(this.href,'manageDocument'); return false;"><i class="fa fa-cogs" title="게시글관리"></i></a></span>
+				<span cond="$grant->manager" class="btn-infinite">
+					<a href="{getUrl('act','dispBoardAdminBoardInfo')}" title="{$lang->cmd_setup}"><i class="fa fa-cog"></i></a>
+				</span>
+			</div>
+		</div>
+	</div>
+
+	<div id="search-box" class="nrow search-box">
+		<div class="col s12">
+			<div class="search-box-inner">
+				<form cond="$grant->view" action="{getUrl()}" method="get" onsubmit="return procFilter(this, search)" id="board_search" class="board_search" no-error-return-url="true">
+					<input type="hidden" name="vid" value="{$vid}" />
+					<input type="hidden" name="mid" value="{$mid}" />
+					<input type="hidden" name="category" value="{$category}" />
+					<select name="search_target">
+						<option loop="$search_option=>$key,$val" value="{$key}" selected="selected"|cond="$search_target==$key">{$val}</option>
+					</select>
+					<div class="search_input">
+						<i class="fa fa-search" style="position:absolute;top:5px;left:7px;"></i>
+						<input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" title="{$lang->cmd_search}" class="iText" />
+					</div>
+					<button type="submit" class="btn" onclick="xGetElementById('board_search').submit();return false;">{$lang->cmd_search}</button>
+    			<a cond="$last_division" href="{getUrl('page',1,'document_srl','','division',$last_division,'last_division','')}" class="btn">{$lang->cmd_search_next}</a>
+					</form>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+var sticky = new Waypoint.Sticky({
+  element: jQuery('#btn-top')[0]
+})
+</script>

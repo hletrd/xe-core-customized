@@ -1,0 +1,97 @@
+<load target="css/select2.css" />
+<load target="js/jquery.chained.min.js" />
+<load target="js/select2.min.js" />
+{@ $cat_depth = 0;}
+<block loop="$category_list=>$key,$val">
+{@ if($val->depth > $cat_depth) $cat_depth = $val->depth;}
+</block>
+{@
+	if($cat_depth == 0) $col_width = 'col s12';
+	if($cat_depth == 1) $col_width = 'col s6';
+	if($cat_depth == 2) $col_width = 'col s4';
+}
+<block loop="$category_list=>$key,$val">
+<!--@if($val->category_srl == $category)-->
+	<!--@if($val->depth == 0)-->
+		{@ $selected_srl0 = $category}
+	<!--@elseif($val->depth == 1)-->
+		{@ $selected_srl0 = $val->parent_srl;$selected_srl1 = $category}
+	<!--@elseif($val->depth == 2)-->
+		{@ $selected_srl1 = $val->parent_srl;$selected_srl2 = $category}
+			<block loop="$category_list=>$key1,$val1">
+			<!--@if($val1->category_srl == $val->parent_srl)-->
+				{@ $selected_srl0 = $val1->parent_srl}
+			<!--@end-->
+		</block>
+	<!--@end-->
+<!--@end-->
+</block>
+
+<div class="nrow" cond="$module_info->use_category=='Y'">
+	<div cond="$cat_depth >= 0" class="{$col_width}" style="position:relative;margin-bottom:10px;">
+		<select name="first_cat" id="first_cat" class="select2" style="width:100%">
+			<option value="">{$lang->category}</option>
+			<block loop="$category_list=>$key,$val">
+			<block cond="$val->depth == 0">
+			<option value="{$val->category_srl}"
+			<!--@if($val->category_srl == $selected_srl0)--> selected="selected" <!--@end-->>{$val->title}<!--@if($val->document_count)-->({$val->document_count})<!--@end--></option>
+			</block>
+			</block>
+		</select>
+	</div>
+
+	<div cond="$cat_depth >= 1" class="{$col_width}" style="position:relative">
+		<select name="second_cat" id="second_cat" class="select2" style="width:100%">
+			<option value="">{$lang->category}</option>
+			<block loop="$category_list=>$key1,$val1">
+			<block cond="$val1->depth == 1">
+			<option value="{$val1->category_srl}"
+			<!--@if($val1->category_srl == $selected_srl1)--> selected="selected" <!--@end-->class="{$val1->parent_srl}">{$val1->title}<!--@if($val1->document_count)-->({$val1->document_count})<!--@end--></option>
+			</block>
+			</block>
+		</select>
+	</div>
+
+	<div cond="$cat_depth >= 2" class="{$col_width}" style="position:relative">
+		<select name="third_cat" id="third_cat" class="select2" style="width:100%">
+			<option value="">{$lang->category}</option>
+			<block loop="$category_list=>$key2,$val2">
+			<block cond="$val2->depth == 2">
+			<option value="{$val2->category_srl}"
+			<!--@if($val2->category_srl == $selected_srl2)--> selected="selected" <!--@end-->class="{$val2->parent_srl}">{$val2->title}<!--@if($val2->document_count)-->({$val2->document_count})<!--@end--></option>
+			</block>
+			</block>
+		</select>
+	</div>
+
+</div>
+
+<script>
+jQuery(document).ready(function($) {
+   $("#second_cat").chained("#first_cat");
+   $("#third_cat").chained("#second_cat");
+	 $(".select2").select2({theme:"phiz"<!--@if($module_info->cat_search !== 'yes')-->,minimumResultsForSearch: Infinity<!--@end-->});
+});
+
+/*/ input indication */
+
+   jQuery(document).ready(function($) {
+        $('#first_cat').change(doChangeFirst);
+        $('#second_cat').change(doChangeSecond);
+        $('#third_cat').change(doChangeThird);
+	});
+
+	function doChangeFirst() {
+		var category_srl =  jQuery('#first_cat').val();
+		location.href = decodeURI(current_url).setQuery('category',category_srl).setQuery('page', '');
+	}
+	function doChangeSecond() {
+		var category_srl =  jQuery('#second_cat').val();
+		location.href = decodeURI(current_url).setQuery('category',category_srl).setQuery('page', '');
+	}
+	function doChangeThird() {
+		var category_srl =  jQuery('#third_cat').val();
+		location.href = decodeURI(current_url).setQuery('category',category_srl).setQuery('page', '');
+	}
+
+</script>

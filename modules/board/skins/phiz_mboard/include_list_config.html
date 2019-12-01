@@ -1,0 +1,30 @@
+{@
+if(!$module_info->use_browser_title) $module_info->use_browser_title = 'yes';
+if(!$module_info->cat_type) $module_info->cat_type = 'cBar';
+
+if(!$module_info->content_cut_size) $module_info->content_cut_size = 240;
+if(!$module_info->board_list) $module_info->board_list = 'no';
+if(!$module_info->dsp_sns) $module_info->dsp_sns = 'no';
+if(!$module_info->dsp_this) $module_info->dsp_this = 'no';
+if(!$module_info->dsp_uploadedfiles) $module_info->dsp_uploadedfiles = 'no';
+if(!$module_info->dsp_tns) $module_info->dsp_tns = 'no';
+if(!$module_info->dsp_sign) $module_info->dsp_sign = 'no';
+}
+<block loop="$list_config=>$key,$val">
+{@
+if($val->type=='no' && $val->idx==-1) $no = $val;
+if($val->type=='title' && $val->idx==-1) $title = $val;
+if($val->type=='nick_name' && $val->idx==-1) $nick_name = $val;
+if($val->type=='user_id' && $val->idx==-1) $user_id = $val;
+if($val->type=='user_name' && $val->idx==-1) $user_name = $val;
+if($val->type=='regdate' && $val->idx==-1) $regdate = $val;
+if($val->type=='last_update' && $val->idx==-1) $last_update = $val;
+if($val->type=='last_post' && $val->idx==-1) $last_post = $val;
+if($val->type=='readed_count' && $val->idx==-1) $readed_count = $val;
+if($val->type=='voted_count' && $val->idx==-1) $voted_count = $val;
+if($val->type=='blamed_count' && $val->idx==-1) $blamed_count = $val;
+if($val->type=='thumbnail' && $val->idx==-1) $thumbnail = $val;
+if($val->type=='summary' && $val->idx==-1) $summary = $val;
+if($val->type=='comment_status' && $val->idx==-1) $comment_status = $val;
+}
+</block>

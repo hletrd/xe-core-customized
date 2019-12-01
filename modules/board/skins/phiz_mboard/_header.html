@@ -1,0 +1,37 @@
+<load target="css/font-awesome.min.css" cond="$layout_info->layoutThemes !== 'phizThemes'" />
+<!--//<load target="../../../../common/xeicon/xeicon.min.css" />-->
+<load target="css/phiz.global.css" cond="$layout_info->layoutThemes !== 'phizThemes'" />
+<load target="css/mboard.css" />
+<load target="js/board.js" />
+<load target="js/board.default.js" type="body" />
+<load target="js/board.phiz.js" type="body" />
+<!--@if($order_type == "desc")-->
+    {@ $order_type = "asc"; }
+<!--@else-->
+    {@ $order_type = "desc"; }
+<!--@end-->
+<block cond="!$module_info->duration_new = (int)$module_info->duration_new">{@ $module_info->duration_new = 12 }</block>
+{@ $cate_list = array(); $current_key = null; }
+<!--@foreach($category_list as $key=>$val)-->
+	<!--@if(!$val->depth)-->
+		{@
+			$cate_list[$key] = $val;
+			$cate_list[$key]->children = array();
+			$current_key = $key;
+		}
+	<!--@elseif($current_key)-->
+		{@ $cate_list[$current_key]->children[] = $val }
+	<!--@end-->
+<!--@end-->
+<div class="board docWrap">
+<div class="docInner">
+	<div cond="$module_info->use_browser_title !== 'no'" class="nrow">
+		<div class="board-title">
+			<h1>{$module_info->browser_title}</h1>
+		</div>
+	</div>
+	<div cond="$module_info->header_text" class="nrow">
+		<div class="board-header-text">
+			{$module_info->header_text}
+		</div>
+	</div>

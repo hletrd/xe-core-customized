@@ -1,0 +1,3 @@
+{@if(!$module_info->header_image) $module_info->header_image = 'no'; }
+<include cond="$module_info->header_image == 'no'" target="_read_default.html" />
+<include cond="$module_info->header_image == 'yes'" target="_read_image.html" />

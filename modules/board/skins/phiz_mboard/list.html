@@ -1,0 +1,33 @@
+<include target="_header.html" />
+<!--@if($oDocument->isExists())-->
+<include target="_read.html" />
+<!--@end-->
+<!--@if(!$oDocument->isExists() || ($oDocument->isExists() && $module_info->board_list == 'yes'))-->
+<include target="include_list_config.html" />
+<!--@if($module_info->default_style == 'list')-->
+    <!--#include("./list.list.html")-->
+<!--@elseif($module_info->default_style == 'zine1_default')-->
+    <!--#include("./list.zine1_default.html")-->
+<!--@elseif($module_info->default_style == 'zine1_infinite')-->
+    <!--#include("./list.zine1_infinite.html")-->
+<!--@elseif($module_info->default_style == 'gallery_default')-->
+    <!--#include("./list.gallery_default.html")-->
+ <!--@elseif($module_info->default_style == 'gallery_msnry')-->
+    <!--#include("./list.gallery_msnry.html")-->
+ <!--@elseif($module_info->default_style == 'gallery_infinite')-->
+    <!--#include("./list.gallery_infinite.html")-->
+<!--@elseif($module_info->default_style == 'gallery_lightbox')-->
+    <!--#include("./list.gallery_lightbox.html")-->
+<!--@elseif($module_info->default_style == 'gallery_slide')-->
+    <!--#include("./list.gallery_slide.html")-->
+<!--@elseif($module_info->default_style == 'card_default')-->
+    <!--#include("./list.card_default.html")-->
+<!--@elseif($module_info->default_style == 'card_msnry')-->
+    <!--#include("./list.card_msnry.html")-->
+<!--@elseif($module_info->default_style == 'card_infinite')-->
+    <!--#include("./list.card_infinite.html")-->
+<!--@else-->
+    <!--#include("./list.list.html")-->
+<!--@end-->
+<!--@end-->
+<include target="_footer.html" />

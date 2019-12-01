@@ -1,0 +1,79 @@
+<!--// This code was taken from the sketchbook.-->
+<!--// Prev-Next -->
+<!--// 현재목록 외 이전글-다음글 구하기 
+Source form : http://www.xpressengine.com/21617245 by 시니시즘. 
+1. search : X
+2. get image : /
+3. except_notice : /
+-->
+<div cond="!$oDocument->isNotice()" class="nrow">
+<block loop="$document_list=>$no,$document" cond="$document_srl==$document->document_srl">
+	<!--// prev-next page -->
+	<block cond="!$search_keyword">
+		<!--// 현재 페이지 마지막 글 || 현재 페이지 첫번째 글 -->
+		<block cond="(!$document_list[$no+1]->document_srl && $page!=1) || (!$document_list[$no-1]->document_srl && $page!=$total_page)">
+{@
+	$oModuleModel = &getModel('module');
+	$module_srl_temp = $oModuleModel->getModuleSrlByMid($mid);
+	if(is_array($module_srl_temp)) $module_srl = $module_srl_temp[0];
+	else $module_srl = $module_srl_temp;
+	$args = new stdClass();
+	$args->module_srl = $module_srl;
+	$args->category_srl = $category;
+	$args->list_count = $module_info->list_count;
+	$args->sort_index = $module_info->order_target;
+	if($sort_index) $args->sort_index = $sort_index;
+	$args->order_type = $module_info->order_type;
+	if($sort_index) $args->order_type = $order_type;
+	if($module_info->except_notice=='Y') $prevnext_except_notice=1;
+}
+<!--// 현재 페이지 마지막 글 -->
+<!--@if(!$document_list[$no+1]->document_srl && $page!=1)-->
+{@
+	$is_prevnext='P';
+	$args->page = $page-1;
+	$prevnext_list = executeQueryArray('document.getDocumentList',$args);
+	$prevnext_data = array_reverse($prevnext_list->data);
+}
+<!--// 현재 페이지 첫번째 글-->
+<!--@else if(!$document_list[$no-1]->document_srl && $page!=$total_page)-->
+{@
+	$is_prevnext='N';
+	$args->page = $page+1;
+	$prevnext_list = executeQueryArray('document.getDocumentList',$args);
+	$prevnext_data = $prevnext_list->data;
+}
+<!--@end-->
+			<!--@foreach($prevnext_data as $no2 => $document2)-->
+			<block cond="!$prevnext_except_notice || ($prevnext_except_notice && $document2->is_notice!='Y')">
+{@
+	$prevnext_doc = $document2->document_srl;
+	$prevnext_title = $document2->title;
+	break;
+}
+			</block>
+			<!--@end-->
+		</block>
+	</block>
+	<div class="next-prev-wrap">
+		<a cond="$document_list[$no+1]->document_srl" class="" href="{getUrl('document_srl',$document_list[$no+1]->document_srl)}">
+			<span><em class="link"><i class="fa fa-chevron-left text-w500"></i> 이전글 -</em> {$document_list[$no+1]->getTitle()}</span>
+		</a>
+		<!--// 현재목록 외 이전글-다음글 -->
+		<block cond="$is_prevnext">
+		<!--@if($is_prevnext=='P')-->
+		<a class="pull-left" href="{getUrl('document_srl',$prevnext_doc,'page','','cpage','')}">
+		<span><em class="link"><i class="fa fa-chevron-left text-w500"></i> 이전글 -</em> {$prevnext_title}</span>
+		<!--@else-->
+		<a class="pull-right" href="{getUrl('document_srl',$prevnext_doc,'page','','cpage','')}">
+		<span>{$prevnext_title} <em class="link">- 다음글 <i class="fa fa-chevron-right text-w500"></i></em></span>
+		<!--@end-->
+		</a>
+		</block>
+		<a cond="$document_list[$no-1]->document_srl" class="pull-right" href="{getUrl('document_srl',$document_list[$no-1]->document_srl)}">
+		<span>{$document_list[$no-1]->getTitle()} <em class="link">- 다음글 <i class="fa fa-chevron-right text-w500"></i></em></span>
+		</a>
+	</div>
+	{@ break;}
+</block>
+</div>

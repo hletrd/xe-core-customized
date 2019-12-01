@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+    <title xml:lang="ko">phiz mboard skin</title>
+    <version>1.8.1</version>
+    <date>2016-06-26</date>
+    <author email_address="phiz@phiz.kr" link="http://phiz.kr/">
+        <name xml:lang="ko">phiz</name>
+    </author>
+    <license>Copyright © phiz.kr. All rights reserved.</license>
+    <extra_vars>
+	<group>
+    <var name="default_style" type="radio" default="zine1_default">
+				<title xml:lang="ko">게시판 형태</title>
+				<title xml:lang="en">Default Form</title>
+				<description xml:lang="ko">
+					스타일을 지정할 수 있습니다.
+				</description>
+				<description xml:lang="en">
+					You may select default styles such as list style, webzine style, gallery stylz or forum style.
+				</description>
+				<options value="list">
+					<title xml:lang="ko">list</title>
+					<title xml:lang="en">list</title>
+				</options>
+				<options value="zine1_default">
+					<title xml:lang="ko">웹진 기본형</title>
+					<title xml:lang="en">webzine</title>
+				</options>
+				<options value="zine1_infinite">
+					<title xml:lang="ko">웹진 무한스크롤</title>
+					<title xml:lang="en">webzine infinite</title>
+				</options>
+				<options value="gallery_default">
+					<title xml:lang="ko">갤러리 기본형</title>
+					<title xml:lang="en">gallery default</title>
+				</options>
+        <options value="gallery_infinite">
+					<title xml:lang="ko">갤러리 infinite</title>
+					<title xml:lang="en">Gallery infinite</title>
+				</options>
+				<options value="gallery_msnry">
+					<title xml:lang="ko">갤러리 masonry</title>
+					<title xml:lang="en">Gallery masonry</title>
+				</options>
+				<options value="gallery_lightbox">
+					<title xml:lang="ko">갤러리 lightbox</title>
+					<title xml:lang="en">Gallery lightbox</title>
+				</options>
+				<options value="gallery_slide">
+					<title xml:lang="ko">갤러리 slide</title>
+					<title xml:lang="en">Gallery slide</title>
+				</options>
+				<options value="card_default">
+					<title xml:lang="ko">card 기본형</title>
+					<title xml:lang="en">card default</title>
+				</options>
+				<options value="card_msnry">
+					<title xml:lang="ko">card msnry</title>
+					<title xml:lang="en">card default</title>
+				</options>
+				<options value="card_infinite">
+					<title xml:lang="ko">card infinite</title>
+					<title xml:lang="en">card infinite</title>
+				</options>
+		</var>
+		<var name="use_browser_title" type="radio" default="yes">
+			<title xml:lang="ko">게시판 이름</title>
+			<description xml:lang="ko">상단에 게시판 이름 표시 여부 선택.</description>
+			<options value="yes">
+				<title xml:lang="ko">예</title>
+			</options>
+			<options value="no">
+				<title xml:lang="ko">아니오</title>
+			</options>
+		</var>
+		<var name="cat_type" type="radio" default="cTab">
+			<title xml:lang="ko">분류형태</title>
+			<description xml:lang="ko">분류표시 형태를 탭 또는 바형태를 선택할 수 있습니다.</description>
+			<options value="cTab">
+				<title xml:lang="ko">탭형</title>
+			</options>
+			<options value="cBar">
+				<title xml:lang="ko">바형</title>
+			</options>
+      <options value="select">
+				<title xml:lang="ko">다중분류</title>
+			</options>
+		</var>
+    <var name="cat_search" type="radio">
+			<title xml:lang="ko">다중분류 분류검색</title>
+			<description xml:lang="ko">다중분류 사용시 분류검색창 표시여부를 선택할 수 있습니다.</description>
+			<options value="yes">
+				<title xml:lang="ko">예</title>
+			</options>
+			<options value="no">
+				<title xml:lang="ko">아니오</title>
+			</options>
+		</var>
+		<var name="embeddedContent" type="textarea">
+			<title xml:lang="ko">글쓰기 기본입력 내용</title>
+		</var>
+	</group>
+	<group>
+		<title xml:lang="ko">목록 설정</title>
+		<title xml:lang="en">List setting</title>
+		<var name="subject_cut_size" type="text">
+			<title xml:lang="ko">제목 글자수</title>
+			<title xml:lang="en">Length of Subject</title>
+			<description xml:lang="ko">제목 글자수를 지정할 수 있습니다. (0또는 비워주시면 자르지 않습니다)</description>
+			<description xml:lang="en">You may set length of title. (0 or blank value will not restrict the length)</description>
+		</var>
+		<var name="content_cut_size" type="text" default="240">
+			<title xml:lang="ko">내용 글자수</title>
+			<title xml:lang="en">Length of Content</title>
+			<description xml:lang="ko">내용 글자수를 지정할 수 있습니다. (기본 240)</description>
+			<description xml:lang="en">Length of Content can be assigned. (default 240)</description>
+		</var>
+		<var name="duration_new" type="text" default="24">
+			<title xml:lang="ko">new표시 시간 (hours)</title>
+			<title xml:lang="en">Duration of indication for new item</title>
+			<description xml:lang="ko">새로 등록된 게시물의 new 표시시간을 정할 수 있습니다. </description>
+			<description xml:lang="en">You may set the duration of indication for fresh item. </description>
+		</var>
+    <var name="colunm_cnt" type="text" default="2">
+      <title xml:lang="ko">1열당 컨텐츠 개수(갤러리,카드default)</title>
+      <title xml:lang="en">Count of contents</title>
+      <description xml:lang="ko">갤러리default, 카드 default형에서 컨텐츠 개수 지정.(기본 2개)</description>
+      <description xml:lang="en">Set the count of contents. </description>
+    </var>
+    <var name="col_spacing" type="text" default="10">
+      <title xml:lang="ko">컨텐츠 간격(갤러리,카드) 설정</title>
+      <title xml:lang="en">Space column</title>
+      <description xml:lang="ko">갤러리, 카드형에서 컨텐츠 간격 지정. (기본 10px)</description>
+      <description xml:lang="en">Set the space of column. Default is 10px.</description>
+    </var>
+	</group>
+
+	<group>
+		<title xml:lang="ko">본문 설정</title>
+		<title xml:lang="en">Read setting</title>
+    <var name="header_image" type="radio" default="no">
+				<title xml:lang="ko">제목 이미지 배경</title>
+				<description xml:lang="ko">본문의 제목 부분에 첨부 이미지를 배경으로 사용합니다.</description>
+				<options value="yes">
+					<title xml:lang="ko">사용</title>
+				</options>
+				<options value="no">
+					<title xml:lang="ko">사용 안함</title>
+				</options>
+		</var>
+		<var name="board_list" type="radio" default="yes">
+				<title xml:lang="ko">본문에서 목록 출력</title>
+				<description xml:lang="ko">본문을 볼 때 본문 하단에 목록을 출력할 것인지를 선택합니다.</description>
+				<options value="yes">
+					<title xml:lang="ko">출력</title>
+				</options>
+				<options value="no">
+					<title xml:lang="ko">출력 안함</title>
+				</options>
+		</var>
+		<var name="dsp_sns" type="radio" default="no">
+			<title xml:lang="ko">sns 표시</title>
+			<title xml:lang="en">sns button</title>
+			<description xml:lang="ko">sns 버튼 표시여부를 선택할 수 있습니다.)</description>
+			<description xml:lang="en">sns button, you can choose whether to display.)</description>
+			<options value="yes">
+				<title xml:lang="ko">예</title>
+				<title xml:lang="en">yes</title>
+			</options>
+			<options value="no">
+				<title xml:lang="ko">아니오</title>
+				<title xml:lang="en">no</title>
+			</options>
+		</var>
+		<var name="dsp_this" type="radio" default="no">
+			<title xml:lang="ko">이 게시글을 팝업표시</title>
+			<title xml:lang="en">This Article</title>
+			<description xml:lang="ko">이게시글을 팝업 표시여부를 선택할 수 있습니다.)</description>
+			<description xml:lang="en">This Article popup, you can choose whether to display.)</description>
+			<options value="yes">
+				<title xml:lang="ko">예</title>
+				<title xml:lang="en">yes</title>
+			</options>
+			<options value="no">
+				<title xml:lang="ko">아니오</title>
+				<title xml:lang="en">no</title>
+			</options>
+		</var>
+		<var name="dsp_uploadedfiles" type="radio" default="yes">
+			<title xml:lang="ko">첨부파일 표시</title>
+			<title xml:lang="en">Attached files</title>
+			<description xml:lang="ko">첨부파일 표시여부를 선택할 수 있습니다.)</description>
+			<description xml:lang="en">Attached files, you can choose whether to display.)</description>
+			<options value="yes">
+				<title xml:lang="ko">예</title>
+				<title xml:lang="en">yes</title>
+			</options>
+			<options value="no">
+				<title xml:lang="ko">아니오</title>
+				<title xml:lang="en">no</title>
+			</options>
+		</var>
+		<var name="dsp_tns" type="radio" default="yes">
+			<title xml:lang="ko">태그 표시</title>
+			<title xml:lang="en">tags</title>
+			<description xml:lang="ko">태그 표시여부를 선택할 수 있습니다.)</description>
+			<description xml:lang="en">tags, you can choose whether to display.)</description>
+			<options value="yes">
+				<title xml:lang="ko">예</title>
+				<title xml:lang="en">yes</title>
+			</options>
+			<options value="no">
+				<title xml:lang="ko">아니오</title>
+				<title xml:lang="en">no</title>
+			</options>
+		</var>
+		<var name="dsp_sign" type="radio" default="yes">
+			<title xml:lang="ko">서명 표시</title>
+			<title xml:lang="en">sign</title>
+			<description xml:lang="ko">서명 표시여부를 선택할 수 있습니다.)</description>
+			<description xml:lang="en">sign, you can choose whether to display.)</description>
+			<options value="yes">
+				<title xml:lang="ko">예</title>
+				<title xml:lang="en">yes</title>
+			</options>
+			<options value="no">
+				<title xml:lang="ko">아니오</title>
+				<title xml:lang="en">no</title>
+			</options>
+		</var>
+	</group>
+	<group>
+		<title xml:lang="ko">썸네일 설정</title>
+		<var name="thumbnail_type" type="select">
+			<title xml:lang="ko">썸네일 생성 방법</title>
+			<title xml:lang="en">Type of Thumbnail</title>
+			<description xml:lang="ko">썸네일 생성 방법을 선택할 수 있습니다.</description>
+			<description xml:lang="en">Choose the type to create the thumnail.</description>
+			<options value="crop">
+				<title xml:lang="ko">꽉 채우기</title>
+				<title xml:lang="en">crop</title>
+			</options>
+			<options value="ratio">
+				<title xml:lang="ko">비율 맞추기</title>
+				<title xml:lang="en">ratio</title>
+			</options>
+		</var>
+		<var name="thumbnail_width" type="text">
+			<title xml:lang="ko">썸네일 가로크기</title>
+			<title xml:lang="en">Width of Thumbnail</title>
+			<description xml:lang="ko">썸네일의 가로 크기를 지정할 수 있습니다.</description>
+			<description xml:lang="en">Set the width of thumbnail.</description>
+		</var>
+		<var name="thumbnail_height" type="text">
+			<title xml:lang="ko">썸네일 세로크기</title>
+			<title xml:lang="en">Height of Thumbnail</title>
+			<description xml:lang="ko">썸네일의 세로 크기를 지정할 수 있습니다.</description>
+			<description xml:lang="en">Set the height of thumbnail.</description>
+		</var>
+	</group>
+    </extra_vars>
+</skin>

@@ -1,0 +1,42 @@
+<include target="_header.html" />
+<div cond="$oSourceComment->isExists()" class="context_data">
+	<h3 class="author">
+		<a cond="$oSourceComment->homepage" href="{$oSourceComment->homepage}">{$oSourceComment->getNickName()}</a>
+		<strong cond="!$oSourceComment->homepage">{$oSourceComment->getNickName()}</strong>
+	</h3>
+	{$oSourceComment->getContent(false)}
+</div>
+<div class="feedback">
+	<form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" class="write_comment">
+		<input type="hidden" name="mid" value="{$mid}" />
+		<input type="hidden" name="document_srl" value="{$oComment->get('document_srl')}" />
+		<input type="hidden" name="comment_srl" value="{$oComment->get('comment_srl')}" />
+		<input type="hidden" name="parent_srl" value="{$oComment->get('parent_srl')}" />
+    <input type="hidden" name="content" value="{htmlspecialchars($oComment->get('content'))}" />
+		<input type="hidden" name="chk_phiz" value="Y" />
+		<input type="hidden" name="use_html" value="Y" />
+        {$oComment->getEditor()}
+			<div class="list_footer">
+				<div class="nrow write_author m-form">
+					<span class="col s6 col-right" cond="!$is_logged">
+						<input type="text" name="nick_name" id="userName" class="iText userName" placeholder="{$lang->writer}" />
+					</span>
+					<span class="col s6 col-left" cond="!$is_logged">
+						<input type="password" name="password" id="userPw" class="iText userPw" placeholder="{$lang->password}" />
+					</span>
+					<!-- <span class="item" cond="!$is_logged">
+						<label for="homePage" class="iLabel">{$lang->homepage}</label>
+						<input type="text" name="homepage" id="homePage" class="iText homePage" />&nbsp;
+					</span> -->
+					<input cond="$is_logged" type="checkbox" name="notify_message" value="Y" id="notify_message" class="iCheck" />
+					<label cond="$is_logged" for="notify_message">{$lang->notify}</label>
+					<input cond="$module_info->secret=='Y'" type="checkbox" name="is_secret" value="Y" id="is_secret" class="iCheck" />
+					<label cond="$module_info->secret=='Y'" for="is_secret">{$lang->secret}</label>
+				</div>
+				<div>
+					<button type="submit" class="pk-btn pk-btn-default"><i class="fa fa-commenting-o"></i> {$lang->cmd_comment_registration}</button>
+				</div>
+			</div>
+	</form>
+</div>
+<include target="_footer.html" />

@@ -1,0 +1,17 @@
+{@
+if (!$module_info->cat_type) $module_info->cat_type = 'cTab';
+$cat_bg == 'cat-bg';
+}
+<block cond="$module_info->cat_type !== 'select'">
+<ul class="{$module_info->cat_type}" cond="$module_info->use_category=='Y'">
+	<li class="on cat-bg"|cond="!$category"><a href="{getUrl('category','','page','')}">{$lang->total}</a></li>
+	<li loop="$cate_list=>$key,$val" class="on cat-bg"|cond="$category==$val->category_srl"><a href="{getUrl(category,$val->category_srl,'document_srl','', 'page', '')}">{$val->title}<!--<em cond="$val->document_count">[{$val->document_count}]</em>--></a>
+		<ul cond="count($val->children)">
+			<li loop="$val->children=>$idx,$item" class="on_"|cond="$category==$item->category_srl"><a href="{getUrl(category,$item->category_srl,'document_srl','', 'page', '')}">{$item->title}<!--<em cond="$val->document_count">[{$item->document_count}]</em>--></a></li>
+		</ul>
+	</li>
+</ul>
+</block>
+<block cond="$module_info->cat_type == 'select'">
+<include target="./include_category_select.html" />
+</block>

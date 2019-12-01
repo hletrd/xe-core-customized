@@ -1,0 +1,75 @@
+{@
+	if (!$module_info->thumbnail_width)  $module_info->thumbnail_width  = 256;
+	if (!$module_info->thumbnail_height) $module_info->thumbnail_height = 256;
+	if (!$module_info->thumbnail_type) $module_info->thumbnail_type = 'ratio';
+	if (!$module_info->content_cut_size) $module_info->content_cut_size = 240;
+	if (!$module_info->col_spacing) $col_spacing = 0;
+	if ($module_info->col_spacing) $col_spacing = $module_info->col_spacing;
+	if (!$module_info->content_height) $content_height = 'auto';
+	//if ($module_info->content_height) $content_height = $module_info->content_height.px;
+}
+
+<style>
+.list__gallery_masonry .item-msry{margin-bottom:{$col_spacing}px;  width:{$module_info->thumbnail_width}px; height:{$content_height};
+}
+.dummy {}
+</style>
+
+<load target="css/list.gallery_msnry.css" />
+<load target="js/imagesloaded.pkgd.min.js" />
+<load target="js/masonry.pkgd.min.js" />
+
+<include cond="Mobile::isMobileCheckByAgent()" target="list_btn_top_default.html" />
+<include cond="$module_info->use_category=='Y'" target="include_category.html" />
+<div class="nrow board_list list__gallery_masonry m-form" id="list__gallery_masonry">
+	<div class="nodoc" cond="!$document_list && !$notice_list">
+		<p style="text-align:center">{$lang->no_documents}</p>
+	</div>
+	<div cond="$grant->manager" class="post-check">
+		<span class="allcheck">
+		<input type="checkbox" onclick="XE.checkboxToggleAll({ doClick:true });" id="btCheck" title="Check All" />
+		<label for="btCheck">Check All</label>
+		</span>
+	</div>
+	<div cond="$document_list || $notice_list" id="container-gdefault" class="js-masonry centered">
+		<block cond="$document_list">
+		<!-- LIST -->
+		{@ $bCheck_item = 0; }
+		<block loop="$document_list=>$no,$document">
+			<!--@if($list_config['thumbnail'] && $document->thumbnailExists($module_info->thumbnail_width, $module_info->thumbnail_height, $module_info->thumbnail_type))-->
+
+				<div class="item-msry ">
+					<div class="view view-third ">
+						<img class="dsp-block" src="{$document->getThumbnail($module_info->thumbnail_width, $module_info->thumbnail_height, $module_info->thumbnail_type)}" alt="{$document->getTitleText()}" />
+						<a href="{getUrl('document_srl',$document->document_srl,'listStyle',$listStyle, 'cpage','')}">
+						<div class="mask">
+							<h2 cond="$title">{$document->getTitle($module_info->subject_cut_size)}</h2>
+							<p cond="$summary" class="text">{$document->getSummary(($module_info->content_cut_size))}</p>
+						</div>
+						</a>
+					</div>
+
+				<span cond="$grant->manager" class="check" style="position:absolute;top:0;right:0;"><input type="checkbox" name="cart" value="{$document->document_srl}" id="bCheck_item{$bCheck_item}" title="Check This Article" onclick="doAddDocumentCart(this)" checked="checked"|cond="$document->isCarted()" /><label for="bCheck_item{$bCheck_item}"></label></span>
+				</div>
+		{@ $bCheck_item++}
+			<!--@end-->
+		</block>
+		<!-- /LIST -->
+		</block>
+	</div>
+</div>
+<include target="include_list_footer.html" />
+<script>
+// list gallery default
+jQuery(document).ready(function($){
+    var $container_gdefault = $('#container-gdefault');
+    $container_gdefault.imagesLoaded(function(){
+	$container_gdefault.masonry({
+        itemSelector: '.item-msry',
+        columnWidth: {$module_info->thumbnail_width},
+		gutter:{$col_spacing},
+		isFitWidth: true
+      });
+    });
+  });
+</script>

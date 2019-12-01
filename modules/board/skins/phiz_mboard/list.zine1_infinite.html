@@ -1,0 +1,86 @@
+{@
+if(!$module_info->thumbnail_type) $module_info->thumbnail_type = 'crop';
+if(!$module_info->thumbnail_width) $module_info->thumbnail_width = 100;
+if(!$module_info->thumbnail_height) $module_info->thumbnail_height = 100;
+}
+<load target="css/list.zine.css" />
+<load target="js/jquery.infinitescroll.js" />
+<include target="list_btn_top.html" />
+<include cond="$module_info->use_category=='Y'" target="include_category.html" />
+<div class="nrow board_list zine1-default-list m-form" id="zine1-default-list">
+	<div class="nodoc" cond="!$document_list && !$notice_list">
+		<p style="text-align:center">{$lang->no_documents}</p>
+	</div>
+	<div cond="$grant->manager" class="post-check">
+		<span class="allcheck">
+		<input type="checkbox" onclick="XE.checkboxToggleAll({ doClick:true });" id="btCheck" title="Check All" />
+		<label for="btCheck">Check All</label>
+		</span>
+	</div>
+	<div id="scroll-content" class="article" cond="$document_list || $notice_list">
+		{@ $bCheck_notice = 0; }
+		<div loop="$notice_list=>$no,$document" class="zine1-default-row notice">
+			<h2 class="title"><i class="fa fa-volume-up red text-w500"></i><span class="notice-text red text-w500"> {$lang->notice}</span>
+				<a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','')}">{$document->getTitle($module_info->subject_cut_size)}</a>
+				<span cond="$document->getCommentCount()"> [{$document->getCommentCount()}]</span>
+				{$document->printExtraImages(60*60*$module_info->duration_new)}
+			</h2>
+			<span cond="$grant->manager" class="check"><input type="checkbox" name="cart" value="{$document->document_srl}" id="bCheck_notice{$bCheck_notice}" title="Check This Article" onclick="doAddDocumentCart(this)" checked="checked"|cond="$document->isCarted()" /><label for="bCheck_notice{$bCheck_notice}"></label></span>
+		{@ $bCheck_notice++; }
+		</div>
+<!-- LIST -->
+{@ $bCheck_item = 0; }
+		<div loop="$document_list=>$no,$document" class="post">
+		<div class="zine1-default-row">
+			<!--@if($thumbnail && $document->thumbnailExists($module_info->thumbnail_width, $module_info->thumbnail_height, $module_info->thumbnail_type))-->
+			<div class="thumb-wrap" style="width:{$module_info->thumbnail_width}px">
+				<a href="{getUrl('document_srl',$document->document_srl,'listStyle',$listStyle, 'cpage','')}"><img class="thumb-image" src="{$document->getThumbnail($module_info->thumbnail_width, $module_info->thumbnail_height, $module_info->thumbnail_type)}" alt="{$document->getTitleText()}" /></a>
+			</div>
+			<!--@end-->
+			<div class="zine1-content"<!--@if($document->thumbnailExists($module_info->thumbnail_width, $module_info->thumbnail_height, $module_info->thumbnail_type))--> style="margin-left:{$module_info->thumbnail_width}px;"<!--@end-->>
+				<h2 cond="$title" class="title">
+					<a href="{getUrl('document_srl',$document->document_srl,'listStyle',$listStyle, 'cpage','')}">
+					{$document->getTitle($module_info->subject_cut_size)}
+					<span cond="$document->getCommentCount()"> [{$document->getCommentCount()}]</span>
+					</a>
+					{$document->printExtraImages(60*60*$module_info->duration_new)}
+				</h2>
+				<span cond="$nick_name" class="author"><i class="fa fa-user"></i>&nbsp; <a href="#popup_menu_area" class="member_{$document->get('member_srl')}" onclick="return false">{$document->getNickName()}</a></span>
+				<span cond="$regdate" class="time"><i class="fa fa-clock-o"></i>&nbsp;{$document->getRegdate('Y.m.d')}</span>
+				<span cond="$document->getCommentCount() && $comment_status" class="btn-count"><i class="fa fa-comment-o"></i>{$document->getCommentCount()}</span>
+				<span cond="$readed_count" class="readNum btn-count"><i class="fa fa-eye"></i>&nbsp;{$document->get('readed_count')>0?$document->get('readed_count'):'0'}</span>
+				<span cond="$voted_count" class="voteNum btn-count"><i class="fa fa-thumbs-o-up"></i>&nbsp;{$document->get('voted_count')!=0?$document->get('voted_count'):'0'}</span>
+				<p cond="$summary" class="text"><a href="{getUrl('document_srl',$document->document_srl,'listStyle',$listStyle, 'cpage','')}">{$document->getSummary(($module_info->content_cut_size))}</a></p>
+				<span cond="$grant->manager" class="check"><input type="checkbox" name="cart" value="{$document->document_srl}" id="bCheck_item{$bCheck_item}" title="Check This Article" onclick="doAddDocumentCart(this)" checked="checked"|cond="$document->isCarted()" /><label for="bCheck_item{$bCheck_item}"></label></span>
+			</div>
+		</div>
+{@ $bCheck_item++}
+
+		</div>
+<!-- /LIST -->
+	</div>
+</div>
+<!--//<include target="include_list_footer.html" />-->
+<div id="navigation">
+	<a href="{getUrl('page',2,'document_srl','','division',$division,'last_division',$last_division,'entry','')}"></a>
+</div>
+<script>
+
+jQuery(document).ready(function($){
+  $('#scroll-content').infinitescroll({
+
+    navSelector  : "div#navigation",
+                   // selector for the paged navigation (it will be hidden)
+    nextSelector : "div#navigation a:first",
+                   // selector for the NEXT link (to page 2)
+    itemSelector : "#content div.post",
+                   // selector for all items you'll retrieve
+      loading: {
+          finishedMsg: 'No more pages to load.',
+           img: '{$tpl_path}/images/ajax-loader.gif'
+        }
+  });
+
+    });
+
+</script>
