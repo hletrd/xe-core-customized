@@ -1,0 +1,32 @@
+<include target="_config.html" />
+
+<div class="board-wrapper">
+	<div class="absc comments rs">
+		<ul cond="$oComment->isExists()" class="comments-list">
+			<li class="clear comment-item" id="comment_{$oComment->comment_srl}">
+				<div class="comment-header">
+	        <div class="comment-author">
+						<div class="comment-profile" style="background-image: url('<!--@if($oComment->getProfileImage())-->{$oComment->getProfileImage()}<!--@else-->{$profileNo}<!--@end-->');"></div><a class="comment-author">{$oComment->getNickName()}</a>
+					</div>
+					<span class="comment-date"><span>{getTimeGap($oComment->get('regdate'), "Y.n.j H:i")}</span></span>
+				</div>
+				<div class="comment-body">
+					{$oComment->getContent(false)}
+				</div>
+			</li>
+		</ul>
+  </div>
+  <div class="absc ab-message rs">
+    <h1>{$lang->comment_delete_confirm}</h1>
+		<form id="del_cmt" action="./" method="get" onsubmit="return procFilter(this, delete_comment)" class="context_message">
+			<input type="hidden" name="mid" value="{$mid}" />
+			<input type="hidden" name="page" value="{$page}" />
+			<input type="hidden" name="document_srl" value="{$oComment->get('document_srl')}" />
+			<input type="hidden" name="comment_srl" value="{$oComment->get('comment_srl')}" />
+			<div class="ab-message-tool">
+				<button type="submit" class="ab-btn<!--@if($mi->write_btn_style == 'border')--> ab-point-bacolor ab-border-1 ab-point-color<!--@elseif($mi->write_btn_style == 'fill')--> ab-point-bgcolor ab-text-white<!--@else--> ab-point-color<!--@end-->">{$lang->cmd_delete}</button>
+				<button type="button" class="ab-btn" onclick="history.back()">{$lang->cmd_cancel}</button>
+			</div>
+		</form>
+  </div>
+</div>

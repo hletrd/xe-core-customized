@@ -1,0 +1,29 @@
+{@
+	$exvalStyle = $exvalImage = $exvalCheck = $exvalTemp = null;
+	if($document):
+		if ($val->type == 'radio' || $val->type == 'checkbox' || $val->type == 'select'):
+			$exvalTemp = explode(',',$document->getExtraValueHTML($val->idx));
+		else:
+			$exvalTemp[0] = $document->getExtraValueHTML($val->idx);
+		endif;
+	elseif($oDocument):
+		if ($val->type == 'radio' || $val->type == 'checkbox' || $val->type == 'select'):
+			$exvalTemp = explode(',',$val->getValueHTML($val->idx));
+		else:
+			$exvalTemp[0] = $val->getValueHTML($val->idx);
+		endif;
+	endif;
+	for ( $i=0 ; $i < count($exvalTemp) ; $i++ ):
+		if (in_array($exvalTemp[$i],$exval_custom_list)):
+			$exvalStyle[$i] = $exval_custom_style[array_search($exvalTemp[$i],$exval_custom_list)];
+			$exvalCheck[$i] = "style";
+		elseif (in_array($exvalTemp[$i],$exval_image_list)):
+			$exvalImage[$i] = $exval_image_url[array_search($exvalTemp[$i],$exval_image_list)];
+			$exvalImageStyle[$i] = $exval_image_style[array_search($exvalTemp[$i],$exval_image_list)];
+			$exvalCheck[$i] = "image";
+		else:
+			$exvalCheck[$i] = "normal";
+		endif;
+	endfor;
+}
+<block loop="$i=0;$i < count($exvalTemp);$i++"><!--@if($exvalCheck[$i]=='style')--><span style="{$exvalStyle[$i]};{$mi->exval_style_common}">{$exvalTemp[$i]}</span><block cond="$i+1 < count($exvalTemp)"> </block><!--@elseif($exvalCheck[$i]=='image')--><img src="{$exvalImage[$i]}" style="{$mi->exval_image_style}; {$exvalImageStyle[$i]}" /><block cond="$i+1 < count($exvalTemp)"> </block><!--@else--><span>{$exvalTemp[$i]}</span><block cond="$i+1 < count($exvalTemp)">, </block><!--@end--></block>

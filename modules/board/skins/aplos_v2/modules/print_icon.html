@@ -1,0 +1,28 @@
+{@
+	$chk_movie = $chk_image = $chk_attach = false;
+
+	if(strpos($document->getContent(),'youtube.com/embed')!==false || strpos($document->getContent(),'vimeo.com/video')!==false || strpos($document->getContent(),'kakao.com/embed')!==false || strpos($document->getContent(),'naver.com/flash')!==false || ($mi->common_play_icon == '' && ( strpos($document->getContent(),'https://youtu.be/')!==false || strpos($document->getContent(),'https://www.youtube.com/watch?v=')!==false ) ) ):
+		$chk_movie = true;
+	elseif(preg_match("/<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>/i", $document->getContent())):
+		$chk_image = true;
+	endif;
+
+	if (!$document->getExtraImages() && !$chk_movie && !$chk_image)
+		$showIconArea = false;
+	else
+		$showIconArea = true;
+}
+
+<div cond="$showIconArea" class="print-icon">
+	<img class="ic ic-status" src="../assets/images/status_n.svg" cond="in_array('new',$document->getExtraImages())" /><img class="ic ic-status" src="../assets/images/status_u.svg" cond="in_array('update',$document->getExtraImages())" /><i cond="in_array('secret',$document->getExtraImages())" class="fas fa-lock fa-fw"></i>
+	<block loop="$document->getUploadedFiles()=>$key,$file">
+	{@
+		$filetmp = strtolower(substr(strrchr($file->source_filename,'.'),1));
+		if($filetmp == 'jpg' || $filetmp == 'gif' || $filetmp == 'png' || $filetmp == 'svg' || $filetmp == 'jpeg' || $filetmp == 'bmp')
+			$chk_image = true;
+		else
+			$chk_attach = true;
+	}
+	</block>
+	<i class="fas fa-play-circle fa-fw" cond="$chk_movie"></i><i class="fas fa-image fa-fw" cond="$chk_image"></i><i class="fas fa-paperclip fa-fw" cond="$chk_attach"></i>
+</div>

@@ -1,0 +1,115 @@
+<div class="comment-write {$CommentWriteLoc} clear">
+	<div class="comment-write-header">
+		<h3>{$lang->write_comment}
+			<span class="header-tool" cond="$grant->write_comment && $oDocument->isEnableComment()">
+				<a class="" cond="$mi->comment_write_type=='' || $mi->comment_write_type=='textarea'" href="#" onclick="jQuery.cookie('ab_editor_type','wysiwyg');location.reload();return false"><i class="fas fa-sync-alt fa-fw"></i> {$lang->use_wysiwyg}</a>
+				<a class="" cond="$mi->comment_write_type=='wysiwyg'" href="#" onclick="jQuery.cookie('ab_editor_type','textarea');location.reload();return false"><i class="fas fa-sync-alt fa-fw"></i> {$lang->use_textarea}</a>
+			</span>
+		</h3>
+	</div>
+	<div class="comment-write-body clear">
+		<form cond="$grant->write_comment && $oDocument->isEnableComment()" action="./" method="post" onsubmit="return procFilter(this, insert_comment)" class="comment-write-form" id="write_comment">
+			<input type="hidden" name="member_nickname" value="{$logged_info->nick_name}" />
+			<input type="hidden" name="mid" value="{$mid}" />
+			<input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
+			<input type="hidden" name="comment_srl" value="" />
+<!--@if($mi->comment_write_type == 'wysiwyg')-->
+			<input type="hidden" name="content" value="" />
+		  {$oDocument->getCommentEditor()}
+<!--@else-->
+			<input type="hidden" name="use_html" value="Y" />
+			<input type="hidden" id="htm_{$oDocument->document_srl}" value="n" />
+			<textarea id="temp_{$oDocument->document_srl}"></textarea>
+			<textarea style="display: none;" id="editor_{$oDocument->document_srl}" name="content"></textarea>
+<script type="text/javascript">
+function setTextareaReplace() {
+	var str = document.getElementById("temp_{$oDocument->document_srl}").value;
+	if (str == '') {
+		return false;
+	}
+	str = "<p>" + str.replace(/(?:\r\n|\r|\n)/g, "</p>\r\n<p>") + "</p>";
+	str = str.replaceAll("<p></p>", "<p>&nbsp;</p>");
+	document.getElementById("editor_{$oDocument->document_srl}").value = str;
+};
+</script>
+<!--@end-->
+			<div class="comment-write-author clear" cond="!$is_logged">
+				<span class="non-member-input">
+					<span>{$lang->writer}</span><input type="text" name="nick_name" id="userName" class="iText userName" />
+				</span>
+				<span class="non-member-input">
+					<span>{$lang->password}</span><input style="margin-bottom: 0;" type="password" name="password" id="userPw" class="iText userPw" />
+				</span>
+			</div>
+			<div class="comment-write-tool">
+				<span class="ab-checkbox" cond="$is_logged">
+					<input type="checkbox" name="notify_message" value="Y" id="notify_message" class="ab-btn" />
+					<label class="ab-btn" for="notify_message">{$lang->notify}</label>
+				</span>
+				<span class="ab-checkbox" cond="$module_info->secret=='Y'">
+					<input style="margin-top: 0.6em"|cond="!$is_logged" type="checkbox" name="is_secret" value="Y" id="is_secret" class="ab-btn" />
+					<label class="ab-btn" for="is_secret">{$lang->secret}</label>
+				</span>
+				<button type="submit" class="ab-btn<!--@if($mi->write_btn_style == 'border')--> ab-point-bacolor ab-border-1 ab-point-color<!--@elseif($mi->write_btn_style == 'fill')--> ab-point-bgcolor ab-text-white<!--@else--> ab-point-color<!--@end-->" onclick="setTextareaReplace()">{$lang->cmd_comment_registration}</button>
+			</div>
+		</form>
+		<div cond="!$grant->write_comment || !$oDocument->isEnableComment()" class="comment-write-form" style="position: relative;">
+			<textarea style="resize: none;">{$lang->not_permitted_comment}<!--@if(!$is_logged)--> {$lang->sign_in}<!--@end--></textarea>
+			<a cond="!$is_logged" class="ab-link"<!--@if($mi->signin_helper == '')--> href="{getUrl('act','dispMemberLoginForm')}"<!--@else--> onclick="jQuery('{$mi->signin_helper}').trigger('click');" style="cursor: pointer;"<!--@end-->></a>
+		</div>
+	</div>
+</div>
+
+
+<!-- reCommentBox -->
+<div cond="$rd_idx==0" id="reCommentBox" class="comment-write" style="display:none;">
+	<div class="comment-write-header">
+		<h3 id="reCommentHT">{$lang->write_comment}
+			<span class="header-tool">
+				<a id="use_editor" cond="$grant->write_comment && $oDocument->isEnableComment()"><i class="fas fa-sync-alt fa-fw"></i> {$lang->use_wysiwyg}</a> <a href="#" onclick="jQuery('#reCommentBox').toggle().parent().find('#reComment').focus();return false"><i class="fas fa-times fa-fw"></i> {$lang->cmd_close}</a>
+			</span>
+		</h3>
+	</div>
+	<form cond="$grant->write_comment && $oDocument->isEnableComment()" action="./" method="post" onsubmit="return procFilter(this,insert_comment)" class="comment-write-form">
+		<input type="hidden" name="member_nickname" value="{$logged_info->nick_name}" />
+		<input type="hidden" name="mid" value="{$mid}" />
+		<input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
+		<input type="hidden" name="parent_srl" value="" />
+		<input type="hidden" name="use_html" value="Y" />
+		<input type="hidden" id="htm_2" value="n" />
+		<textarea id="temp_2"></textarea>
+		<textarea style="display: none;" id="editor_2" name="content"></textarea>
+<script type="text/javascript">
+function setTextareaReplace_RC() {
+	var str = document.getElementById("temp_2").value;
+	str = "<p>" + str.replace(/(?:\r\n|\r|\n)/g, "</p>\r\n<p>") + "</p>";
+	str = str.replaceAll("<p></p>", "<p>&nbsp;</p>");
+	document.getElementById("editor_2").value = str;
+};
+</script>
+		<div class="comment-write-author clear" cond="!$is_logged">
+			<span class="non-member-input">
+				<span>{$lang->writer}</span><input type="text" name="nick_name" id="userName" class="iText userName" />
+			</span>
+			<span class="non-member-input">
+				<span>{$lang->password}</span><input style="margin-bottom: 0;" type="password" name="password" id="userPw" class="iText userPw" />
+			</span>
+		</div>
+		<div class="comment-write-tool">
+			<span class="ab-checkbox" cond="$is_logged">
+				<input type="checkbox" name="notify_message" value="Y" id="notify_message_recmt" class="ab-btn" />
+				<label class="ab-btn" for="notify_message_recmt">{$lang->notify}</label>
+			</span>
+			<span class="ab-checkbox" cond="$module_info->secret=='Y'">
+				<input style="margin-top: 0.6em"|cond="!$is_logged" type="checkbox" name="is_secret" value="Y" id="is_secret_recmt" class="ab-btn" />
+				<label class="ab-btn" for="is_secret_recmt">{$lang->secret}</label>
+			</span>
+			<button type="submit" class="ab-btn<!--@if($mi->write_btn_style == 'border')--> ab-point-bacolor ab-border-1 ab-point-color<!--@elseif($mi->write_btn_style == 'fill')--> ab-point-bgcolor ab-text-white<!--@else--> ab-point-color<!--@end-->" onclick="setTextareaReplace_RC()">{$lang->cmd_comment_registration}</button>
+		</div>
+	</form>
+	<div cond="!$grant->write_comment || !$oDocument->isEnableComment()" class="comment-write-form" style="position: relative;">
+		<textarea style="resize: none;">{$lang->not_permitted_comment}<!--@if(!$is_logged)--> {$lang->sign_in}<!--@end--></textarea>
+		<a cond="!$is_logged" class="ab-link"<!--@if($mi->signin_helper == '')--> href="{getUrl('act','dispMemberLoginForm')}"<!--@else--> onclick="jQuery('{$mi->signin_helper}').trigger('click');" style="cursor: pointer;"<!--@end-->></a>
+	</div>
+</div>
+<!--/reCommentBox -->

@@ -1,0 +1,21 @@
+<!-- 추천 비추천 -->
+{@$doc_config = $oModuleModel->getModulePartConfig('document', $module_info->module_srl);}
+<ul class="voteblame rs" cond="defined('RX_VERSION')">
+	<li cond="$doc_config->use_vote_up != 'N'">
+		<a cond="$oDocument->getVoted() === false || $oDocument->getVoted() < 0" onclick="<!--@if($mi->voteblame_confirm =='')-->if (confirm('{$lang->confirm_doc_vote}')) <!--@end-->doCallModuleAction('document','procDocumentVoteUp','{$oDocument->document_srl}');return false;"|cond="($mi->non_login_vote != 'N' || $is_logged) && ($oDocument->getVoted() === false || $oDocument->getVoted() > 0) && $logged_info->member_srl != $oDocument->getMemberSrl()" class="ab-btn-vote ab-point-bacolor ab-point-color"><span class="top"><i class="far fa-thumbs-up"></i><small class="voted-count">{$oDocument->get('voted_count')}</small></span><span class="bottom">{$lang->cmd_vote}</span></a>
+        <a cond="$oDocument->getVoted() > 0" onclick="<!--@if($mi->voteblame_confirm =='')-->if (confirm('{$lang->confirm_doc_vote_cancel}')) <!--@end-->doCallModuleAction('document','procDocumentVoteUpCancel','{$oDocument->document_srl}');return false;"|cond="$mi->non_login_vote != 'N' || $is_logged" class="ab-btn-vote ab-point-bacolor ab-point-color on"><span class="top"><i class="far fa-thumbs-up"></i><small class="voted-count">{$oDocument->get('voted_count')}</small></span><span class="bottom">{$lang->cmd_vote} {$lang->cmd_complete}</span></a>
+    </li>
+    <li cond="$doc_config->use_vote_down != 'N'">
+		<a cond="$oDocument->getVoted() === false || $oDocument->getVoted() > 0" onclick="<!--@if($mi->voteblame_confirm =='')-->if (confirm('{$lang->confirm_doc_blame}')) <!--@end-->doCallModuleAction('document','procDocumentVoteDown','{$oDocument->document_srl}');return false;"|cond="($mi->non_login_vote != 'N' || $is_logged) && ($oDocument->getVoted() === false || $oDocument->getVoted() < 0) && $logged_info->member_srl != $oDocument->getMemberSrl()" class="ab-btn-blame"><span class="top"><i class="far fa-thumbs-down"></i><small class="blamed-count">{$oDocument->get('blamed_count')}</small></span><span class="bottom">{$lang->cmd_vote_down}</span></a>
+		<a cond="$oDocument->getVoted() < 0" onclick="<!--@if($mi->voteblame_confirm =='')-->if (confirm('{$lang->confirm_doc_blame_cancel}')) <!--@end-->doCallModuleAction('document','procDocumentVoteDownCancel','{$oDocument->document_srl}');return false;"|cond="$mi->non_login_vote != 'N' || $is_logged" class="ab-btn-blame on"><span class="top"><i class="far fa-thumbs-down"></i><small class="blamed-count">{$oDocument->get('blamed_count')}</small></span><span class="bottom">{$lang->cmd_vote_down} {$lang->cmd_complete}</span></a>
+	</li>
+</ul>
+<ul class="voteblame rs" cond="!defined('RX_VERSION')">
+	<li cond="$doc_config->use_vote_up != 'N'">
+        <a onclick="<!--@if($mi->voteblame_confirm =='')-->if (confirm('{$lang->confirm_doc_vote}')) <!--@end-->doCallModuleAction('document','procDocumentVoteUp','{$oDocument->document_srl}');return false;"|cond="$is_logged" class="ab-btn-vote ab-point-bacolor ab-point-color"><span class="top"><i class="far fa-thumbs-up"></i><small class="voted-count">{$oDocument->get('voted_count')}</small></span><span class="bottom">{$lang->cmd_vote}</span></a>
+    </li>
+    <li cond="$doc_config->use_vote_down != 'N'">
+        <a class="ab-btn-blame" onclick="<!--@if($mi->voteblame_confirm =='')-->if (confirm('{$lang->confirm_doc_blame}')) <!--@end-->doCallModuleAction('document','procDocumentVoteDown','{$oDocument->document_srl}');return false;"|cond="$is_logged"><span class="top"><i class="far fa-thumbs-down"></i><small class="blamed-count">{$oDocument->get('blamed_count')}</small></span><span class="bottom">{$lang->cmd_vote_down}</span></a>
+	</li>
+</ul>
+<!--/추천 비추천 -->

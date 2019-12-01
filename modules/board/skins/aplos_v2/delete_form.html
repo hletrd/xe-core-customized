@@ -1,0 +1,76 @@
+<include target="_config.html" />
+
+<div class="board-wrapper">
+  <div class="absc ab-message rs">
+    <h1>{$lang->document_delete_confirm}</h1>
+		<form id="del_doc" action="./" method="get" onsubmit="return procFilter(this, delete_document)" class="context_message">
+			<input type="hidden" name="mid" value="{$mid}" />
+			<input type="hidden" name="page" value="{$page}" />
+			<input type="hidden" name="document_srl" value="{$document_srl}" />
+			<div class="ab-message-tool">
+				<button type="submit" class="ab-btn<!--@if($mi->write_btn_style == 'border')--> ab-point-bacolor ab-border-1 ab-point-color<!--@elseif($mi->write_btn_style == 'fill')--> ab-point-bgcolor ab-text-white<!--@else--> ab-point-color<!--@end-->">{$lang->cmd_delete}</button>
+				<button type="button" class="ab-btn" onclick="history.back()">{$lang->cmd_cancel}</button>
+			</div>
+		</form>
+  </div>
+
+	<div class="absc article" cond="$oDocument->isExists()">
+		<!-- 게시글 헤더 -->
+		<div class="article-header rs">
+			<p class="ah-category" cond="$oDocument->get('category_srl')">
+				<a href="{getUrl('category',$oDocument->get('category_srl'), 'document_srl', '')}" style="color:{$category_list[$oDocument->get('category_srl')]->color}"|cond="$category_list[$oDocument->get('category_srl')]->color!='transparent'">{$category_list[$oDocument->get('category_srl')]->title}</a></span>
+			</p>
+			<h1 class="ah-title">
+				<a href="{$oDocument->getPermanentUrl()}">{$oDocument->getTitle()}</a>
+			</h1>
+			<p class="ah-meta">
+				<span class="ahm-author"><a cond="$module_info->display_author!='N' && $oDocument->getMemberSrl() <= 0 && $oDocument->isExistsHomepage()" href="{$oDocument->getHomepageUrl()}" onclick="window.open(this.href);return false;" class="">{$oDocument->getNickName()}</a><block cond="$module_info->display_author!='N' && $oDocument->getMemberSrl() <= 0 && !$oDocument->isExistsHomepage()">{$oDocument->getNickName()}</block><a cond="$module_info->display_author!='N' && $oDocument->getMemberSrl() > 0" href="#popup_menu_area" class="member_{$oDocument->get('member_srl')} author" onclick="return false">{$oDocument->getNickName()}</a></span><span>{getTimeGap($oDocument->get('regdate'), "Y.m.d H:i")}</span><span>{$lang->readed_count} <span class="ab-point-color">{$oDocument->get('readed_count')}</span></span><span style="display:inline-block;">{$lang->comment} <span class="ab-point-color">{$oDocument->getCommentcount()}</span></span><block cond="$mi->read_ip == 'a' || ($grant->manager && $mi->read_ip == 'y') || ($grant->manager && $mi->read_ip == 'h')"> {$lang->ipaddress} <span class="ab-point-color">{$oDocument->get('ipaddress')}</span></block><block cond="$mi->read_ip == 'h' && !$grant->manager"> {$lang->ipaddress} <span class="ab-point-color">{@ $temp_ip=explode('.',$oDocument->get('ipaddress'));}{$temp_ip[0]}.<!--@if($oDocument->get('member_srl')!='0')-->***<!--@else-->{$temp_ip[1]}<!--@end-->.{$temp_ip[2]}.{$temp_ip[3]}.</span></block><span cond="$mi->read_this_post=='y'"><a class="hidden-mobile document_{$oDocument->document_srl} action" href="#popup_menu_area" onclick="return false">{$lang->cmd_document_do}</a><a class="hidden-desktop document_{$oDocument->document_srl} action" href="#popup_menu_area" onclick="return false">…</a></span>
+			</p>
+		</div>
+		<!-- /게시글 헤더 -->
+
+		<!-- 게시글 본문 -->
+		<div class="article-content">
+			<!--@if($oDocument->isSecret() && !$oDocument->isGranted())-->
+			<form action="./" method="get" onsubmit="return procFilter(this, input_password)" class="">
+				<input type="hidden" name="mid" value="{$mid}" />
+				<input type="hidden" name="page" value="{$page}" />
+				<input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
+				<h1 class="align-center">{$lang->msg_is_secret}</h1>
+				<div class="align-center">
+					<input class="align-center" style="line-height: 1.5em" type="password" name="password" id="cpw" class="iText" placeholder="{$lang->password}" />
+				</div>
+				</p>
+			</form>
+			<!--@else-->
+			<div class="article-extra-value rs">
+				<table>
+					<tr loop="$oDocument->getExtraVars() => $key,$val" cond="$val->getValueHTML()">
+						<th scope="row">{$val->name}</th>
+						<td><include target="modules/fn_exval.html" /></td>
+					</tr>
+				</table>
+			</div>
+			<article>{$oDocument->getContent(false)}</article>
+			<!--@end-->
+		</div>
+		<!-- /게시글 본문 -->
+
+		<!-- 게시글 푸터 -->
+		{@ $tag_list = $oDocument->get('tag_list') }
+		<div class="article-tags rs" cond="$tag_list">
+			<!--@foreach($tag_list as $tag)-->
+				<a href="{getUrl('search_target','tag','search_keyword',$tag,'document_srl','')}" class="tag ab-point-bgcolor" rel="tag">{htmlspecialchars($tag)}</a>
+			<!--@end-->
+		</div>
+
+		<!-- 글쓴이 서명란 -->
+		<div class="article-signature rs<!--@if($mi->signature_center == 'y')--> align-center<!--@end-->">
+			<div class="profile">
+				<div cond="" style="background-image: url('<!--@if($oDocument->getProfileImage())-->{$oDocument->getProfileImage()}<!--@else-->{$profileNo}<!--@end-->')" class="profile-image"></div><span class="profile-nickname"><a cond="$module_info->display_author!='N' && $oDocument->getMemberSrl() <= 0 && $oDocument->isExistsHomepage()" href="{$oDocument->getHomepageUrl()}" onclick="window.open(this.href);return false;" class="">{$oDocument->getNickName()}</a><block cond="$module_info->display_author!='N' && $oDocument->getMemberSrl() <= 0 && !$oDocument->isExistsHomepage()">{$oDocument->getNickName()} (비회원)</block><a cond="$module_info->display_author!='N' && $oDocument->getMemberSrl() > 0" href="#popup_menu_area" class="member_{$oDocument->get('member_srl')} author" onclick="return false">{$oDocument->getNickName()}</a>
+			</div>
+			<div cond="$oDocument->getSignature()" class="text">{$oDocument->getSignature()}</div>
+		</div>
+		<!-- /글쓴이 서명란 -->
+	</div>
+</div>

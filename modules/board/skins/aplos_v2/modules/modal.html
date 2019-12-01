@@ -1,0 +1,108 @@
+<div class="remodal remodal-download" data-remodal-id="download" cond="$listStyle == 'download'">
+	<header>{$lang->file_list} (<span class="count"></span>)</header>
+	<a data-remodal-action="close" class="remodal-close"></a>
+	<p class="desc">reload modal window</p>
+	<div class='download-area clear'>
+	</div>
+</div>
+
+<div class="remodal remodal-search" data-remodal-id="search">
+	<header>{$lang->cmd_search}</header>
+	<a data-remodal-action="close" class="remodal-close"></a>
+	<form action="{getUrl()}" method="get" onsubmit="return procFilter(this, search)" no-error-return-url="true">
+			<input type="hidden" name="vid" value="{$vid}" />
+			<input type="hidden" name="mid" value="{$mid}" />
+			<input type="hidden" name="category" value="{$category}" />
+			<div class="search-form">
+				<select name="search_target">
+					<option loop="$search_option=>$key,$val" value="{$key}" selected="selected"|cond="$search_target==$key">{$val}</option>
+				</select>
+				<input type="text" name="search_keyword" value="{htmlspecialchars($search_keyword)}" placeholder="{$lang->input_keyword}" />
+			</div>
+		</form>
+</div>
+
+<div class="remodal remodal-share" data-remodal-id="share" cond="$oDocument->isExists() && $mi->share_article == ''">
+	<header>{$lang->ab_share_article}</header>
+	<a data-remodal-action="close" class="remodal-close"></a>
+	<ul class="clear">
+		<li>
+			<img src="../assets/images/share-facebook.png" />
+			<p>{$lang->ab_facebook}</p>
+			<a class="ab-link" onclick="sendSns('facebook','{$oDocument->getPermanentUrl()}');"></a>
+		</li>
+		<li>
+			<img src="../assets/images/share-twitter.png" />
+			<p>{$lang->ab_twitter}</p>
+			<a class="ab-link" onclick="sendSns('twitter','{$oDocument->getPermanentUrl()}');"></a>
+		</li>
+		<li>
+			<img src="../assets/images/share-googleplus.png" />
+			<p>{$lang->ab_googleplus}</p>
+			<a class="ab-link" onclick="sendSns('googleplus','{$oDocument->getPermanentUrl()}');"></a>
+		</li>
+		<li>
+			<img src="../assets/images/share-naver.png" />
+			<p>{$lang->ab_naver}</p>
+			<a class="ab-link" onclick="sendSns('naver','{$oDocument->getPermanentUrl()}');"></a>
+		</li>
+	</ul>
+	<ul class="clear">
+		<li>
+			<img src="../assets/images/share-naverband.png" />
+			<p>{$lang->ab_naverband}</p>
+			<a class="ab-link" onclick="sendSns('band','{$oDocument->getPermanentUrl()}');"></a>
+		</li>
+		<li cond="$mi->share_article !='n' && $kakao_key != ''">
+			<img src="../assets/images/share-kakaostory.png" />
+			<p>{$lang->ab_kakaostory}</p>
+			<a class="ab-link" href="javascript:shareStory()"></a>
+		</li>
+		<li cond="$mi->share_article !='n' && $kakao_key != ''">
+			<img src="../assets/images/share-kakaotalk.png" />
+			<p>{$lang->ab_kakaotalk}</p>
+			<a class="ab-link" href="javascript:sendLink()"></a>
+		</li>
+	</ul>
+	<footer><input class="url-readonly rs" value="{$oDocument->getPermanentUrl()}" readonly><button class="ab-btn ab-btn-copy ab-copy-url" data-clipboard-text="{$oDocument->getPermanentUrl()}" onclick="return false;"><i class="far fa-copy"></i></button></footer>
+</div>
+
+<div class="remodal remodal-download" data-remodal-id="attachment" cond="$oDocument->isExists() && $mi->show_attachment == ''">
+	<header>{$lang->uploaded_file} ({$oDocument->get('uploaded_count')})</header>
+	<a data-remodal-action="close" class="remodal-close"></a>
+	<div class="download-area">
+		<div class="download-item clear" loop="$oDocument->getUploadedFiles()=>$key,$file">
+			<div class="download-icon"><i class="fas fa-download ab-point-color"></i></div>
+			<div class="download-content ab-truncate">{$file->source_filename}<br><span class="ab-text-muted ab-text-sm">{FileHandler::filesize($file->file_size)} / Download {number_format($file->download_count)}</span></div>
+			<a class="ab-link" href="{getUrl('')}{$file->download_url}" title="{$file->source_filename}"></a>
+		</div>
+	</div>
+</div>
+
+<div class="remodal remodal-vblist" data-remodal-id="voted_user" cond="$oDocument->isExists() && $doc_config->use_vote_up == 'S'">
+	<header>{$lang->cmd_document_vote_user} ({$oDocument->get('voted_count')})</header>
+	<a data-remodal-action="close" class="remodal-close"></a>
+	<div class="content-area rs">
+		<div class="vb-member" loop="$output_voted->data=>$key,$val">
+{@
+$profile_info = $oMemberModel->getProfileImage($val->member_srl);
+}
+			<div style="background-image: url('<!--@if($profile_info->src)-->{$profile_info->src}<!--@else-->../assets/images/image-no-profile.svg<!--@end-->');" class="profile"></div>
+			<a href="#popup_menu_area" class="nickname member_{$val->member_srl}" onclick="return false">{$val->nick_name}</a>
+		</div>
+	</div>
+</div>
+
+<div class="remodal remodal-vblist" data-remodal-id="blamed_user" cond="$oDocument->isExists() && $doc_config->use_vote_down == 'S'">
+	<header>{$lang->cmd_document_blame_user} ({$oDocument->get('blamed_count')})</header>
+	<a data-remodal-action="close" class="remodal-close"></a>
+	<div class="content-area rs">
+		<div class="vb-member" loop="$output_blamed->data=>$key,$val">
+{@
+$profile_info = $oMemberModel->getProfileImage($val->member_srl);
+}
+			<div style="background-image: url('<!--@if($profile_info->src)-->{$profile_info->src}<!--@else-->../assets/images/image-no-profile.svg<!--@end-->');" class="profile"></div>
+			<a href="#popup_menu_area" class="nickname member_{$val->member_srl}" onclick="return false">{$val->nick_name}</a>
+		</div>
+	</div>
+</div>

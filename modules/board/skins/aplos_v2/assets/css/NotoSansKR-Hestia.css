@@ -1,0 +1,10 @@
+@font-face {
+    font-family: 'Noto Sans Korean';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Noto Sans Regular'), local('NotoSans-Regular'),
+    url(../webfonts/NotoSansKR-Regular-Hestia.eot),
+    url(../webfonts/NotoSansKR-Regular-Hestia.eot?#iefix) format('embedded-opentype'),
+    url(../webfonts/NotoSansKR-Regular-Hestia.woff) format('woff'),
+    url(../webfonts/NotoSansKR-Regular-Hestia.otf) format('opentype');
+}

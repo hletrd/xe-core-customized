@@ -1,0 +1,949 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+	<title xml:lang="ko">APLOS BOARD 2 (Free)</title>
+	<description xml:lang="ko">APLOS BOARD SKIN FOR RHYMIX, XE</description>
+	<version>2.2.4</version>
+	<date>2018-9-1</date>
+	<author email_address="xian.choi@gmail.com" link="http://macaron.ml">
+		<name xml:lang="ko">마카롱</name>
+	</author>
+	<extra_vars>
+		<group>
+			<title xml:lang="ko">스타일 설정</title>
+			<var name="board_style" type="radio">
+				<title xml:lang="ko">게시판 스타일</title>
+				<options value="">
+					<title xml:lang="ko">테이블+웹진 (데스크탑에서 테이블, 모바일에서 웹진)</title>
+				</options>
+				<options value="table">
+					<title xml:lang="ko">테이블</title>
+				</options>
+				<options value="webzine">
+					<title xml:lang="ko">웹진</title>
+				</options>
+				<options value="masonry">
+					<title xml:lang="ko">타일</title>
+				</options>
+				<options value="faq">
+					<title xml:lang="ko">FAQ</title>
+				</options>
+			</var>
+		</group>
+		<group>
+			<title xml:lang="ko">글꼴 설정</title>
+			<var name="fontfamily_select" type="radio">
+				<title xml:lang="ko">웹폰트 선택</title>
+				<options value="">
+					<title xml:lang="ko">사용 안함 (한중일 맞춤 폰트 목록)</title>
+				</options>
+				<options value="notosans">
+					<title xml:lang="ko">Noto Sans Korean (내장 폰트)</title>
+				</options>
+				<options value="notosans_u">
+					<title xml:lang="ko">Noto Sans 한중일 (외부 저장소)</title>
+				</options>
+				<options value="spoqahansans">
+					<title xml:lang="ko">Spoqa Han Sans KR (내장 폰트)</title>
+				</options>
+				<options value="spoqahansans_u">
+					<title xml:lang="ko">Spoqa Han Sans 한일 (외부 저장소)</title>
+				</options>
+				<options value="nanumsquare">
+					<title xml:lang="ko">나눔스퀘어 (내장 폰트)</title>
+				</options>
+				<options value="nanumgothic">
+					<title xml:lang="ko">나눔고딕 (내장 폰트)</title>
+				</options>
+				<options value="nanummyeongjo">
+					<title xml:lang="ko">나눔명조 (내장 폰트)</title>
+				</options>
+				<options value="custom">
+					<title xml:lang="ko">사용자 지정</title>
+				</options>
+			</var>
+			<var name="fontfamily_list" type="text">
+				<title xml:lang="ko">글꼴 목록 사용자 지정</title>
+				<description xml:lang="ko">사용자 지정을 선택해야 합니다. 쉼표(',')로 구분하여 입력해 주세요.</description>
+			</var>
+			<var name="fontfamily_import" type="textarea">
+				<title xml:lang="ko">글꼴 파일 임포트 사용자 지정</title>
+				<description xml:lang="ko">@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css);와 같이 엔터로 구분하여 입력해 주세요.</description>
+			</var>
+			<var name="fs_content_sm" type="text">
+				<title xml:lang="ko">게시글, 댓글 글꼴 크기 (~575px)</title>
+				<description xml:lang="ko">기본값은 12입니다. 숫자만 입력해 주세요.</description>
+			</var>
+			<var name="fs_content_md" type="text">
+				<title xml:lang="ko">게시글, 댓글 글꼴 크기 (576~1023px)</title>
+				<description xml:lang="ko">기본값은 14입니다. 숫자만 입력해 주세요.</description>
+			</var>
+			<var name="fs_content_lg" type="text">
+				<title xml:lang="ko">게시글, 댓글 글꼴 크기 (1024~1279px)</title>
+				<description xml:lang="ko">기본값은 16입니다. 숫자만 입력해 주세요.</description>
+			</var>
+			<var name="fs_content_xl" type="text">
+				<title xml:lang="ko">게시글, 댓글 글꼴 크기 (1280px~)</title>
+				<description xml:lang="ko">기본값은 16입니다. 숫자만 입력해 주세요.</description>
+			</var>
+			<var name="fs_ui_sm" type="text">
+				<title xml:lang="ko">게시판 UI 글꼴 크기 (~575px)</title>
+				<description xml:lang="ko">기본값은 12입니다. 숫자만 입력해 주세요.</description>
+			</var>
+			<var name="fs_ui_md" type="text">
+				<title xml:lang="ko">게시판 UI 글꼴 크기 (576~1023px)</title>
+				<description xml:lang="ko">기본값은 14입니다. 숫자만 입력해 주세요.</description>
+			</var>
+			<var name="fs_ui_lg" type="text">
+				<title xml:lang="ko">게시판 UI 글꼴 크기 (1024~1279px)</title>
+				<description xml:lang="ko">기본값은 16입니다. 숫자만 입력해 주세요.</description>
+			</var>
+			<var name="fs_ui_xl" type="text">
+				<title xml:lang="ko">게시판 UI 글꼴 크기 (1280px~)</title>
+				<description xml:lang="ko">기본값은 16입니다. 숫자만 입력해 주세요.</description>
+			</var>
+			<var name="board_pd_ver" type="text">
+				<title xml:lang="ko">게시판 상하 padding 값 (고정)</title>
+				<description xml:lang="ko">기본값은 0.5em입니다. 단위까지 입력해 주세요.</description>
+			</var>
+			<var name="board_pd_sm" type="text">
+				<title xml:lang="ko">게시판 좌우 padding 값 (~575px)</title>
+				<description xml:lang="ko">기본값은 0px입니다. 단위까지 입력해 주세요.</description>
+			</var>
+			<var name="board_pd_md" type="text">
+				<title xml:lang="ko">게시판 좌우 padding 값 (576~1023px)</title>
+				<description xml:lang="ko">기본값은 1em입니다. 단위까지 입력해 주세요.</description>
+			</var>
+			<var name="board_pd_lg" type="text">
+				<title xml:lang="ko">게시판 좌우 padding 값 (1024~1279px)</title>
+				<description xml:lang="ko">기본값은 1em입니다. 단위까지 입력해 주세요.</description>
+			</var>
+			<var name="board_pd_xl" type="text">
+				<title xml:lang="ko">게시판 좌우 padding 값 (1280px~)</title>
+				<description xml:lang="ko">기본값은 1em입니다. 단위까지 입력해 주세요.</description>
+			</var>
+		</group>
+		<group>
+			<title xml:lang="ko">색상 설정</title>
+			<var name="color_point" type="select">
+				<title xml:lang="ko">게시판 포인트 색상</title>
+				<options value="dodgerblue">
+					<title xml:lang="ko">옥수수빵파랑 (dodgerblue)</title>
+				</options>
+				<options value="mediumslateblue">
+					<title xml:lang="ko">중푸른빛회색파랑 (mediumslateblue)</title>
+				</options>
+				<options value="deeppink">
+					<title xml:lang="ko">짙은연분홍색 (deeppink)</title>
+				</options>
+				<options value="crimson">
+					<title xml:lang="ko">짙게붉은색깔 (crimson)</title>
+				</options>
+				<options value="darkorange">
+					<title xml:lang="ko">어두운붉은빛을띤누른색 (darkorange)</title>
+				</options>
+				<options value="lightseagreen">
+					<title xml:lang="ko">밝은바다녹색 (lightseagreen)</title>
+				</options>
+				<options value="slategray">
+					<title xml:lang="ko">푸른빛회색 (slategray)</title>
+				</options>
+				<options value="sienna">
+					<title xml:lang="ko">붉은빛을띤갈색 (sienna)</title>
+				</options>
+				<options value="lightcoral">
+					<title xml:lang="ko">밝은산호빛 (lightcoral)</title>
+				</options>
+				<options value="mediumpurple">
+					<title xml:lang="ko">중간의자줏빛 (mediumpurple)</title>
+				</options>
+				<options value="custom">
+					<title xml:lang="ko">사용자 지정 색상</title>
+				</options>
+			</var>
+			<var name="color_point_custom" type="text">
+				<title xml:lang="ko">게시판 포인트 색상 사용자 지정 (예, #333333)</title>
+				<description xml:lang="ko">6자리의 색상 코드를 입력해 주세요.</description>
+			</var>
+		</group>
+		<group>
+			<title xml:lang="ko">게시판 헤더 설정</title>
+			<var name="board_header" type="radio">
+				<title xml:lang="ko">게시판 헤더(제목, 설명 영역)</title>
+				<options value="">
+					<title xml:lang="ko">사용 안함 (기본값)</title>
+				</options>
+				<options value="st1">
+					<title xml:lang="ko">스타일 1 (좌측 굵은 선)</title>
+				</options>
+				<options value="st2">
+					<title xml:lang="ko">스타일 2 (배경 음영)</title>
+				</options>
+				<options value="st3">
+					<title xml:lang="ko">스타일 3 (심플)</title>
+				</options>
+			</var>
+			<var name="board_header_align" type="radio">
+				<title xml:lang="ko">게시판 헤더 정렬</title>
+				<options value="">
+					<title xml:lang="ko">왼쪽 (기본값)</title>
+				</options>
+				<options value="center">
+					<title xml:lang="ko">가운데 정렬</title>
+				</options>
+			</var>
+			<var name="board_header_title" type="radio">
+				<title xml:lang="ko">게시판 제목</title>
+				<options value="">
+					<title xml:lang="ko">게시판의 브라우저 타이틀 (기본값)</title>
+				</options>
+				<options value="c">
+					<title xml:lang="ko">사용자 지정 텍스트</title>
+				</options>
+			</var>
+			<var name="board_header_title_custom" type="text">
+				<title xml:lang="ko">게시판 제목 사용자 지정 텍스트</title>
+			</var>
+			<var name="board_header_desc" type="textarea">
+				<title xml:lang="ko">게시판 제목의 설명</title>
+			</var>
+			<var name="board_header_title_total" type="radio">
+				<title xml:lang="ko">게시판 제목에 문서 수 표시</title>
+				<options value="">
+					<title xml:lang="ko">사용 안함 (기본값)</title>
+				</options>
+				<options value="st1">
+					<title xml:lang="ko">스타일 1 (소괄호)</title>
+				</options>
+				<options value="st2">
+					<title xml:lang="ko">스타일 2 (대괄호)</title>
+				</options>
+			</var>
+		</group>
+		<group>
+			<title xml:lang="ko">[공통] 목록 설정</title>
+			<var name="list_title_cut" type="text">
+				<title xml:lang="ko">게시글 제목의 글자수 제한</title>
+			</var>
+			<var name="list_title_bolder" type="radio">
+				<title xml:lang="ko">게시글 제목을 굵게</title>
+				<options value="y">
+					<title xml:lang="ko">모든 유형에서 사용</title>
+				</options>
+				<options value="table">
+					<title xml:lang="ko">테이블 에서만 사용</title>
+				</options>
+				<options value="webzine">
+					<title xml:lang="ko">웹진, 타일 에서만 사용</title>
+				</options>
+				<options value="">
+					<title xml:lang="ko">사용 안함 (기본값)</title>
+				</options>
+			</var>
+			<var name="list_icon" type="radio">
+				<title xml:lang="ko">게시글 목록에서 상태 아이콘</title>
+				<options value="">
+					<title xml:lang="ko">사용 (기본값)</title>
+				</options>
+				<options value="notice">
+					<title xml:lang="ko">공지사항만 사용 안함</title>
+				</options>
+				<options value="n">
+					<title xml:lang="ko">사용 안함</title>
+				</options>
+			</var>
+			<var name="list_datetype" type="radio">
+				<title xml:lang="ko">게시글 목록의 시간 표시</title>
+				<options value="timegap">
+					<title xml:lang="ko">항상 절대 시간 표시</title>
+				</options>
+				<options value="">
+					<title xml:lang="ko">일정 기간 상대적 표시 (기본값)</title>
+				</options>
+			</var>
+			<var name="category_show" type="radio">
+				<title xml:lang="ko">목록 상단 분류 (스타일)</title>
+				<options value="y">
+					<title xml:lang="ko">사용-밑줄 스타일</title>
+				</options>
+				<options value="y_2">
+					<title xml:lang="ko">사용-라운드 스타일</title>
+				</options>
+				<options value="y_n">
+					<title xml:lang="ko">사용-사용자 정의 스타일</title>
+				</options>
+				<options value="">
+					<title xml:lang="ko">사용 안함 (기본값)</title>
+				</options>
+			</var>
+			<var name="category_show_type" type="radio">
+				<title xml:lang="ko">목록 상단 분류 표시 방법</title>
+				<options value="">
+					<title xml:lang="ko">줄 바뀌어 나열 (기본값)</title>
+				</options>
+				<options value="hor">
+					<title xml:lang="ko">한줄로 나열-가로 스크롤</title>
+				</options>
+			</var>
+			<var name="category_custom" type="textarea">
+				<title xml:lang="ko">분류 표시 사용자 정의 스타일</title>
+				<description xml:lang="ko">1차 분류를 사용할 때만 스타일 지정을 해주세요. ';'로 구분하여 입력해 주세요.</description>
+			</var>
+			<var name="category_custom_hover" type="textarea">
+				<title xml:lang="ko">분류 표시 사용자 정의 스타일 (hover)</title>
+				<description xml:lang="ko">';'로 구분하여 입력해 주세요.</description>
+			</var>
+			<var name="category_custom_on" type="textarea">
+				<title xml:lang="ko">분류 표시 사용자 정의 스타일 (active)</title>
+				<description xml:lang="ko">';'로 구분하여 입력해 주세요.</description>
+			</var>
+			<var name="category_count" type="radio">
+				<title xml:lang="ko">분류별 문서 수 표시</title>
+				<options value="">
+					<title xml:lang="ko">관리자만 표시 (기본값)</title>
+				</options>
+				<options value="y">
+					<title xml:lang="ko">모두 표시</title>
+				</options>
+				<options value="n">
+					<title xml:lang="ko">사용 안함</title>
+				</options>
+			</var>
+			<var name="hover_bottom_line" type="radio">
+				<title xml:lang="ko">게시글 목록에 마우스 오버시 밑줄 효과</title>
+				<options value="y">
+					<title xml:lang="ko">사용</title>
+				</options>
+				<options value="">
+					<title xml:lang="ko">사용 안함 (기본값)</title>
+				</options>
+			</var>
+			<var name="visited_link" type="radio">
+				<title xml:lang="ko">방문한 링크 효과</title>
+				<options value="y">
+					<title xml:lang="ko">회색 처리</title>
+				</options>
+				<options value="">
+					<title xml:lang="ko">사용 안함 (기본값)</title>
+				</options>
+			</var>
+			<var name="profile_no_image" type="image">
+				<title xml:lang="ko">비회원이거나 프로필 사진이 없을 경우 표시되는 기본 이미지를 변경합니다.</title>
+			</var>
+			<var name="write_btn_show" type="radio">
+				<title xml:lang="ko">쓰기 버튼 표시</title>
+				<options value="">
+					<title xml:lang="ko">권한자만 표시 (기본값)</title>
+				</options>
+				<options value="a">
+					<title xml:lang="ko">모두에게 표시</title>
+				</options>
+			</var>
+			<var name="write_btn_style" type="radio">
+				<title xml:lang="ko">쓰기 버튼 스타일 (게시글 쓰기 및 댓글 등록 등)</title>
+				<options value="">
+					<title xml:lang="ko">기본 스타일 (기본값)</title>
+				</options>
+				<options value="fill">
+					<title xml:lang="ko">채워진 스타일</title>
+				</options>
+				<options value="border">
+					<title xml:lang="ko">테두리 스타일</title>
+				</options>
+			</var>
+			<var name="category_timeline" type="radio">
+				<title xml:lang="ko">[타임라인] 게시판 이름 표시</title>
+				<options value="">
+					<title xml:lang="ko">사용 (기본값)</title>
+				</options>
+				<options value="n">
+					<title xml:lang="ko">사용 안함</title>
+				</options>
+			</var>
+		</group>
+		<group>
+			<title xml:lang="ko">[테이블] 목록 설정</title>
+			<var name="table_category" type="radio">
+				<title xml:lang="ko">분류 표시</title>
+				<options value="">
+					<title xml:lang="ko">사용 (기본값)</title>
+				</options>
+				<options value="n">
+					<title xml:lang="ko">사용 안함</title>
+				</options>
+			</var>
+			<var name="table_head" type="radio">
+				<title xml:lang="ko">제목줄 표시</title>
+				<options value="">
+					<title xml:lang="ko">사용 (기본값)</title>
+				</options>
+				<options value="n">
+					<title xml:lang="ko">사용 안함</title>
+				</options>
+			</var>
+			<var name="table_consultation_author" type="radio">
+				<title xml:lang="ko">상담기능 사용시 닉네임 표시</title>
+				<options value="">
+					<title xml:lang="ko">사용 (기본값)</title>
+				</options>
+				<options value="n">
+					<title xml:lang="ko">사용 안함</title>
+				</options>
+			</var>
+		</group>
+		<group>
+			<title xml:lang="ko">[웹진, 타일] 목록 설정</title>
+			<var name="webzine_content_line_one" type="radio">
+				<title xml:lang="ko">헤더 영역 1줄 고정</title>
+				<options value="y">
+					<title xml:lang="ko">사용</title>
+				</options>
+				<options value="">
+					<title xml:lang="ko">사용 안함 (기본값)</title>
+				</options>
+			</var>
+			<var name="webzine_header_align" type="radio">
+				<title xml:lang="ko">헤더(분류, 제목) 정렬</title>
+				<options value="">
+					<title xml:lang="ko">왼쪽 (기본값)</title>
+				</options>
+				<options value="center">
+					<title xml:lang="ko">가운데</title>
+				</options>
+			</var>
+			<var name="webzine_meta_align" type="radio">
+				<title xml:lang="ko">메타정보 정렬</title>
+				<options value="">
+					<title xml:lang="ko">왼쪽 (기본값)</title>
+				</options>
+				<options value="center">
+					<title xml:lang="ko">가운데</title>
+				</options>
+			</var>
+			<var name="webzine_category_style" type="radio">
+				<title xml:lang="ko">분류 스타일</title>
+				<options value="">
+					<title xml:lang="ko">제목 왼쪽에 위치 (기본값)</title>
+				</options>
+				<options value="block">
+					<title xml:lang="ko">제목 위쪽에 위치</title>
+				</options>
+				<options value="n">
+					<title xml:lang="ko">사용 안함</title>
+				</options>
+			</var>
+			<var name="webzine_title_comment" type="radio">
+				<title xml:lang="ko">댓글수 표시</title>
+				<options value="">
+					<title xml:lang="ko">사용 (기본값)</title>
+				</options>
+				<options value="n">
+					<title xml:lang="ko">사용 안함</title>
+				</options>
+			</var>
+			<var name="webzine_summary" type="radio">
+				<title xml:lang="ko">본문 내용 요약 (고급 설정에 요약 추가 필수)</title>
+				<options value="y">
+					<title xml:lang="ko">사용</title>
+				</options>
+				<options value="">
+					<title xml:lang="ko">사용 안함 (기본값)</title>
+				</options>
+			</var>
+			<var name="webzine_summary_cut" type="text">
+				<title xml:lang="ko">요약글 글자 수 (기본값 100)</title>
+			</var>
+			<var name="webzine_summary_line" type="text">
+				<title xml:lang="ko">요약글 최대 줄 수 (기본값 제한없음)</title>
+			</var>
+			<var name="webzine_meta" type="radio">
+				<title xml:lang="ko">메타 정보</title>
+				<options value="">
+					<title xml:lang="ko">사용 (기본값)</title>
+				</options>
+				<options value="notice">
+					<title xml:lang="ko">공지사항만 사용 안함</title>
+				</options>
+				<options value="n">
+					<title xml:lang="ko">사용 안함</title>
+				</options>
+			</var>
+			<var name="webzine_meta_profile" type="radio">
+				<title xml:lang="ko">메타 정보에 프로필 사진</title>
+				<options value="">
+					<title xml:lang="ko">사용 (기본값)</title>
+				</options>
+				<options value="n">
+					<title xml:lang="ko">사용 안함</title>
+				</options>
+			</var>
+			<var name="webzine_exval_oloi" type="radio">
+				<title xml:lang="ko">사용자 변수를 한 줄에 하나씩 표시</title>
+				<options value="y">
+					<title xml:lang="ko">사용</title>
+				</options>
+				<options value="">
+					<title xml:lang="ko">사용 안함 (기본값)</title>
+				</options>
+			</var>
+			<var name="webzine_exval_oloi_style" type="radio">
+				<title xml:lang="ko">사용자 변수 한 줄에 하나씩 표시 스타일</title>
+				<options value="st1">
+					<title xml:lang="ko">스타일 1</title>
+				</options>
+				<options value="">
+					<title xml:lang="ko">스타일 없음 (기본값)</title>
+				</options>
+			</var>
+			<var name="thumbnail_no_image" type="image">
+				<title xml:lang="ko">썸네일이 없을 경우 표시될 이미지</title>
+			</var>
+			<var name="thumbnail_width" type="text">
+				<title xml:lang="ko">썸네일 가로</title>
+			</var>
+			<var name="thumbnail_height" type="text">
+				<title xml:lang="ko">썸네일 세로</title>
+			</var>
+			<var name="thumbnail_radius" type="text">
+				<title xml:lang="ko">썸네일 영역 곡률 반경 (단위까지 입력하세요)</title>
+			</var>
+			<var name="thumbnail_border" type="text">
+				<title xml:lang="ko">썸네일 테두리border (예> "1px solid #ff0000")</title>
+			</var>
+			<var name="thumbnail_ex_style" type="textarea">
+				<title xml:lang="ko">썸네일 추가 스타일 (';'로 구분하여 입력하세요)</title>
+			</var>
+		</group>
+		<group>
+			<title xml:lang="ko">[웹진] 목록 설정</title>
+			<var name="webzine_thumbnail" type="radio">
+				<title xml:lang="ko">썸네일</title>
+				<options value="">
+					<title xml:lang="ko">사용 안함 (기본값)</title>
+				</options>
+				<options value="left">
+					<title xml:lang="ko">제목 좌측</title>
+				</options>
+			</var>
+			<var name="webzine_thumbnail_width_sm" type="text">
+				<title xml:lang="ko">좌측 썸네일일 때 ~640px 가로 길이 (숫자만 입력, 기본값 80)</title>
+			</var>
+			<var name="webzine_thumbnail_width_md" type="text">
+				<title xml:lang="ko">좌측 썸네일일 때 640~1024px 가로 길이 (숫자만 입력, 기본값 120)</title>
+			</var>
+			<var name="webzine_thumbnail_width_lg" type="text">
+				<title xml:lang="ko">좌측 썸네일일 때 1025px~ 가로 길이 (숫자만 입력, 기본값 150)</title>
+			</var>
+		</group>
+		<group>
+			<title xml:lang="ko">[타일] 목록 설정</title>
+			<var name="masonry_content" type="radio">
+				<title xml:lang="ko">게시글 정보 영역 (공지사항 제외, 메타 정보 사용 유무와 관계 없이 썸네일을 제외하고 표시 안함)</title>
+				<options value="">
+					<title xml:lang="ko">사용 (기본값)</title>
+				</options>
+				<options value="n">
+					<title xml:lang="ko">사용 안함</title>
+				</options>
+			</var>
+			<var name="masonry_thumbnail_where" type="radio">
+				<title xml:lang="ko">썸네일 위치</title>
+				<options value="">
+					<title xml:lang="ko">제목 상단 (기본값)</title>
+				</options>
+				<options value="title_bottom">
+					<title xml:lang="ko">제목 하단</title>
+				</options>
+			</var>
+			<var name="masonry_thumbnail_type" type="radio">
+				<title xml:lang="ko">썸네일 종류</title>
+				<options value="">
+					<title xml:lang="ko">원본 비율 유지 (기본값)</title>
+				</options>
+				<options value="crop">
+					<title xml:lang="ko">크롭 (입력한 비율로 고정)</title>
+				</options>
+			</var>
+			<var name="masonry_column_sm" type="text">
+				<title xml:lang="ko">~640px 컬럼 수 (기본값 2)</title>
+			</var>
+			<var name="masonry_column_md" type="text">
+				<title xml:lang="ko">641~1024px 컬럼 수 (기본값 3)</title>
+			</var>
+			<var name="masonry_column_lg" type="text">
+				<title xml:lang="ko">1025px~ 컬럼 수 (기본값 4)</title>
+			</var>
+			<var name="masonry_style_margin" type="text">
+				<title xml:lang="ko">아이템 간격 (단위까지 입력, 기본값은 없음)</title>
+			</var>
+			<var name="masonry_style_border" type="text">
+				<title xml:lang="ko">아이템 테두리 (기본값은 없음) 예> "1px solid #ddd"</title>
+			</var>
+			<var name="masonry_style_radius" type="text">
+				<title xml:lang="ko">아이템 곡률 반경radius (단위까지 입력, 기본값은 없음)</title>
+			</var>
+			<var name="masonry_style_background" type="text">
+				<title xml:lang="ko">아이템 배경색 (기본값은 배경색 없음)</title>
+			</var>
+			<var name="masonry_style_shadow" type="text">
+				<title xml:lang="ko">아이템 그림자 (기본값은 그림자 없음) 예> "1px 1px 3px rgba(0,0,0,0.2)"</title>
+			</var>
+		</group>
+		<group>
+			<title xml:lang="ko">[FAQ] 목록 설정</title>
+		</group>
+		<group>
+			<title xml:lang="ko">게시글 보기 설정</title>
+			<var name="quickchange_category" type="radio">
+				<title xml:lang="ko">빠른 분류 변경 (게시판 관리자만 가능)</title>
+				<options value="y">
+					<title xml:lang="ko">사용</title>
+				</options>
+				<options value="">
+					<title xml:lang="ko">사용 안함 (기본값)</title>
+				</options>
+			</var>
+			<var name="header_align" type="radio">
+				<title xml:lang="ko">헤더 정렬</title>
+				<options value="">
+					<title xml:lang="ko">왼쪽 (기본값)</title>
+				</options>
+				<options value="text-center">
+					<title xml:lang="ko">가운데</title>
+				</options>
+			</var>
+			<var name="article_category" type="radio">
+				<title xml:lang="ko">분류 표시</title>
+				<options value="">
+					<title xml:lang="ko">사용 (기본값)</title>
+				</options>
+				<options value="n">
+					<title xml:lang="ko">사용 안함</title>
+				</options>
+			</var>
+			<var name="show_meta" type="radio">
+				<title xml:lang="ko">메타 정보</title>
+				<options value="">
+					<title xml:lang="ko">사용 (기본값)</title>
+				</options>
+				<options value="n">
+					<title xml:lang="ko">사용 안함</title>
+				</options>
+			</var>
+			<var name="show_ipaddr" type="radio">
+				<title xml:lang="ko">IP 주소</title>
+				<description xml:lang="ko">관리자가 아니면 일부분이 가려집니다.</description>
+				<options value="">
+					<title xml:lang="ko">사용 안함 (기본값)</title>
+				</options>
+				<options value="admin">
+					<title xml:lang="ko">관리자에게만 공개</title>
+				</options>
+				<options value="all">
+					<title xml:lang="ko">모두에게 부분 공개</title>
+				</options>
+			</var>
+			<var name="show_attachment" type="radio">
+				<title xml:lang="ko">첨부 아이콘</title>
+				<options value="">
+					<title xml:lang="ko">사용 (기본값)</title>
+				</options>
+				<options value="n">
+					<title xml:lang="ko">사용 안함</title>
+				</options>
+			</var>
+			<var name="show_help" type="radio">
+				<title xml:lang="ko">게시글 도우미 아이콘</title>
+				<options value="">
+					<title xml:lang="ko">사용 (기본값)</title>
+				</options>
+				<options value="n">
+					<title xml:lang="ko">사용 안함</title>
+				</options>
+			</var>
+			<var name="show_tag" type="radio">
+				<title xml:lang="ko">태그 목록</title>
+				<options value="">
+					<title xml:lang="ko">사용 (기본값)</title>
+				</options>
+				<options value="n">
+					<title xml:lang="ko">사용 안함</title>
+				</options>
+			</var>
+			<var name="share_article" type="radio">
+				<title xml:lang="ko">게시글 공유</title>
+				<options value="">
+					<title xml:lang="ko">기본 스타일 (공유 버튼)</title>
+				</options>
+				<options value="n">
+					<title xml:lang="ko">공유 버튼 사용 안함</title>
+				</options>
+				<options value="c">
+					<title xml:lang="ko">커스텀 영역만 사용 (추천/비추천 하단)</title>
+				</options>
+			</var>
+			<var name="share_article_kakao_key" type="text">
+				<title xml:lang="ko">카카오톡 공유를 위한 Javascript Key</title>
+				<description xml:lang="ko">https://developers.kakao.com 에서 발급받을 수 있습니다.</description>
+			</var>
+			<var name="share_article_custom" type="textarea">
+				<title xml:lang="ko">커스텀 영역 코드 입력 (내용 입력시 추천/비추천 하단에 출력)</title>
+			</var>
+			<var name="article_navi" type="radio">
+				<title xml:lang="ko">이전글 다음글 표시</title>
+				<options value="">
+					<title xml:lang="ko">사용 (기본값)</title>
+				</options>
+				<options value="n">
+					<title xml:lang="ko">사용 안함</title>
+				</options>
+			</var>
+			<var name="voteblame" type="radio">
+				<title xml:lang="ko">추천/비추천란 표시</title>
+				<description xml:lang="ko">다른 모듈 혹은 애드온을 이용하여 추천/비추천을 할 경우에 사용 안함으로 설정할 수 있습니다.</description>
+				<options value="">
+					<title xml:lang="ko">사용 (기본값)</title>
+				</options>
+				<options value="n">
+					<title xml:lang="ko">사용 안함</title>
+				</options>
+			</var>
+			<var name="voteblame_confirm" type="radio">
+				<title xml:lang="ko">추천/비추천시 확인창 띄우기</title>
+				<description xml:lang="ko">실수로 추천/비추천 버튼을 누를 경우를 대비하여 확인을 합니다.</description>
+				<options value="">
+					<title xml:lang="ko">사용 (기본값)</title>
+				</options>
+				<options value="n">
+					<title xml:lang="ko">사용 안함</title>
+				</options>
+			</var>
+			<var name="signature" type="radio">
+				<title xml:lang="ko">서명란 표시</title>
+				<options value="">
+					<title xml:lang="ko">사용 (기본값)</title>
+				</options>
+				<options value="n">
+					<title xml:lang="ko">사용 안함</title>
+				</options>
+			</var>
+			<var name="signature_center" type="radio">
+				<title xml:lang="ko">서명란 가운데 정렬</title>
+				<options value="y">
+					<title xml:lang="ko">사용</title>
+				</options>
+				<options value="">
+					<title xml:lang="ko">사용 안함 (기본값)</title>
+				</options>
+			</var>
+			<var name="signature_profile" type="radio">
+				<title xml:lang="ko">서명란에 프로필 사진</title>
+				<options value="">
+					<title xml:lang="ko">사용 (기본값)</title>
+				</options>
+				<options value="n">
+					<title xml:lang="ko">사용 안함</title>
+				</options>
+			</var>
+			<var name="update_log" type="radio">
+				<title xml:lang="ko">게시글 수정 내역</title>
+				<options value="y">
+					<title xml:lang="ko">사용</title>
+				</options>
+				<options value="">
+					<title xml:lang="ko">사용 안함 (기본값)</title>
+				</options>
+			</var>
+			<var name="responsive_video" type="radio">
+				<title xml:lang="ko">본문 내 영상 크기 반응형</title>
+				<description xml:lang="ko"></description>
+				<options value="">
+					<title xml:lang="ko">사용 (기본값)</title>
+				</options>
+				<options value="n">
+					<title xml:lang="ko">사용 안함</title>
+				</options>
+			</var>
+			<var name="show_list" type="radio">
+				<title xml:lang="ko">게시글 하단 목록</title>
+				<description xml:lang="ko"></description>
+				<options value="">
+					<title xml:lang="ko">사용 (기본값)</title>
+				</options>
+				<options value="n">
+					<title xml:lang="ko">사용 안함</title>
+				</options>
+			</var>
+		</group>
+		<group>
+			<title xml:lang="ko">게시글 쓰기 설정</title>
+			<var name="writeform_category_default" type="radio">
+				<title xml:lang="ko">첫째 분류 기본 선택 (분류 없음 없애기)</title>
+				<options value="y">
+					<title xml:lang="ko">사용</title>
+				</options>
+				<options value="">
+					<title xml:lang="ko">사용 안함 (기본값)</title>
+				</options>
+			</var>
+			<var name="writeform_category_disable" type="radio">
+				<title xml:lang="ko">분류 선택 막기. 사용할 경우 관리자만 분류를 선택할 수 있습니다. (첫째 분류 기본 선택과 반드시 함께 사용해야 합니다.)</title>
+				<description xml:lang="ko"></description>
+				<options value="y">
+					<title xml:lang="ko">사용</title>
+				</options>
+				<options value="">
+					<title xml:lang="ko">사용 안함 (기본값)</title>
+				</options>
+			</var>
+			<var name="writeform_secret" type="radio">
+				<title xml:lang="ko">비밀글 기본체크</title>
+				<description xml:lang="ko"></description>
+				<options value="y">
+					<title xml:lang="ko">사용</title>
+				</options>
+				<options value="">
+					<title xml:lang="ko">사용 안함 (기본값)</title>
+				</options>
+			</var>
+			<var name="writeform_default_content" type="textarea">
+				<title xml:lang="ko">글 입력시 기본 서식. HTML 가능.</title>
+				<description xml:lang="ko"></description>
+			</var>
+		</group>
+		<group>
+			<title xml:lang="ko">댓글 입력 설정</title>
+			<var name="comment_form_location" type="radio">
+				<title xml:lang="ko">댓글창 위치</title>
+				<options value="">
+					<title xml:lang="ko">댓글 목록 상단 (기본값)</title>
+				</options>
+				<options value="bottom">
+					<title xml:lang="ko">댓글 목록 하단</title>
+				</options>
+				<options value="none">
+					<title xml:lang="ko">사용 안함</title>
+				</options>
+			</var>
+			<var name="comment_write_type" type="radio">
+				<title xml:lang="ko">댓글 입력 방식</title>
+				<description xml:lang="ko">기본 값일 뿐 실제 댓글창에서는 사용자가 전환할 수 있습니다.</description>
+				<options value="">
+					<title xml:lang="ko">Textarea 사용 (기본값)</title>
+				</options>
+				<options value="wysiwyg">
+					<title xml:lang="ko">WYSIWYG Editor 사용</title>
+				</options>
+			</var>
+			<var name="recomment_write_type" type="radio">
+				<title xml:lang="ko">대댓글 입력 방식</title>
+				<options value="">
+					<title xml:lang="ko">Textarea 사용 (간편입력, 기본값)</title>
+				</options>
+				<options value="wysiwyg">
+					<title xml:lang="ko">WYSIWYG Editor 사용</title>
+				</options>
+			</var>
+		</group>
+		<group>
+			<title xml:lang="ko">댓글 보기 설정</title>
+			<var name="comment_list_recomment_mark" type="radio">
+				<title xml:lang="ko">대댓글 대상 표시</title>
+				<description xml:lang="ko">대댓글에 한글 기준 "~~님께"라고 알려줍니다. 자기 자신에게 쓴 대댓글에는 표시되지 않습니다. 대댓글 작성시에는 항상 표시됩니다.</description>
+				<options value="">
+					<title xml:lang="ko">댓글 바깥 상단 (기본값)</title>
+				</options>
+				<options value="inline">
+					<title xml:lang="ko">댓글 내부에 인라인</title>
+				</options>
+				<options value="n">
+					<title xml:lang="ko">사용 안함</title>
+				</options>
+			</var>
+			<var name="comment_list_profile" type="radio">
+				<title xml:lang="ko">댓글 목록에 프로필 사진</title>
+				<options value="">
+					<title xml:lang="ko">사용 (기본값)</title>
+				</options>
+				<options value="n">
+					<title xml:lang="ko">사용 안함</title>
+				</options>
+			</var>
+		</group>
+		<group>
+			<title xml:lang="ko">분류 확장 기능 1: 커스텀 스타일</title>
+			<var name="category_style_common" type="textarea">
+				<title xml:lang="ko">분류에 공통적으로 적용시킬 스타일 (;로 구분하여 입력)</title>
+			</var>
+			<var name="category_style_custom" type="textarea">
+				<title xml:lang="ko">분류 번호, 스타일 입력 (분류와 스타일은 |로 구분, 스타일은 ;로 구분, 한 줄에 분류 하나씩 입력)</title>
+			</var>
+		</group>
+		<group>
+			<title xml:lang="ko">사용자 정의 변수 확장 기능 1: 커스텀 스타일</title>
+			<var name="exval_style_custom" type="textarea">
+				<title xml:lang="ko">변수 항목 이름, 스타일 입력 (항목과 스타일은 |로 구분, 스타일은 ;로 구분, 한 줄에 항목 하나씩 입력)</title>
+			</var>
+			<var name="exval_style_common" type="textarea">
+				<title xml:lang="ko">위 입력한 항목에 공통적으로 적용시킬 스타일 (;로 구분하여 입력)</title>
+			</var>
+		</group>
+		<group>
+			<title xml:lang="ko">사용자 정의 변수 확장 기능 2: 이미지 교체</title>
+			<var name="exval_image" type="textarea">
+				<title xml:lang="ko">변수 항목 이름, 이미지 URL 입력 (항목과 이미지 URL은 |로 구분, 한 줄에 항목 하나씩 입력)</title>
+			</var>
+			<var name="exval_image_style" type="textarea">
+				<title xml:lang="ko">위 입력한 항목에 표시될 이미지에 공통적으로 적용시킬 스타일 (;로 구분하여 입력)</title>
+			</var>
+		</group>
+		<group>
+			<title xml:lang="ko">게시글 단어 to 링크 치환 기능 (thanks to 라라펠님, https://xetown.com/rxe_tip/914022 참조)</title>
+			<var name="autoreplace_use" type="radio">
+				<title xml:lang="ko">치환 기능 사용</title>
+				<options value="y">
+					<title xml:lang="ko">사용</title>
+				</options>
+				<options value="">
+					<title xml:lang="ko">사용 안함 (기본값)</title>
+				</options>
+			</var>
+			<var name="autoreplace_text" type="textarea">
+				<title xml:lang="ko">치환 내용 ( 쉼표(,) 로 구분, 줄바꿈으로 새 규칙 )</title>
+			</var>
+		</group>
+		<group>
+			<title xml:lang="ko">기타 설정</title>
+			<var name="signin_helper" type="text">
+				<title xml:lang="ko">로그인 유도 도우미</title>
+				<description xml:lang="ko">게시판에서 로그인 페이지로 연결되는 버튼이나 영역을 모달이나 사이드바를 이용한 로그인 방식과 연동시킵니다. 모달이나 사이드바를 실행하는 버튼의 고유한 ID나 Class 명을 입력해 주세요. 공백이면 기본 로그인 페이지로 연결됩니다. (ID와 Class를 인지하기 위해 #이나 .까지 입력해야 합니다.)</description>
+			</var>
+			<var name="etc_forbid" type="radio">
+				<title xml:lang="ko">우클릭, 드래그, 선택 금지 기능</title>
+				<description xml:lang="ko"></description>
+				<options value="y">
+					<title xml:lang="ko">사용</title>
+				</options>
+				<options value="">
+					<title xml:lang="ko">사용 안함 (기본값)</title>
+				</options>
+			</var>
+			<var name="etc_custom_css" type="textarea">
+				<title xml:lang="ko">사용자 정의 스타일</title>
+				<description xml:lang="ko">현재 게시판에 적용시킬 css style를 입력해 주세요.</description>
+			</var>
+			<var name="etc_custom_css_file" type="radio">
+				<title xml:lang="ko">사용자 정의 스타일</title>
+				<description xml:lang="ko">모든 게시판에 일괄 적용하려면 게시판 스킨 폴더에 custom.css를 작성하신 후에 해당 파일을 활성화 바랍니다. RHYMIX의 경우 custom.scss를 작성하셔도 됩니다.</description>
+				<options value="css">
+					<title xml:lang="ko">custom.css</title>
+				</options>
+				<options value="scss">
+					<title xml:lang="ko">custom.scss</title>
+				</options>
+				<options value="">
+					<title xml:lang="ko">사용 안함 (기본값)</title>
+				</options>
+			</var>
+		</group>
+	</extra_vars>
+</skin>

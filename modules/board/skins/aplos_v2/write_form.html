@@ -1,0 +1,189 @@
+<include target="_config.html" />
+
+<div class="board-wrapper">
+	<div class="absc article-write rs">
+		<form action="./" method="post" onsubmit="return procFilter(this, window.insert)" class="write-form">
+			<input type="hidden" name="mid" value="{$mid}" />
+			<input type="hidden" name="content" value="<!--@if($oDocument->getContentText())-->{$oDocument->getContentText()}<!--@else-->{htmlspecialchars($mi->writeform_default_content)}<!--@end-->" />
+			<input type="hidden" name="document_srl" value="{$document_srl}" />
+			<div class="wf-section wfs-option">
+				<h3 class="wf-section-title">{$lang->setting}</h3>
+				<block cond="$grant->manager">
+					<input type='text' name="title_color" id="title_color" value="{$oDocument->get('title_color')}"|cond="$oDocument->get('title_color')!='N'" />
+				</block>
+				<span class="ab-checkbox">
+					<input cond="$grant->manager" type="checkbox" name="is_notice" value="Y" checked="checked"|cond="$oDocument->isNotice()" id="is_notice" />
+					<label cond="$grant->manager" for="is_notice" class="ab-btn">{$lang->notice}</label>
+				</span>
+				<span cond="$grant->manager" class="ab-checkbox">
+					<span style="display: inline-block;"><input type="checkbox" name="title_bold" id="title_bold" value="Y" checked="checked"|cond="$oDocument->get('title_bold')=='Y'" />
+					<label for="title_bold" class="ab-btn">{$lang->title_bold}</label></span>
+				</span>
+				<span class="ab-checkbox">
+					<input type="checkbox" name="comment_status" value="ALLOW" checked="checked"|cond="$oDocument->allowComment()" id="comment_status" />
+					<label for="comment_status" class="ab-btn">{$lang->allow_comment}</label>
+				</span>
+				<span class="ab-checkbox">
+					<input type="checkbox" name="allow_trackback" value="Y" checked="checked"|cond="$oDocument->allowTrackback()" id="allow_trackback" />
+					<label for="allow_trackback" class="ab-btn">{$lang->allow_trackback}</label>
+				</span>
+				<span class="ab-checkbox" cond="$is_logged">
+					<input type="checkbox" name="notify_message" value="Y" checked="checked"|cond="$oDocument->useNotify()" id="notify_message" />
+					<label for="notify_message" class="ab-btn">{$lang->notify}</label>
+				</span>
+				<!--@if(is_array($status_list))-->
+					<!--@foreach($status_list AS $key=>$value)-->
+					<span class="ab-checkbox" cond="$mi->writeform_secret == ''">
+						<input type="radio" name="status" value="{$key}" id="{$key}" <!--@if($oDocument->get('status') == $key || ($key == 'PUBLIC' && !$document_srl))-->checked="checked"<!--@end--> />
+						<label for="{$key}" class="ab-btn">{$value}</label>
+					</span>
+					<span class="ab-checkbox" cond="$mi->writeform_secret == 'y'">
+						<input type="radio" name="status" value="{$key}" id="{$key}" <!--@if($oDocument->get('status') == $key || ($key == 'SECRET' && !$document_srl))-->checked="checked"<!--@end--> />
+						<label for="{$key}" class="ab-btn">{$value}</label>
+					</span>
+					<!--@end-->
+				<!--@end-->
+			</div>
+			<div class="wf-section wfs-header clear">
+				<div class="wfsh-category" cond="$module_info->use_category=='Y'">
+					<h3 class="wf-section-title">{$lang->category}</h3>
+					<select id="category" name="category_srl">
+						<!--@if($mi->writeform_category_default=='')-->
+							<option value="">{$lang->no_category}</option>
+						<!--@end-->
+						<option loop="$category_list => $val" disabled="disabled"|cond="!$val->grant" value="{$val->category_srl}" selected="selected"|cond="$val->grant&&$val->selected||$val->category_srl==$oDocument->get('category_srl')">
+							{str_repeat("&nbsp;&nbsp;",$val->depth)} {$val->title}
+						</option>
+					</select>
+				</div>
+				<div class="wfsh-title" style="width: 100%;"|cond="$module_info->use_category!='Y'">
+					<h3 class="wf-section-title">{$lang->title}</h3>
+					<input cond="$oDocument->getTitleText()" type="text" name="title" class="wf-input" title="{$lang->title}"<!--@if(defined('RX_VERSION'))--> value="{escape($oDocument->getTitleText(), false)}"<!--@else--> value="{htmlspecialchars($oDocument->getTitleText())}"<!--@end-->style="<!--@if($oDocument->get('title_color')!='N')-->color: #{$oDocument->get('title_color')};<!--@end--><!--@if($oDocument->get('title_bold')=='Y')-->font-weight: bold;<!--@end-->" />
+					<input cond="!$oDocument->getTitleText()" type="text" name="title" class="wf-input" title="{$lang->title}" placeholder="{$lang->input_title}" />
+				</div>
+			</div>
+			<div class="wf-section wfs-ex" cond="count($extra_keys)" style="display: none;"|cond="($mi->writeform_exvar == 'admin' && !$grant->manager)">
+				<h3 class="wf-section-title">{$lang->input_extra_form}</h3>
+				<table class="wfs-ex-table" cond="count($extra_keys)" summary="Extra Form">
+				<block loop="$extra_keys=>$key,$val">
+					<tr>
+						<th scope="row"><block cond="$val->is_required=='Y'">*</block> {$val->name}</th>
+						<td>{$val->getFormHTML()}</td>
+					</tr>
+				</block>
+				</table>
+				<span class="is_req align-right ab-point-color">* : {$lang->is_required}</span>
+			</div>
+			<div class="wf-section wfs-editor">
+				<h3 class="wf-section-title" style="margin-bottom: 0.5em;">{$lang->content}</h3>
+				{$oDocument->getEditor()}
+			</div>
+			<div class="wf-section wfs-tags">
+				<h3 class="wf-section-title">{$lang->tag}</h3>
+				<input type="text" name="tags" id="tags" value="{htmlspecialchars($oDocument->get('tags'))}" class="wf-input" title="Tag" placeholder="{$lang->tag} [{$lang->about_tag}]" />
+			</div>
+			<div class="wf-section wfs-author clear" cond="!$is_logged">
+				<span class="non-member-input">
+					<span>{$lang->writer}</span><input type="text" name="nick_name" id="userName" class="iText userName"  value="{htmlspecialchars($oDocument->get('nick_name'))}" placeholder="{$lang->writer}" />
+				</span><span class="non-member-input">
+					<span>{$lang->password}</span><input type="password" name="password" id="userPw" class="iText userPw" placeholder="{$lang->password}" />
+				</span>
+			</div>
+			<div>
+				<span class="item" cond="$oDocument->get('document_srl') && $module_info->update_log == 'Y'">
+					<label for="reason_update" class="iLabel">{$lang->reason_update}</label>
+					<input type="text" name="reason_update" id="reason_update" value="" class="iText" style="width:300px" title="reason update" />
+				</span>
+			</div>
+			<div class="wf-section write_captcha" cond="$captcha">
+				{$captcha}
+			</div>
+			<div class="wf-section wfs-tool clear">
+				<block cond="!$oDocument->isExists() || $oDocument->get('status') == 'TEMP'">
+					<button cond="$is_logged" class="ab-btn" type="button" onclick="doDocumentSave(this);">{$lang->cmd_temp_save}</button>
+					<button cond="$is_logged" class="ab-btn" type="button" onclick="doDocumentLoad(this);">{$lang->cmd_load}</button>
+				</block>
+				<button id="cmd_reg" type="submit" class="ab-btn<!--@if($mi->write_btn_style == 'border')--> ab-point-bacolor ab-border-1 ab-point-color<!--@elseif($mi->write_btn_style == 'fill')--> ab-point-bgcolor ab-text-white<!--@else--> ab-point-color<!--@end--> fr" onclick="correctColorValue()">{$lang->cmd_registration}</button>
+			</div>
+		</form>
+	</div>
+</div>
+
+<style>
+	@media screen and (max-width: 768px) {
+		.xefu-dropzone-message{
+			display: none !important;
+		}
+		.upload_info {
+			display: inline-block !important;
+			margin: 0 !important;
+			margin-left: 5px !important;
+		}
+	}
+</style>
+
+<load target="assets/js/spectrum.js" />
+
+<script type="text/javascript">
+
+var $ = jQuery;
+
+$("#title_color").spectrum({
+  showPaletteOnly: true,
+	preferredFormat: "hex",
+  togglePaletteOnly: true,
+  togglePaletteMoreText: '{$lang->color_picker_more}',
+  togglePaletteLessText: '{$lang->color_picker_less}',
+  chooseText: "{$lang->color_picker_choose}",
+  cancelText: "{$lang->color_picker_cancel}",
+	hideAfterPaletteSelect:true,
+	showInput: true,
+	containerClassName: 'title-color-picker-modal',
+	replacerClassName: 'title-color-picker',
+  move: function (color) {
+      updateColor(color);
+  },
+  show: function () {
+
+  },
+  beforeShow: function () {
+
+  },
+  hide: function (color) {
+      updateColor(color);
+  },
+  palette: [
+		["#000000", "#434343", "#666666", "#999999", "#b7b7b7", "#cccccc", "#d9d9d9", "#efefef", "#f3f3f3", "#ffffff"],
+    ["#980000", "#ff0000", "#ff9900", "#ffff00", "#00ff00", "#00ffff", "#4a86e8", "#0000ff", "#9900ff", "#ff00ff"],
+    ["#e6b8af", "#f4cccc", "#fce5cd", "#fff2cc", "#d9ead3", "#d9ead3", "#c9daf8", "#cfe2f3", "#d9d2e9", "#ead1dc"],
+    ["#dd7e6b", "#ea9999", "#f9cb9c", "#ffe599", "#b6d7a8", "#a2c4c9", "#a4c2f4", "#9fc5e8", "#b4a7d6", "#d5a6bd"],
+    ["#cc4125", "#e06666", "#f6b26b", "#ffd966", "#93c47d", "#76a5af", "#6d9eeb", "#6fa8dc", "#8e7cc3", "#c27ba0"],
+    ["#a61c00", "#cc0000", "#e69138", "#f1c232", "#6aa84f", "#45818e", "#3c78d8", "#3d85c6", "#674ea7", "#a64d79"],
+    ["#85200c", "#990000", "#b45f06", "#bf9000", "#38761d", "#134f5c", "#1155cc", "#0b5394", "#351c75", "#741b47"],
+    ["#5b0f00", "#660000", "#783f04", "#7f6000", "#274e13", "#0c343d", "#1c4587", "#073763", "#20124d", "#4c1130"]
+	],
+});
+
+function updateColor(color) {
+    var hexColor = "transparent";
+    if(color) {
+        hexColor = color.toHexString();
+    }
+		$("input[name=title]").css("color", hexColor);
+		hexColor = hexColor.replace('#','');
+		$("#title_color").val(hexColor);
+}
+
+$("input[name=title_bold]").change(function(){
+	if ($(this).is(":checked")) {
+	  $("input[name=title]").css("font-weight", "bold");
+	} else {
+	  $("input[name=title]").css("font-weight", "normal");
+	}
+});
+
+<!--@if($mi->writeform_category_disable=='y' && !$grant->manager)-->
+	$(".wfsh-category option").not(":selected").remove();
+<!--@end-->
+
+</script>

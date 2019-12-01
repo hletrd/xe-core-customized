@@ -1,0 +1,11 @@
+<include target="_config.html" />
+
+<div class="board-wrapper">
+	<div class="absc ab-message rs">
+		<h1>{$message}</h1>
+		<div class="ab-message-tool">
+			<a cond="!$is_logged" class="ab-btn ab-point-color"<!--@if($mi->signin_helper == '')--> href="{getUrl('act','dispMemberLoginForm')}"<!--@else--> onclick="jQuery('{$mi->signin_helper}').trigger('click');" style="cursor: pointer;"<!--@end-->>{$lang->cmd_login}</a>
+			<button class="ab-btn" type="button" onclick="history.back();">{$lang->cmd_back}</button>
+		</div>
+	</div>
+</div>

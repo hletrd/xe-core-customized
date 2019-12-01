@@ -1,0 +1,7 @@
+{@
+	$category_style_custom = "";
+	if (in_array($category_list[$document->get('category_srl')]->category_srl,$category_custom_list)):
+		$category_style_custom = $category_custom_style[array_search($category_list[$document->get('category_srl')]->category_srl,$category_custom_list)];
+	endif;
+	}
+	<span cond="$timeline_info && !in_array($listStyle, array('table')) && $mi->category_timeline==''" class="category<!--@if(in_array($listStyle, array('webzine', 'masonry')) && $mi->webzine_category_style == 'block')--> style-block<!--@end-->">{$modules_info[$document->get('module_srl')]->browser_title}</span><span cond="$category_list[$document->get('category_srl')]->title" class="category<!--@if(in_array($listStyle, array('webzine', 'masonry')) && $mi->webzine_category_style == 'block')--> style-block<!--@end-->" style="<!--@if($category_list[$document->get('category_srl')]->color)-->color:{$category_list[$document->get('category_srl')]->color};<!--@end-->{$mi->category_style_common};{$category_style_custom}">{$category_list[$document->get('category_srl')]->title}</span>

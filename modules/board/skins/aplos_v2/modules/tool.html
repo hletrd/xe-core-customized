@@ -1,0 +1,22 @@
+<div class="fl">
+	<a class="ab-btn" data-remodal-target="search">{$lang->cmd_search}</a>
+	<span class="ab-order-form">
+		<a class="ab-btn showPopover">{$lang->order}</a>
+		<!-- Order Popup -->
+			<div id="ab_order_form_{$toolLoc}" class="ab-popover order {$toolLoc}">
+				<ul>
+					<li><a href="{getUrl('sort_index','regdate','order_type',$order_type)}" class="ab-btn">{$lang->order_date}</a></li>
+					<li><a href="{getUrl('sort_index','readed_count','order_type',$order_type)}" class="ab-btn">{$lang->order_readed}</a></li>
+					<li cond="$val->type=='voted_count' && $val->idx==-1"><a href="{getUrl('sort_index','voted_count','order_type',$order_type)}" class="ab-btn">{$lang->order_voted}</a></li>
+					<li><a href="{getUrl('sort_index','comment_count','order_type',$order_type)}" class="ab-btn">{$lang->order_comment}</a></li>
+				</ul>
+			</div>
+		<!--/Order Popup -->
+	</span>
+</div>
+
+<div class="fr" cond="$listStyle != 'faq' || ($listStyle == 'faq' && $grant->manager )">
+	<a href="{getUrl('','module','document','act','dispDocumentManageDocument')}" class="ab-btn" onclick="popopen(this.href,'manageDocument'); return false;" cond="$toolLoc == 'bottom' && $grant->manager">{$lang->cmd_manage_document}</a>
+	<a href="{getUrl('act','dispBoardAdminBoardInfo')}" class="ab-btn" cond="$toolLoc == 'top' && $grant->manager">{$lang->cmd_setup}</a>
+	<a cond="$mi->write_btn_show == 'a' || ($mi->write_btn_show == '' && $grant->write_document)" <!--@if($mi->writeform_category_disable=='')-->href="{getUrl('act','dispBoardWrite','document_srl','')}"<!--@else-->href="{getUrl('act','dispBoardWrite','category','','document_srl','')}"<!--@end--> class="ab-btn-write ab-btn<!--@if($mi->write_btn_style == 'border')--> ab-point-bacolor ab-border-1 ab-point-color<!--@elseif($mi->write_btn_style == 'fill')--> ab-point-bgcolor ab-text-white<!--@else--> ab-point-color<!--@end--><!--@if(!$grant->write_document)--> ab-disabled<!--@end-->"<!--@if(!$grant->write_document)--> onclick="alert('{$lang->msg_not_permitted}'); return false;"<!--@end-->>{$lang->cmd_write}</a>
+</div>

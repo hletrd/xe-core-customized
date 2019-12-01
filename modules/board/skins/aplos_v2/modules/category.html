@@ -1,0 +1,66 @@
+{@
+	if ($mi->category_count == ''):
+		if ($grant->manager):
+			$category_count = true;
+		else:
+			$category_count = false;
+		endif;
+	elseif ($mi->category_count == 'y'):
+		$category_count = true;
+	else:
+		$category_count = false;
+	endif;
+}
+<!--@if($timeline_info)-->
+	<ul class="lv-1" style="display: flex;"|cond="$mi->category_show_type == 'hor'">
+		<li class="lv-1-item <!--@if($mi->category_show == 'y')-->category_style_1 ab-point-bbcolor-hover<!--@if($mi->module_srl == $module_srl || !$module_srl)--> ab-point-bbcolor<!--@end--><!--@elseif($mi->category_show == 'y_2')-->category_style_2 ab-point-bacolor-hover<!--@if($mi->module_srl == $module_srl || !$module_srl)--> ab-point-bgcolor ab-point-bacolor<!--@end--><!--@elseif($mi->category_show == 'y_n')--> category_style_custom<!--@end--><!--@if($mi->module_srl == $module_srl || !$module_srl)--> on<!--@end-->"><a class="ab-btn" href="{getUrl('module_srl', '')}">{$lang->total}</a></li><!--@if($mi->category_show_type == 'hor')--><div class="hor"><!--@end--><li class="lv-1-item <!--@if($mi->category_show == 'y')-->category_style_1 ab-point-bbcolor-hover<!--@if($val->module_srl == $module_srl)--> ab-point-bbcolor<!--@end--><!--@elseif($mi->category_show == 'y_2')-->category_style_2 ab-point-bacolor-hover<!--@if($val->module_srl == $module_srl)--> ab-point-bgcolor ab-point-bacolor<!--@end--><!--@elseif($mi->category_show == 'y_n')--> category_style_custom<!--@end--><!--@if($val->module_srl == $module_srl)--> on<!--@end--><!--@if(count($val->children))--><!--@if(!Mobile::isMobileCheckByAgent())--> hover<!--@end--><!--@end-->" loop="$modules_info => $key,$val" cond="$val->module_srl != $mi->module_srl">
+{@
+	$cate_list_tl = array();
+	$current_key = null;
+	$category_list = getModel('document')->getCategoryList($val->module_srl);
+	foreach ($category_list as $k=>$v) :
+		if (!$v->depth):
+			$cate_list_tl[$k] = $v;
+			$cate_list_tl[$k]->children = array();
+			$current_key = $k;
+		elseif ($current_key):
+			$cate_list_tl[$current_key]->children[] = $v;
+		endif;
+	endforeach;
+}
+			<a class="ab-btn" href="{getUrl('module_srl', $val->module_srl, 'category', '')}">{$val->browser_title}</a><a cond="$cate_list_tl" class="ab-btn"><i class="fas fa-caret-down" aria-hidden="true"></i></a>
+			<div cond="$cate_list_tl" id="lv_2_box" class="lv2_{$val->category_srl}">
+				<ul class="lv-2">
+					<li loop="$cate_list_tl=>$k,$v" class="<!--@if($category==$v->category_srl)-->on<!--@end-->"><a href="{getUrl('module_srl',$val->module_srl,'category',$v->category_srl,'document_srl','', 'page', '')}" class="ab-point-color"|cond="$mi->category_show == 'y' && $category==$v->category_srl" class="ab-text-white ab-point-bgcolor ab-point-bacolor"|cond="$mi->category_show == 'y_2' && $category==$v->category_srl">{$v->title}</a></li>
+				</ul>
+			</div>
+		</li><!--@if($mi->category_show_type == 'hor')--></div><!--@end-->
+	</ul>
+<!--@else-->
+	<ul class="lv-1" style="display: flex;"|cond="$mi->category_show_type == 'hor'">
+		<li class="lv-1-item <!--@if($mi->category_show == 'y')-->category_style_1 ab-point-bbcolor-hover<!--@if(!$category)--> ab-point-bbcolor<!--@end--><!--@elseif($mi->category_show == 'y_2')-->category_style_2 ab-point-bacolor-hover<!--@if(!$category)--> ab-point-bgcolor ab-point-bacolor<!--@end--><!--@elseif($mi->category_show == 'y_n')--> category_style_custom<!--@end--><!--@if(!$category)--> on<!--@end-->"><a class="ab-btn" href="{getUrl('category','','page','')}"><!--@if($mi->p_exvalsearch == 'y')-->{$lang->category}: <!--@end-->{$lang->total}<span cond="$category_count" class="ab-point-color" style="margin-left: 0.25em;"> {$article_count->total}</span></a></li><!--@if($mi->category_show_type == 'hor')--><div class="hor"><!--@end--><li class="lv-1-item <!--@if($mi->category_show == 'y')-->category_style_1 ab-point-bbcolor-hover<!--@if($category==$val->category_srl)--> ab-point-bbcolor<!--@end--><!--@elseif($mi->category_show == 'y_2')-->category_style_2 ab-point-bacolor-hover<!--@if($category==$val->category_srl)--> ab-point-bgcolor ab-point-bacolor<!--@end--><!--@elseif($mi->category_show == 'y_n')--> category_style_custom<!--@end--><!--@if($category==$val->category_srl)--> on<!--@end--><!--@if(count($val->children))--><!--@if(!Mobile::isMobileCheckByAgent())--> hover<!--@end--><!--@end-->" loop="$cate_list=>$key,$val">
+			<a class="ab-btn" href="{getUrl(category,$val->category_srl,'document_srl','', 'page', '')}">{$val->title}<span cond="$category_count" class="ab-point-color" style="margin-left: 0.25em;"> {$val->document_count}</span></a><a cond="count($val->children)" class="ab-btn"><i class="fas fa-caret-down" aria-hidden="true"></i></a>
+			<div cond="count($val->children)" id="lv_2_box" class="lv2_{$val->category_srl}">
+				<ul class="lv-2">
+					<li loop="$val->children=>$idx,$item" class="<!--@if($category==$item->category_srl)-->on<!--@end-->"><a href="{getUrl('category',$item->category_srl,'document_srl','', 'page', '')}" class="ab-point-color"|cond="$mi->category_show == 'y' && $category==$item->category_srl" class="ab-text-white ab-point-bgcolor ab-point-bacolor"|cond="$mi->category_show == 'y_2' && $category==$item->category_srl">{$item->title}<span cond="$category_count" class="ab-point-color"> {$item->document_count}</span></a></li>
+				</ul>
+			</div>
+		</li><!--@if($mi->category_show_type == 'hor')--></div><!--@end-->
+	</ul>
+<!--@end-->
+
+
+<script>
+<!--@if($mi->category_show == 'y')-->
+	$('.lv-2 > li.on').parents('li:first').addClass('ab-point-bbcolor');
+<!--@elseif($mi->category_show == 'y_2')-->
+	$('.lv-2 > li.on').parents('li').addClass('on ab-point-bgcolor ab-point-bacolor');
+<!--@end-->
+	$('.lv-1 > li').hover(
+		function () {
+			$(this).find('div').show();
+		}, function () {
+			$(this).find('div').hide();
+		}
+  );
+</script>

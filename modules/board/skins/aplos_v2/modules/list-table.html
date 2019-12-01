@@ -1,0 +1,115 @@
+<table class="ab-table">
+	<thead cond="$mi->table_head == ''">
+		<!-- Header -->
+		<tr>
+			<block loop="$list_config=>$key,$val">
+			<th scope="col" cond="$val->type=='no' && $val->idx==-1"><span>{$lang->no}</span></th>
+			<block cond="$val->type=='title' && $val->idx==-1">
+			<th cond="$timeline_info && $mi->category_timeline==''">{$lang->board}</th>
+			<th scope="col" cond="$showCategory"><span>{$lang->category}</span></th>
+			<th scope="col" class="title"><span><a href="{getUrl('sort_index','title','order_type',$order_type)}">{$lang->title}<i cond="$sort_index=='title'" class="fa fa-angle-{$order_icon}"></i></a></span></th>
+			</block>
+			<th scope="col" cond="$val->type=='nick_name' && $val->idx==-1" style="display: none;"|cond="!$grant->manager && ($mi->consultation == 'Y' && $mi->table_consultation_author == 'n')"><span>{$lang->writer}</span></th>
+			<th scope="col" cond="$val->type=='user_id' && $val->idx==-1" style="display: none;"|cond="!$grant->manager && ($mi->consultation == 'Y' && $mi->table_consultation_author == 'n')"><span>{$lang->user_id}</span></th>
+			<th scope="col" cond="$val->type=='user_name' && $val->idx==-1" style="display: none;"|cond="!$grant->manager && ($mi->consultation == 'Y' && $mi->table_consultation_author == 'n')"><span>{$lang->user_name}</span></th>
+			<th scope="col" cond="$val->type=='regdate' && $val->idx==-1"><span><a href="{getUrl('sort_index','regdate','order_type',$order_type)}">{$lang->date}<i cond="$sort_index=='regdate'" class="fa fa-angle-{$order_icon}"></i></a></span></th>
+			<th scope="col" cond="$val->type=='last_update' && $val->idx==-1"><span><a href="{getUrl('sort_index','last_update','order_type',$order_type)}">{$lang->last_update}<i cond="$sort_index=='last_update'" class="fa fa-angle-{$order_icon}"></i></a></span></th>
+			<th scope="col" cond="$val->type=='last_post' && $val->idx==-1"><span>{$lang->last_post}</span></th>
+			<th scope="col" cond="$val->type=='readed_count' && $val->idx==-1"><span><a href="{getUrl('sort_index','readed_count','order_type',$order_type)}">{$lang->readed_count}<i cond="$sort_index=='readed_count'" class="fa fa-angle-{$order_icon}"></i></a></span></th>
+			<th scope="col" cond="$val->type=='voted_count' && $val->idx==-1"><span><a href="{getUrl('sort_index','voted_count','order_type',$order_type)}">{$lang->voted_count}<i cond="$sort_index=='voted_count'" class="fa fa-angle-{$order_icon}"></i></a></span></th>
+			<th scope="col" cond="$val->idx!=-1"><span><a href="{getUrl('sort_index',$val->eid,'order_type',$order_type)}">{$val->name}</a></span></th>
+			</block>
+			<th scope="col" cond="$grant->manager"><input class="cart" id="cart_all" type="checkbox" onclick="XE.checkboxToggleAll({ doClick:true });" title="Check All" /><label for="cart_all" class="cart"><i class="far fa-check-circle"></i><i class="fas fa-check-circle"></i></label></th>
+		</tr>
+	</thead>
+	<tbody cond="!$document_list && !$notice_list">
+		<tr>
+			<td colspan="{count($list_config)+1}"|cond="!$grant->manager" colspan="{count($list_config)+2}"|cond="$grant->manager">{$lang->no_documents}</td>
+		</tr>
+	</tbody>
+	<tbody cond="$document_list || $notice_list">
+		<!-- Notice -->
+		<tr class="notice<!--@if($document_srl==$document->document_srl)--> active<!--@end-->" loop="$notice_list=>$no,$document">
+{@
+	$oModuleModel = &getModel('module');
+	$mi_temp = getModel('module')->getModuleInfoByDocumentSrl($document->document_srl);
+	$grant_temp = $oModuleModel->getGrant($mi_temp, $logged_info);
+}
+			<block loop="$list_config=>$key,$val">
+			<td class="no" cond="$val->type=='no' && $val->idx==-1" cond="!$document->get('hot_document')">
+				<block cond="$document_srl==$document->document_srl"><i class="fas fa-map-marker  ab-point-color"></i></block>
+				<block cond="$document_srl!=$document->document_srl">{$lang->notice}</block>
+			</td>
+			<td class="no" cond="$val->type=='no' && $val->idx==-1" cond="$document->get('hot_document')">
+				<span class="document-hot">{$lang->ab_document_hot}</span>
+			</td>
+			<block cond="$val->type=='title' && $val->idx==-1">
+			<td cond="$timeline_info && $mi->category_timeline==''">-</td>
+			<td cond="$showCategory" class="category"><include target="fn_category.html" /></td>
+			<td class="title">
+				<a href="{getUrl('document_srl',$document->document_srl,'cpage','')}">{$document->getTitle($mi->list_title_cut)}</a><a cond="$document->getCommentCount()" href="{getUrl('document_srl', $document->document_srl)}#comment" class="commentNum ab-point-color" title="{$lang->comment}">{$document->getCommentCount()}</a><include cond="$showIconNotice" target="print_icon.html" />
+				<a class="ab-link" href="{getUrl('document_srl',$document->document_srl,'cpage','')}"<!--@if(!$grant_temp->view)--> onclick="alert('{$lang->msg_not_permitted}'); return false;"<!--@end-->></a>
+			</td>
+			</block>
+			<td class="author" cond="$val->type=='nick_name' && $val->idx==-1"><span><a href="#popup_menu_area" class="member_{$document->get('member_srl')}" onclick="return false">{$document->getNickName()}</a></span></td>
+			<td class="author" cond="$val->type=='user_id' && $val->idx==-1"><span>{$document->getUserID()}</span></td>
+			<td class="author" cond="$val->type=='user_name' && $val->idx==-1"><span>{$document->getUserName()}</span></td>
+			<td class="date" cond="$val->type=='regdate' && $val->idx==-1"><!--@if($mi->list_datetype == '')-->{getTimeGap($document->get('regdate'), $dateType)}<!--@else--><!--@if((int)($document->getRegdate('YmdHis')>date('YmdHis', time()-24*60*60)))-->{$document->getRegdate("H:i")}<!--@else-->{$document->getRegdate($dateType)}<!--@end--><!--@end--></td>
+			<td class="date last_update" cond="$val->type=='last_update' && $val->idx==-1">{zdate($document->get('last_update'),'Y.m.d')}</td>
+			<td class="date last_post" cond="$val->type=='last_post' && $val->idx==-1">
+				<!--@if((int)($document->get('comment_count'))>0)-->
+					<a href="{getUrl('document_srl',$document->document_srl)}#{$document->document_srl}_comment" title="{getTimeGap($document->get('last_update'), "H:i")}">{zdate($document->get('last_update'),'Y.m.d')}<block cond="$document->getLastUpdater()"><br><small>(by {$document->getLastUpdater()})</small></block></a>
+				<!--@else-->
+					&nbsp;
+				<!--@end-->
+			</td>
+			<td cond="$val->type=='readed_count' && $val->idx==-1">{$document->get('readed_count')>0?$document->get('readed_count'):'0'}</td>
+			<td cond="$val->type=='voted_count' && $val->idx==-1">{$document->get('voted_count')!=0?$document->get('voted_count'):'0'}</td>
+			<td cond="$val->idx!=-1" class="exval">{$document->getExtraValueHTML($val->idx)}</td>
+			</block>
+			<td cond="$grant->manager" class="check"><input class="cart" id="cart_{$document->document_srl}" type="checkbox" name="cart" value="{$document->document_srl}" title="Check This Article" onclick="doAddDocumentCart(this)" checked="checked"|cond="$document->isCarted()" /><label for="cart_{$document->document_srl}" class="cart"><i class="far fa-check-circle"></i><i class="fas fa-check-circle"></i></label></td>
+		</tr>
+		<!-- Article -->
+		<tr loop="$document_list=>$no,$document" class="active"|cond="$document_srl==$document->document_srl">
+{@
+	$oModuleModel = &getModel('module');
+	$mi_temp = getModel('module')->getModuleInfoByDocumentSrl($document->document_srl);
+	$grant_temp = $oModuleModel->getGrant($mi_temp, $logged_info);
+}
+			<block loop="$list_config=>$key,$val">
+			<td class="no" cond="$val->type=='no' && $val->idx==-1">
+				<block cond="$document_srl==$document->document_srl"><i class="fas fa-map-marker here-mark ab-point-color"></i></block>
+				<block cond="$document_srl!=$document->document_srl">{$no}</block>
+			</td>
+			<block cond="$val->type=='title' && $val->idx==-1">
+			<td cond="$timeline_info && $mi->category_timeline==''"><a href="{getUrl('module_srl', $document->get('module_srl'))}">{$modules_info[$document->get('module_srl')]->browser_title}</a></td>
+			<td cond="$showCategory" class="categoryTD"><include target="fn_category.html" /></td>
+			<td class="title">
+				<a href="{getUrl('document_srl',$document->document_srl,'cpage','')}">{$document->getTitle($mi->list_title_cut)}</a><a cond="$document->getCommentCount()" href="{getUrl('document_srl', $document->document_srl)}#comment" class="commentNum ab-point-color" title="{$lang->comment}">{$document->getCommentCount()}</a><include cond="$showIcon" target="print_icon.html" />
+				<a class="ab-link" href="{getUrl('document_srl',$document->document_srl,'cpage','')}"<!--@if(!$grant_temp->view)--> onclick="alert('{$lang->msg_not_permitted}'); return false;"<!--@end-->></a>
+			</td>
+			</block>
+			<td class="author" cond="$val->type=='nick_name' && $val->idx==-1" style="display: none;"|cond="!$grant->manager && ($mi->consultation == 'Y' && $mi->table_consultation_author == 'n')"><span><a href="#popup_menu_area" class="member_{$document->get('member_srl')}" onclick="return false">{$document->getNickName()}</a></span></td>
+			<td class="author" cond="$val->type=='user_id' && $val->idx==-1"><span>{$document->getUserID()}</span></td>
+			<td class="author" cond="$val->type=='user_name' && $val->idx==-1"><span>{$document->getUserName()}</span></td>
+			<td class="date" cond="$val->type=='regdate' && $val->idx==-1"><!--@if($mi->list_datetype == '')-->{getTimeGap($document->get('regdate'), $dateType)}<!--@else--><!--@if((int)($document->getRegdate('YmdHis')>date('YmdHis', time()-24*60*60)))-->{$document->getRegdate("H:i")}<!--@else-->{$document->getRegdate($dateType)}<!--@end--><!--@end--></td>
+			<td class="date last_update" cond="$val->type=='last_update' && $val->idx==-1">{zdate($document->get('last_update'),'Y.m.d')}</td>
+			<td class="date last_post" cond="$val->type=='last_post' && $val->idx==-1">
+				<!--@if((int)($document->get('comment_count'))>0)-->
+					<a href="{getUrl('document_srl',$document->document_srl)}#{$document->document_srl}_comment" title="{getTimeGap($document->get('last_update'), "H:i")}">{zdate($document->get('last_update'),'Y.m.d')}<block cond="$document->getLastUpdater()"><br><small>(by {$document->getLastUpdater()})</small></block></a>
+				<!--@else-->
+					&nbsp;
+				<!--@end-->
+			</td>
+			<td cond="$val->type=='readed_count' && $val->idx==-1">{$document->get('readed_count')>0?$document->get('readed_count'):'0'}</td>
+			<td cond="$val->type=='voted_count' && $val->idx==-1">{$document->get('voted_count')!=0?$document->get('voted_count'):'0'}</td>
+			<td cond="$val->idx!=-1" class="exval"><include target="fn_exval.html" /></td>
+			</block>
+			<td cond="$grant->manager" class="check"><input class="cart" id="cart_{$document->document_srl}" type="checkbox" name="cart" value="{$document->document_srl}" title="Check This Article" onclick="doAddDocumentCart(this)" checked="checked"|cond="$document->isCarted()" /><label for="cart_{$document->document_srl}" class="cart"><i class="far fa-check-circle"></i><i class="fas fa-check-circle"></i></label></td>
+		</tr>
+	</tbody>
+</table>
+
+<script>
+	$('td.title span[style*="font-weight:bold"]').css('font-weight', '').wrap( '<strong></strong>');
+</script>

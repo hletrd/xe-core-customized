@@ -1,0 +1,68 @@
+<include target="_config.html" />
+
+<div cond="$mi->header_text" class="rs">{$mi->header_text}</div>
+
+<div class="board-wrapper">
+
+	<include cond="$oDocument->isExists()" target="modules/article.html" />
+
+<!--@if($mi->show_list == '' || ( $mi->show_list == 'n' && !$oDocument->isExists() ) )-->
+
+	<div cond="$showHeader" class="absc title rs<!--@if($mi->board_header)--> {$mi->board_header}<!--@end--><!--@if($mi->board_header_align != '')--> align-{$mi->board_header_align}<!--@end-->">
+		<a href="{getUrl('','mid',$mid)}"><span>{$Title}</span><span cond="$mi->board_header_title_total != ''" class="total {$mi->board_header_title_total}">{$article_count->total}</span></a>
+		<p cond="$mi->board_header_desc">{$mi->board_header_desc}</p>
+	</div>
+
+	<div class="absc tool rs clear">
+		{@$toolLoc = 'top';}
+		<include target="modules/tool.html" />
+	</div>
+
+	<div class="absc category rs">
+		<include cond="$mi->category_show != ''" target="modules/category.html" />
+	</div>
+
+	<!--@if($listStyle == "webzine" || $listStyle == "masonry")-->
+		<div class="ab-webzine-cart" cond="$grant->manager">
+			<input class="cart" id="cart_all" type="checkbox" onclick="XE.checkboxToggleAll({ doClick:true });" title="Check All" /><label for="cart_all" class="cart ab-btn"><i class="far fa-check-circle"></i><i class="fas fa-check-circle"></i> {$lang->cmd_select_all}</label>
+		</div>
+	<!--@end-->
+	<div class="absc list rs" style="overflow-x: auto;"|cond="$listStyle == 'table'">
+		<!--@if($listStyle == "table")-->
+			<include target="modules/list-table.html" />
+		<!--@elseif($listStyle == "webzine" || $listStyle == "masonry")-->
+			<include target="modules/list-webzine.html" />
+		<!--@elseif($listStyle == "download")-->
+			<include target="modules/list-download.html" />
+		<!--@elseif($listStyle == "faq")-->
+			<include target="modules/list-faq.html" />
+		<!--@end-->
+	</div>
+
+	<div class="absc tool rs clear">
+		{@$toolLoc = 'bottom';}
+		<include target="modules/tool.html" />
+	</div>
+
+	<div class="absc pgnt rs align-center">
+		<include target="modules/pagination.html" />
+	</div>
+
+<!--@end-->
+
+	<div class="absc copyright rs align-right">
+		<a target="_blank" href="https://macaron.ml"><p>APLOS BOARD 2 FREE LICENSE<br>DESIGN BY MACARON</p></a>
+		<!-- 카피라이트 문구를 수정, 변형 및 제거하는 것은 무료 라이선스 위반입니다. -->
+		<!-- 카피라이트 문구를 제거하시려면 프리미엄 라이선스를 구매해 주시기 바랍니다. -->
+		<!-- 마카롱 테마 웹사이트 : macaron.ml -->
+		<!-- 마카롱 이메일 주소 : master@macaron.ml -->
+		<!-- 구매 문의 : macaron.ml/buyqna -->
+	</div>
+
+	<div class="ab-popover-bg"></div>
+
+	<div cond="$mi->footer_text" class="rs">{$mi->footer_text}</div>
+
+</div>
+
+<include target="modules/modal.html" />

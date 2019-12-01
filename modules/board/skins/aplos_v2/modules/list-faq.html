@@ -1,0 +1,18 @@
+<div class="ab-webzine-cart" cond="$grant->manager">
+	<input class="cart" id="cart_all" type="checkbox" onclick="XE.checkboxToggleAll({ doClick:true });" title="Check All" /><label for="cart_all" class="cart ab-btn"><i class="far fa-check-circle fa-fw"></i><i class="fas fa-check-circle fa-fw"></i> {$lang->cmd_select_all}</label>
+</div>
+<div cond="$document_list" class="clear ab-faq">
+	<div class="ab-faq-item" loop="$document_list=>$no,$document">
+		<div cond="$grant->manager" class="tool-wrapper">
+			<input class="cart" id="cart_{$document->document_srl}" type="checkbox" name="cart" value="{$document->document_srl}" title="Check This Article" onclick="doAddDocumentCart(this)" checked="checked"|cond="$document->isCarted()" /><label for="cart_{$document->document_srl}" class="cart"><i class="far fa-check-circle fa-fw"></i><i class="fas fa-check-circle fa-fw"></i></label>
+		</div>
+		<a class="ab-faq-q"><div class="ab-mark"><i class="fas fa-quote-left fa-fw ab-point-color"></i></div><p>{$document->getTitle()}</p></a>
+		<div class="ab-faq-a">
+			<div cond="$grant->manager" class="tool-wrapper">
+				<a class="ab-btn ab-point-color" href="{getUrl('act','dispBoardWrite','document_srl',$document->document_srl,'comment_srl','')}">{$lang->cmd_modify}</a><a class="ab-btn" href="{getUrl('act','dispBoardDelete','document_srl',$document->document_srl,'comment_srl','')}">{$lang->cmd_delete}</a>
+			</div>
+			{$document->getContent(false)}
+			<div class="ab-mark"><i class="fas fa-quote-right fa-fw ab-point-color"></i></div>
+		</div>
+	</div>
+</div>

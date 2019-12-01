@@ -1,0 +1,110 @@
+<div class="absc comments rs" cond="$CommentWriteLoc != 'none'">
+	<!--@if($CommentWriteLoc == 'top')-->
+		<include target="comment_write.html" />
+	<!--@end-->
+	<div cond="$oDocument->getCommentcount()" class="comments-header" id="comment">
+		<span>{$lang->comment} <span><span class="ab-point-color">{$oDocument->getCommentcount()}</span>
+	</div>
+	<ul cond="$oDocument->getCommentcount()" class="comments-list">
+		<block loop="$oDocument->getComments()=>$key,$comment">
+{@
+	$oModuleModel = getModel('module');
+	$cmt_config = $oModuleModel->getModulePartConfig('comment', $module_info->module_srl);
+  if($comment->get('depth') == '0' || $comment->get('best_comment')=='Y')
+    $comment_margin = '0em';
+  else if($comment->get('depth') == '1')
+    $comment_margin = '2em';
+  else
+    $comment_margin = '4em';
+}
+		<li style="margin-left:{$comment_margin}" class="clear comment-item<!--@if($comment->get('depth'))--> recomment<!--@end--><!--@if($oDocument->get('member_srl') == $comment->get('member_srl'))--> my_comment<!--@end--><!--@if($comment->get('best_comment')=='Y')--> comment-best<!--@end-->" id="comment_{$comment->comment_srl}<!--@if($comment->get('best_comment')=='Y')-->_best<!--@end-->">
+			<block cond="$mi->comment_list_recomment_mark == '' && $comment->get('depth')">{@ $oComment = &getModel('comment');$comment_parent = $oComment->getComment($comment->parent_srl);}<div class="re-comment ab-point-bgcolor" cond="$comment->getNickName() != $comment_parent->getNickName()"><span cond="$lang_type=='ko'"><strong>{$comment_parent->getNickName()}</strong>님께</span><span cond="$lang_type!='ko'">To. {$comment_parent->getNickName()}</span></div></block>
+			<div class="comment-header">
+{@
+	$cmt_deleted = false;
+  $oMemberModel = &getModel('member');
+	$member_info_doc = $oMemberModel->getMemberInfoByMemberSrl(abs($oDocument->get('member_srl')));
+	if ($comment->status == '1'):
+		$cmt_profile_image = $comment->getProfileImage();
+		if ($comment->member_srl != 0):
+			if ($comment->member_srl == $member_info_doc->member_srl):
+				$mycmt = true;
+			else:
+				$mycmt = false;
+			endif;
+		else:
+			if($comment->get('ipaddress') == $oDocument->get('ipaddress')):
+				$mycmt = true;
+			else:
+				$mycmt = false;
+			endif;
+		endif;
+		$cmt_member_srl = $comment->member_srl;
+	elseif ($comment->status == '7' || $comment->status == '8'):
+		$member_info_cmt = $oMemberModel->getMemberInfoByUserId($comment->getUserId());
+		$cmt_profile_image = $member_info_cmt->profile_image->src;
+		if ($member_info_cmt->member_srl != 0):
+			if ($member_info_cmt->member_srl == $member_info_doc->member_srl):
+				$mycmt = true;
+			else:
+				$mycmt = false;
+			endif;
+		else:
+			if($comment->get('ipaddress') == $oDocument->get('ipaddress')):
+				$mycmt = true;
+			else:
+				$mycmt = false;
+			endif;
+		endif;
+		$cmt_member_srl = $member_info_cmt->member_srl;
+		$cmt_deleted = true;
+	endif;
+}
+      			<div class="comment-author">
+					<div cond="$mi->comment_list_profile == ''" class="comment-profile" style="background-image: url('<!--@if($cmt_profile_image)-->{$cmt_profile_image}<!--@else-->{$profileNo}<!--@end-->');"></div><a style="z-index: 2; position: relative;"<!--@if($cmt_member_srl)--> href="#popup_menu_area"<!--@end--> class="<!--@if($cmt_member_srl)-->member_{$cmt_member_srl} <!--@end-->comment-author"<!--@if($comment->get('member_srl'))--> onclick="return false"<!--@end-->>{$comment->getNickName()}<!--@if(!$cmt_member_srl)--> ({$lang->non_member})<!--@end--></a><span class="my-comment ab-point-bacolor ab-point-color" cond="$mi->read_postauthor_mark == '' && $mycmt">{$lang->post_author}</span><span cond="$comment->get('best_comment')=='Y'" class="comment-best-mark">{$lang->ab_comment_best}</span><span class="comment-secret" cond="$comment->isSecret()"><i class="fas fa-lock"></i></span>
+				</div>
+				<span class="comment-date"><span>{getTimeGap($comment->get('regdate'), "Y.n.j H:i")}</span></span>
+				<span class="comment-item-tools<!--@if(!Mobile::isMobileCheckByAgent())--> desktop-hover<!--@end-->"><block cond="$comment->get('best_comment')!='Y'"><a class="comment-item-tool" cond="$oDocument->allowComment()" href="{getUrl('act','dispBoardReplyComment','comment_srl',$comment->comment_srl)}"<!--@if($mi->recomment_write_type=='')--> onclick="reComment({$comment->get('document_srl')},{$comment->get('comment_srl')},'{getUrl('act','dispBoardReplyComment','comment_srl',$comment->comment_srl)}','{$comment->getNickName()}','{$lang_type}');return false;"<!--@end-->>{$lang->cmd_reply}</a><a class="comment-item-tool" cond="!$cmt_deleted && ($comment->isGranted()||!$comment->get('member_srl'))" href="{getUrl('act','dispBoardModifyComment','comment_srl',$comment->comment_srl)}">{$lang->cmd_modify}</a><a class="comment-item-tool" cond="!$cmt_deleted && ($comment->isGranted() || !$comment->get('member_srl'))" href="{getUrl('act','dispBoardDeleteComment','comment_srl',$comment->comment_srl)}">{$lang->cmd_delete}</a><a cond="$comment->hasUploadedFiles()" onclick="jQuery('#comment_file_{$comment->comment_srl}').toggle();" class="comment-item-tool ab-visible">{$lang->uploaded_file} <span class="ab-point-color">{$comment->get('uploaded_count')}</span></a><!--@if(defined('RX_VERSION'))--><block cond="$cmt_config->use_vote_up != 'N'"><a cond="$comment->getVote() > 0"<!--@if($logged_info->member_srl != $comment->get('member_srl'))--> href="#" onclick="doCallModuleAction('comment','procCommentVoteUpCancel','{$comment->comment_srl}');return false;"|cond="$is_logged"<!--@end--> class="comment-item-tool ab-visible">{$lang->cmd_vote} <span class="ab-point-color">{$comment->get('voted_count')}</span></a><a cond="$comment->getVote() === false || $comment->getVote() < 0"<!--@if($logged_info->member_srl != $comment->get('member_srl'))--> href="#" onclick="if (confirm('{$lang->confirm_cmt_vote}')) doCallModuleAction('comment','procCommentVoteUp','{$comment->comment_srl}');return false;"|cond="$is_logged"<!--@end--> class="comment-item-tool ab-visible">{$lang->cmd_vote} <span class="ab-point-color">{$comment->get('voted_count')}</span></a></block><block cond="$cmt_config->use_vote_down != 'N'"><a cond="$comment->getVote() === false || $comment->getVote() > 0"<!--@if($logged_info->member_srl != $comment->get('member_srl'))--> href="#" onclick="if (confirm('{$lang->confirm_cmt_blame}')) doCallModuleAction('comment','procCommentVoteDown','{$comment->comment_srl}');return false;"|cond="$is_logged"<!--@end--> class="comment-item-tool ab-visible">{$lang->cmd_vote_down} <span class="ab-point-color">{$comment->get('blamed_count')}</span></a><a cond="$comment->getVote() < 0"<!--@if($logged_info->member_srl != $comment->get('member_srl'))--> href="#" onclick="doCallModuleAction('comment','procCommentVoteDownCancel','{$comment->comment_srl}');return false;"|cond="$is_logged"<!--@end--> class="comment-item-tool ab-visible">{$lang->cmd_vote_down} <span class="ab-point-color">{$comment->get('blamed_count')}</span></a></block><!--@else--><block cond="$cmt_config->use_vote_up != 'N'"><a href="#" onclick="doCallModuleAction('comment','procCommentVoteUp','{$comment->comment_srl}');return false"|cond="$is_logged" title="{$lang->cmd_vote}" class="comment-item-tool ab-visible">{$lang->cmd_vote} <span class="ab-point-color">{$comment->get('voted_count')?$comment->get('voted_count'):0}</span></a></block><block cond="$cmt_config->use_vote_down != 'N'"><a href="#" onclick="doCallModuleAction('comment','procCommentVoteDown','{$comment->comment_srl}');return false"|cond="$is_logged" title="{$lang->cmd_vote_down}" class="comment-item-tool ab-visible">{$lang->cmd_vote_down} <span class="ab-point-color">{abs($comment->get('blamed_count')?$comment->get('blamed_count'):0)}</span></a></block><!--@end--></block></span>
+				<span class="comment-this" cond="$comment->get('best_comment')!='Y'"><a class="comment-item-tool comment_{$comment->comment_srl} ab-visible" cond="$is_logged" href="#popup_menu_area" onclick="return false"><i class="fas fa-ellipsis-h fa-fw"></i></a></span>
+      </div>
+			<div class="comment-body">
+				<ul cond="$comment->hasUploadedFiles()" class="comment-file" id="comment_file_{$comment->comment_srl}" style="display: none;">
+					<li loop="$comment->getUploadedFiles()=>$key,$file"><a href="{getUrl('')}{$file->download_url}">{$file->source_filename} [{FileHandler::filesize($file->file_size)}/<i class="fa fa-download" aria-hidden="true"></i> {number_format($file->download_count)}]</a></li>
+				</ul>
+	<!--@if(!$cmt_deleted && !$comment->isAccessible())-->
+				<form action="./" method="get" onsubmit="return procFilter(this, input_password)">
+					<input type="hidden" name="mid" value="{$mid}" />
+					<input type="hidden" name="page" value="{$page}" />
+					<input type="hidden" name="document_srl" value="{$comment->get('document_srl')}" />
+					<input type="hidden" name="comment_srl" value="{$comment->get('comment_srl')}" />
+					<h3 class="align-center" style="padding: 1em 0;">{$lang->secret_comment}</h3>
+					<div class="align-center" style="padding:0;">
+						<input style="width: 8em; height: calc(2em + 1px);" type="password" id="cpw_{$comment->comment_srl}" name="password" class="itx" placeholder="{$lang->password}" /><button style="width: 3em;" type="submit" class="ab-btn">{$lang->cmd_input}</button>
+					</div>
+				</form>
+	<!--@else-->
+				<block cond="$mi->comment_list_recomment_mark == 'inline' && $comment->get('depth')">{@ $oComment = getModel('comment');$comment_parent = $oComment->getComment($comment->parent_srl);}<div class="re-comment ab-point-bgcolor" cond="$comment->getNickName() != $comment_parent->getNickName()" style="float: left; margin-bottom: 0; margin-right: 0.5em;"><span style="line-height: 160%;">@{$comment_parent->getNickName()}</span></div></block>
+				<block cond="$cmt_deleted"><!--@if($comment->status == '7')-->{$lang->comment_deleted}<!--@elseif($comment->status == '8')-->{$lang->comment_deleted_by_admin}<!--@end--></block>
+				<block cond="!$cmt_deleted">{$comment->getContent(false)}</block>
+	<!--@end-->
+			</div>
+			<a class="ab-link" href="#comment_{$comment->comment_srl}" cond="$comment->get('best_comment')=='Y'"></a>
+		</li>
+		</block>
+	</ul>
+
+	<!-- Pagination -->
+	<div id="cp_bottom" cond="$oDocument->comment_page_navigation" class="absc pgnt cpage">
+		<a href="{getUrl('cpage',1)}#comment"|cond="$cpage!=1" class="pagination-arrow<!--@if($cpage==1)--> disabled<!--@end-->">{$lang->first_page}</a>
+		<block loop="$page_no=$oDocument->comment_page_navigation->getNextPage()">
+			<strong class="pagination-num" cond="$cpage==$page_no">{$page_no}</strong>
+			<a class="pagination-num" cond="$cpage!=$page_no" href="{getUrl('cpage',$page_no)}#comment">{$page_no}</a>
+		</block>
+		<a href="{getUrl('cpage',$oDocument->comment_page_navigation->last_page)}#comment"|cond="$cpage!=$oDocument->comment_page_navigation->last_page" class="pagination-arrow<!--@if($cpage==$oDocument->comment_page_navigation->last_page)--> disabled<!--@end-->">{$lang->last_page}</a>
+	</div>
+	<!-- /Pagination -->
+
+	<!--@if($CommentWriteLoc == 'bottom')-->
+	<include target="comment_write.html" />
+	<!--@end-->
+</div>

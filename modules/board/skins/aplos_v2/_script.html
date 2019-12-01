@@ -1,0 +1,147 @@
+<load target="assets/js/mboard.js" cond="Mobile::isMobileCheckByAgent()" type="body" />
+<load target="assets/js/aplosboard.js" type="body" />
+<load target="assets/js/jquery.cookie.js" type="body" />
+<load target="assets/js/remodal.js" type="body" />
+<load target="assets/js/clipboard.min.js" />
+<load target="//developers.kakao.com/sdk/js/kakao.min.js" cond="$mi->share_article !='n' && $kakao_key != ''" />
+
+<script>
+    jQuery(document).ready(function(){
+        <!--@if($mi->etc_forbid!='')-->
+            jQuery(document).bind("contextmenu",function(e){
+                return false;
+            });
+            jQuery(document).bind("selectstart",function(){
+                return false;
+            });
+            jQuery(document).bind("dragstart",function(){
+                return false;
+            });
+        <!--@end-->
+        <!--@if($mi->responsive_video=='')-->
+            jQuery( '.article-content .xe_content iframe[src^="https://www.youtube.com/"]' ).wrap( '<div class="videoWrap"></div>' );
+            jQuery( '.article-content .xe_content iframe[src^="https://player.vimeo.com/"]' ).wrap( '<div class="videoWrap"></div>' );
+            jQuery( '.article-content .xe_content iframe[src^="https://tv.kakao.com/"]' ).wrap( '<div class="videoWrap"></div>' );
+            jQuery( '.article-content .xe_content iframe[src^="https://serviceapi.rmcnmv.naver.com/"]' ).wrap( '<div class="videoWrap"></div>' );
+        <!--@end-->
+    });
+
+<!--@if($mi->share_article =='' && $kakao_key != '' && $oDocument)-->
+    Kakao.init('{$kakao_key}');
+    function sendLink() {
+        Kakao.Link.sendScrap({
+            requestUrl: '{$oDocument->getPermanentUrl()}'
+        });
+    }
+    function shareStory() {
+      Kakao.Story.share({
+        url: '{$oDocument->getPermanentUrl()}'
+      });
+    }
+<!--@end-->
+
+<!--@if($mi->share_article =='' && $oDocument)-->
+
+	var clipboard = new Clipboard('.ab-copy-url');
+	clipboard.on('success', function(e) {
+	    alert('Copied!');
+	});
+	clipboard.on('error', function(e) {
+	    prompt('Input Ctrl + C', e.text);
+    });
+    
+    function sendSns(sns, url, title) {
+    var o;
+    var _url = encodeURIComponent(url);
+    var _title = encodeURIComponent(title);
+    var _br  = encodeURIComponent('\r\n');
+
+    switch(sns) {
+        case 'facebook':
+            o = {
+                method:'popup',
+                url:'http://www.facebook.com/sharer/sharer.php?u=' + _url
+            };
+            break;
+
+        case 'twitter':
+            o = {
+                method:'popup',
+                url:'http://twitter.com/intent/tweet?url=' + _url
+            };
+            break;
+
+        case 'googleplus':
+            o = {
+                method:'popup',
+                url:'https://plus.google.com/share?url=' + _url
+            };
+            break;
+
+        case 'kakaostory':
+            o = {
+                method:'popup',
+                url:'https://story.kakao.com/s/share?url=' + _url
+            }
+            break;
+
+        case 'naver':
+            o = {
+                method:'popup',
+                url:'http://share.naver.com/web/shareView.nhn?url=' + _url + '&title=' + _title
+            };
+            break;
+
+        case 'band':
+            o = {
+                method:'web2app',
+                param:'create/post?text=' + _url,
+                a_store:'itms-apps://itunes.apple.com/app/id542613198?mt=8',
+                g_store:'market://details?id=com.nhn.android.band',
+                a_proto:'bandapp://',
+                g_proto:'scheme=bandapp;package=com.nhn.android.band'
+            };
+            break;
+
+        default:
+            alert('지원하지 않는 SNS입니다.');
+            return false;
+    }
+
+    switch(o.method) {
+        case 'popup':
+            window.open(o.url);
+            break;
+
+        case 'web2app':
+            if(navigator.userAgent.match(/android/i))
+            {
+                // Android
+                setTimeout(function(){ location.href = 'intent://' + o.param + '#Intent;' + o.g_proto + ';end'}, 100);
+            }
+            else if(navigator.userAgent.match(/(iphone)|(ipod)|(ipad)/i))
+            {
+                // Apple
+                setTimeout(function(){ location.href = o.a_store; }, 200);
+                setTimeout(function(){ location.href = o.a_proto + o.param }, 100);
+            }
+            else
+            {
+                switch(sns) {
+                    case 'band':
+                        o = {
+                            url: 'http://band.us/plugin/share?body=' + _url
+                        }
+                        window.open(o.url);
+                        break;
+                    default:
+                        alert('이 기능은 모바일에서만 사용할 수 있습니다.');
+                        break;
+                }
+
+            }
+            break;
+        }
+    }
+<!--@end-->
+</script>

@@ -1,0 +1,21 @@
+<block loop="$list_config=>$key,$val">
+	<span cond="$val->type=='nick_name' && $val->idx==-1"><div cond="$mi->webzine_meta_profile == ''" class="wz-item-profile" style="background-image: url('<!--@if($document->getProfileImage())-->{$document->getProfileImage()}<!--@else-->{$profileNo}<!--@end-->');"></div> <a style="z-index: 2; position: relative;" href="#popup_menu_area" class="member_{$document->get('member_srl')} author" onclick="return false">{$document->getNickName()}</a></span>
+	<block cond="$val->type=='user_id' && $val->idx==-1"><span class="author"><div cond="$mi->webzine_meta_profile == ''" class="wz-item-profile" style="background-image: url('{$document->getProfileImage()}');"></div> {$document->getUserID()}</span></block>
+	<block cond="$val->type=='user_name' && $val->idx==-1"><span class="author">{$document->getUserName()}</span></block>
+	<span cond="$val->type=='regdate' && $val->idx==-1"><span class="date"><!--@if($mi->list_datetype == '')-->{getTimeGap($document->get('regdate'), $dateType)}<!--@else--><!--@if((int)($document->getRegdate('YmdHis')>date('YmdHis', time()-24*60*60)))-->{$document->getRegdate("H:i")}<!--@else-->{$document->getRegdate($dateType)}<!--@end--><!--@end--></span></span>
+	<span cond="$val->type=='last_update' && $val->idx==-1"><span class="date">{zdate($document->get('last_update'),$dateType)}</span></span>
+	<span cond="$val->type=='readed_count' && $val->idx==-1" class="view"><span>{$lang->view} </span><span>{$document->get('readed_count')}</span></span>
+	<span cond="$val->type=='voted_count' && $val->idx==-1 && $document->get('voted_count') > 0" class="votes"><span>{$lang->voted_count} </span><span>{$document->get('voted_count')}</span></span>
+	<span cond="$val->type=='blamed_count' && $val->idx==-1 && $document->get('blamed_count') > 0" class="blames"><span>{$lang->blamed_count} </span><span>{$document->get('blamed_count')}</span></span>
+</block>
+<!--@if($mi->webzine_exval_oloi == 'y')-->
+<div class="exval align-left">
+<!--@end-->
+<block loop="$list_config=>$key,$val">
+	<block cond="$val->idx!=-1 && $document->getExtraValueHTML($val->idx)">
+		<span class="exval"><span>{$val->name} </span><include target="fn_exval.html" /></span>
+	</block>
+</block>
+<!--@if($mi->webzine_exval_oloi == 'y')-->
+</div>
+<!--@end-->

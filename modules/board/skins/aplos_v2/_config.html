@@ -1,0 +1,329 @@
+{@
+
+$mi = $module_info;
+$skin_path = $tpl_path;
+$kakao_key = $mi->share_article_kakao_key;
+
+$skin_path2 = explode('modules/board', $skin_path);
+$skin_path2 = '/modules/board' . $skin_path2[1];
+
+if($_COOKIE['ab_editor_type']) $mi->comment_write_type = $_COOKIE['ab_editor_type'];
+
+// Total Count
+$oDB = &DB::getInstance();
+$query = $oDB->_query('select count(*) as total from rx_documents where module_srl = '.$mi->module_srl);
+$article_count = $oDB->_fetch($query);
+
+if ($order_type == "desc"):
+	$order_type = "asc";
+	$order_icon = "down";
+else:
+	$order_type = "desc";
+	$order_icon = "up";
+endif;
+
+// Color
+if ($mi->color_point == ''):
+	$color_point = 'dodgerblue';
+elseif ($mi->color_point == 'custom'):
+	$color_point = $mi->color_point_custom;
+else:
+	$color_point = $mi->color_point;
+endif;
+
+// Font Family
+if ($mi->fontfamily_select == ''):
+	switch ($lang_type):
+		case 'ja':
+			$FontFamilyList = "'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', Osaka, Meiryo, 'メイリオ', 'MS PGothic', 'ＭＳ Ｐゴシック', sans-serif;";
+		case 'zh-CN':
+			$FontFamilyList = "Helvetica, Arial, 'Microsoft Yahei', '微软雅黑', STXihei, '华文细黑', sans-serif;";
+		default:
+			$FontFamilyList = "나눔고딕,'맑은 고딕','Malgun Gothic','Apple SD Gothic Neo',sans-serif";
+		endswitch;
+elseif ($mi->fontfamily_select == 'notosans'):
+	$FontFamilyList = "'Noto Sans Korean', sans-serif";
+	$FontFamilyImport = "@import url(".$skin_path2."assets/css/NotoSansKR-Hestia.css);";
+elseif ($mi->fontfamily_select == 'notosans_u'):
+	switch ($lang_type):
+		case 'ja':
+			$FontFamilyList = "'Noto Sans JP', sans-serif";
+			$FontFamilyImport = "@import url(//fonts.googleapis.com/earlyaccess/notosansjp.css);";
+			break;
+		case 'zh-CN':
+			$FontFamilyList = "'Noto Sans SC', sans-serif";
+			$FontFamilyImport = "@import url(//fonts.googleapis.com/earlyaccess/notosanssc.css);";
+			break;
+		default:
+			$FontFamilyList = "'Noto Sans KR', sans-serif";
+			$FontFamilyImport = "@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);";
+	endswitch;
+elseif ($mi->fontfamily_select == 'spoqahansans'):
+	$FontFamilyList = "'Spoqa Han Sans', sans-serif";
+	$FontFamilyImport = "@import url(".$skin_path2."assets/css/spoqahansans.css);";
+elseif ($mi->fontfamily_select == 'spoqahansans_u'):
+	switch ($lang_type):
+		case 'ja':
+			$FontFamilyList = "'Spoqa Han Sans JP', sans-serif";
+			$FontFamilyImport = "@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-jp.css);";
+			break;
+		default:
+			$FontFamilyList = "'Spoqa Han Sans', sans-serif";
+			$FontFamilyImport = "@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css);";
+	endswitch;
+elseif ($mi->fontfamily_select == 'nanumsquare'):
+	$FontFamilyList = "'NanumSquare', sans-serif";
+	$FontFamilyImport = "@import url(".$skin_path2."assets/css/nanumsquare.css);";
+elseif ($mi->fontfamily_select == 'nanumgothic'):
+	$FontFamilyList = "'Nanum Gothic', sans-serif";
+	$FontFamilyImport = "@import url(".$skin_path2."assets/css/nanumgothic.css);";
+elseif ($mi->fontfamily_select == 'nanummyeongjo'):
+	$FontFamilyList = "'Nanum Myeongjo', serif";
+	$FontFamilyImport = "@import url(".$skin_path2."assets/css/nanummyungjo.css);";
+elseif ($mi->fontfamily_select == 'custom'):
+	$FontFamilyList = $mi->fontfamily_list;
+	$FontFamilyImport = $mi->fontfamily_import;
+endif;
+
+// Font Size
+if ($mi->fs_content_sm) $fs_content_sm = $mi->fs_content_sm; else $fs_content_sm = "12";
+if ($mi->fs_content_md) $fs_content_md = $mi->fs_content_md; else $fs_content_md = "14";
+if ($mi->fs_content_lg) $fs_content_lg = $mi->fs_content_lg; else $fs_content_lg = "16";
+if ($mi->fs_content_xl) $fs_content_xl = $mi->fs_content_xl; else $fs_content_xl = "16";
+
+if ($mi->fs_ui_sm) $fs_ui_sm = $mi->fs_ui_sm; else $fs_ui_sm = "12";
+if ($mi->fs_ui_md) $fs_ui_md = $mi->fs_ui_md; else $fs_ui_md = "14";
+if ($mi->fs_ui_lg) $fs_ui_lg = $mi->fs_ui_lg; else $fs_ui_lg = "16";
+if ($mi->fs_ui_xl) $fs_ui_xl = $mi->fs_ui_xl; else $fs_ui_xl = "16";
+
+// padding
+if ($mi->board_pd_ver) $board_pd_ver = $mi->board_pd_ver; else $board_pd_ver = "0.5em";
+if ($mi->board_pd_sm)  $board_pd_sm  = $mi->board_pd_sm;  else $board_pd_sm  = "0.5em";
+if ($mi->board_pd_md)  $board_pd_md  = $mi->board_pd_md;  else $board_pd_md  = "0.5em";
+if ($mi->board_pd_lg)  $board_pd_lg  = $mi->board_pd_lg;  else $board_pd_lg  = "0.5em";
+if ($mi->board_pd_xl)  $board_pd_xl  = $mi->board_pd_xl;  else $board_pd_xl  = "0.5em";
+
+// Board Title
+if ($mi->board_header_title == 'c') $Title = $mi->board_header_title_custom; else $Title = $mi->browser_title;
+if ($mi->board_header == '') $showHeader = false; else $showHeader = true;
+
+// List Style
+if ($boardStyle != ''):
+	$listStyle = $boardStyle;
+elseif ($mi->board_style == ''):
+	if (!Mobile::isMobileCheckByAgent())	$listStyle = "table";
+	else									$listStyle = "webzine";
+elseif ($mi->board_style == 'table'):
+	$listStyle = "table";
+elseif ($mi->board_style == 'webzine'):
+	$listStyle = "webzine";
+elseif ($mi->board_style == 'masonry'):
+	$listStyle = "masonry";
+elseif ($mi->board_style == 'download'):
+	$listStyle = "download";
+elseif ($mi->board_style == 'faq'):
+	$listStyle = "faq";
+endif;
+
+// Category
+if ($listStyle == 'table'):
+	if ($mi->table_category == '' && $mi->use_category=='Y')
+		$showCategory = true;
+	else
+		$showCategory = false;
+elseif ($listStyle == 'download'):
+	if ($mi->download_category == '' && $mi->use_category=='Y')
+		$showCategory = true;
+	else
+		$showCategory = false;
+endif;
+
+$cate_list = array();
+$current_key = null;
+foreach ($category_list as $key=>$val) :
+	if (!$val->depth):
+		$cate_list[$key] = $val;
+		$cate_list[$key]->children = array();
+		$current_key = $key;
+	elseif ($current_key):
+		$cate_list[$current_key]->children[] = $val;
+	endif;
+endforeach;
+
+// List Icon
+if ($mi->list_icon == ''):
+	$showIcon = $showIconNotice = true;
+elseif ($mi->list_icon == 'notice'):
+	$showIcon = true;
+	$showIconNotice = false;
+else:
+	$showIcon = $showIconNotice = false;
+endif;
+
+// Webzine
+if ($mi->webzine_meta == ''):
+	$showArticleMeta = $showNoticeMeta = true;
+elseif ($mi->webzine_meta == 'notice'):
+	$showArticleMeta = true;
+	$showNoticeMeta = false;
+else:
+	$showArticleMeta = $showNoticeMeta = false;
+endif;
+
+if ($mi->webzine_summary_cut)
+	$summaryCut = $mi->webzine_summary_cut;
+else
+	$summaryCut = "100";
+
+// Masonry Styling
+if ($mi->masonry_style_margin)
+	$masonryStyleMargin = $mi->masonry_style_margin;
+else
+	$masonryStyleMargin = "";
+if ($mi->masonry_style_border)
+	$masonryStyleBorder = $mi->masonry_style_border;
+else
+	$masonryStyleBorder = "none";
+if ($mi->masonry_style_radius)
+	$masonryStyleRadius = $mi->masonry_style_radius;
+else
+	$masonryStyleRadius = "0";
+if ($mi->masonry_style_background)
+	$masonryStyleBackground = $mi->masonry_style_background;
+else
+	$masonryStyleBackground = "none";
+if ($mi->masonry_style_shadow)
+	$masonryStyleShadow = $mi->masonry_style_shadow;
+else
+	$masonryStyleShadow = "none";
+
+// Meta Date Type
+if (Mobile::isMobileCheckByAgent())
+	$dateType = "y.n.j";
+else
+	$dateType = "Y.m.d";
+
+// Array for Category Function
+$category_custom_temp = explode("\r\n",$mi->category_style_custom);
+for ($i=0; $i < count($category_custom_temp); $i++):
+	$temp = explode("|",$category_custom_temp[$i]);
+	$category_custom_list[$i] = $temp[0];
+	$category_custom_style[$i] = $temp[1];
+endfor;
+
+// Array for exVal Function
+$exval_custom_temp = explode("\r\n",$mi->exval_style_custom);
+for ($i=0; $i < count($exval_custom_temp); $i++):
+	$temp = explode("|",$exval_custom_temp[$i]);
+	$exval_custom_list[$i] = $temp[0];
+	$exval_custom_style[$i] = $temp[1];
+endfor;
+$exval_image_temp = explode("\r\n",$mi->exval_image);
+for ($i=0; $i < count($exval_image_temp); $i++):
+	$temp = explode("|",$exval_image_temp[$i]);
+	$exval_image_list[$i] = $temp[0];
+	$exval_image_url[$i] = $temp[1];
+	$exval_image_style[$i] = $temp[2];
+endfor;
+
+// Thumbnail Setting
+if ($mi->thumbnail_width == '' && $mi->thumbnail_width == ''):
+	$thumbWidth = $thumbHeight = 512;
+elseif ( $mi->thumbnail_width == '' || $mi->thumbnail_height == '' ):
+	if ($mi->thumbnail_width == ''):
+		$thumbWidth = $thumbHeight = $mi->thumbnail_height;
+	else:
+		$thumbWidth = $thumbHeight = $mi->thumbnail_width;
+	endif;	
+else:
+	$thumbWidth = $mi->thumbnail_width;
+	$thumbHeight = $mi->thumbnail_height;
+endif;
+$thumbRatio = ($thumbHeight / $thumbWidth) * 100;
+
+if ($listStyle == 'masonry'):
+	if($mi->masonry_thumbnail_type)
+		$thumbType = $mi->masonry_thumbnail_type;
+	else
+		$thumbType = "ratio";
+	if ($mi->masonry_column_sm)
+		$masonryColumnSmall = $mi->masonry_column_sm;
+	else
+		$masonryColumnSmall = "2";
+	if ($mi->masonry_column_md)
+		$masonryColumnMedium = $mi->masonry_column_md;
+	else
+		$masonryColumnMedium = "3";
+	if ($mi->masonry_column_lg)
+		$masonryColumnLarge = $mi->masonry_column_lg;
+	else
+		$masonryColumnLarge = "4";
+
+	// Thumbnail Location
+	$thumbWhere = "top";
+
+	// Article Content
+	if ($mi->masonry_content == ''):
+		$showAricleContent = true;
+	else:
+		$showAricleContent = false;
+	endif;
+
+elseif ($listStyle == 'webzine'):
+	$thumbType = "crop";
+	$thumbWhere = $mi->webzine_thumbnail;
+	if($mi->webzine_thumbnail_width_sm)
+		$webzineThumbnailWidthSmall = $mi->webzine_thumbnail_width_sm;
+	else
+		$webzineThumbnailWidthSmall = "80";
+	if($mi->webzine_thumbnail_width_md)
+		$webzineThumbnailWidthMedium = $mi->webzine_thumbnail_width_md;
+	else
+		$webzineThumbnailWidthMedium = "120";
+	if($mi->webzine_thumbnail_width_lg)
+		$webzineThumbnailWidthLarge = $mi->webzine_thumbnail_width_lg;
+	else
+		$webzineThumbnailWidthLarge = "150";
+	$showAricleContent = true;
+endif;
+
+if ($mi->thumbnail_no_image)
+	$thumbNo = $mi->thumbnail_no_image;
+else
+	$thumbNo = "/modules/board/skins/aplos_v2/assets/images/image-no-thumbnail.svg";
+
+if ($mi->profile_no_image)
+	$profileNo = $mi->profile_no_image;
+else
+	$profileNo = "/modules/board/skins/aplos_v2/assets/images/image-no-profile.svg";
+
+// Thumbnail Styling
+if ($mi->thumbnail_border):
+	$thumbStyle .= "border: ";
+	$thumbStyle .= $mi->thumbnail_border;
+	$thumbStyle .= ";";
+endif;
+if ($mi->thumbnail_radius):
+	$thumbStyle .= "border-radius: ";
+	$thumbStyle .= $mi->thumbnail_radius;
+	$thumbStyle .= ";";
+endif;
+if ($mi->thumbnail_ex_style):
+	$thumbStyle .= $mi->thumbnail_ex_style;
+endif;
+
+// Comment
+if ($mi->comment_form_location == ''):
+	$CommentWriteLoc = 'top';
+elseif ($mi->comment_form_location == 'bottom'):
+	$CommentWriteLoc = 'bottom';
+else:
+	$CommentWriteLoc = 'none';
+endif;
+}
+
+<include target="_lang.html" />
+
+<include target="_style.html" />
+
+<include target="_script.html" />

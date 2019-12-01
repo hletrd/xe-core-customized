@@ -1,0 +1,22 @@
+{@ $prev_page = max($page-1, 1)}
+{@ $next_page = min($page+1, $page_navigation->last_page)}
+<a <!--@if($page!=1)-->href="{getUrl('page',$prev_page,'document_srl','','division',$division,'last_division',$last_division)}" <!--@end-->class="pagination-arrow<!--@if($page==1)--> disabled<!--@end-->">{$lang->cmd_prev}</a>
+<!--@if($page_navigation->last_page!=1)-->
+	<!--@if($page==1)-->
+		<strong class="pagination-num"><span>1</span></strong>
+	<!--@else-->
+		<a class="pagination-num" cond="$page!=$page_no" href="{getUrl('page','','document_srl','','division',$division,'last_division',$last_division)}">1</a>
+	<!--@end-->
+<!--@end-->
+<span cond="$page>($module_info->page_count)/2+2" class="pagination-num">...</span>
+<block loop="$page_no=$page_navigation->getNextPage()" cond="$page_no!=1 && $page_no!=$page_navigation->last_page">
+	<strong class="pagination-num" cond="$page==$page_no">{$page_no}</strong>
+	<a class="pagination-num" cond="$page!=$page_no" href="{getUrl('page',$page_no,'document_srl','','division',$division,'last_division',$last_division)}">{$page_no}</a>
+</block>
+<span cond="($page+($module_info->page_count+1)/2<$page_navigation->last_page) && ($module_info->page_count+1<$page_navigation->last_page)" class="pagination-num">...</span>
+<!--@if($page==$page_navigation->last_page)-->
+	<strong class="pagination-num">{$page_navigation->last_page}</strong>
+<!--@else-->
+	<a class="pagination-num" cond="$page!=$page_no" href="{getUrl('page',$page_navigation->last_page,'document_srl','','division',$division,'last_division',$last_division)}">{$page_navigation->last_page}</a>
+<!--@end-->
+<a <!--@if($page!=$page_navigation->last_page)-->href="{getUrl('page',$next_page,'document_srl','','division',$division,'last_division',$last_division)}" <!--@end-->class="pagination-arrow<!--@if($page==$page_navigation->last_page)--> disabled<!--@end-->">{$lang->cmd_next}</a>

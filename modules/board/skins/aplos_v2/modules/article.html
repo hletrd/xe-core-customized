@@ -1,0 +1,364 @@
+{@
+	$oModuleModel = getModel('module');
+	$oMemberModel = getModel('member');
+
+	if ($mi->p_nonmember_blind == 'article' || $mi->p_nonmember_blind == 'both'):
+		if($mi->p_nonmember_blind_time_article == '')
+			$bt = '15';
+		else
+			$bt = $mi->p_nonmember_blind_time_article;
+		if($mi->p_nonmember_blind_time_unit_article == ''):
+			$unit = '60';
+			$unit_p = 'M';
+		elseif($mi->p_nonmember_blind_time_unit_article == 'h'):
+			$unit = '3600';
+			$unit_p = 'H';
+		elseif($mi->p_nonmember_blind_time_unit_article == 'd'):
+			$unit = '86400';
+			$unit_p = 'D';
+		endif;
+		$dateNow = new DateTime(date('YmdHi'));
+		$dateArticleCan = new DateTime($oDocument->getRegdate('YmdHi'));
+		if ($mi->p_nonmember_blind_time_unit_article != 'd')
+			$dateTemp = "PT" . $bt . $unit_p;
+		else
+			$dateTemp = "P" . $bt . $unit_p;
+		$interval = new DateInterval($dateTemp);
+		$dateArticleCan->add($interval);
+		$dateArticleRem = $dateArticleCan->diff($dateNow);
+		if ($dateArticleRem->invert == 0)
+			$nonmemberArticleShow = true;
+		else
+			$nonmemberArticleShow = false;
+	endif;
+}
+<div class="absc article">
+	<!-- 게시글 헤더 -->
+	<div class="article-header rs {$mi->header_align}">
+		<block cond="$mi->article_category == ''">
+			<p class="ah-category" cond="$oDocument->get('category_srl')" cond="$mi->quickchange_category == '' || ( $mi->quickchange_category == 'y' && !$grant->manager )">
+				<a href="{getUrl('category',$oDocument->get('category_srl'), 'document_srl', '')}" style="color:{$category_list[$oDocument->get('category_srl')]->color}"|cond="$category_list[$oDocument->get('category_srl')]->color!='transparent'">{$category_list[$oDocument->get('category_srl')]->title}</a></span>
+			</p>
+			<form action="./" method="post" id="quickChangeCategory" cond="$mi->quickchange_category == 'y' && $grant->manager" class="ah-category">
+				<input type="hidden" name="act" value="procBoardInsertDocument" />
+				<input type="hidden" name="subAct" value="updateCategory" />
+				<input type="hidden" name="document_srl" value="{$oDocument->document_srl}">
+				<select name="category_srl" class="category" onChange="document.getElementById('quickChangeCategory').submit()">
+					<option loop="$category_list => $val" disabled="disabled"|cond="!$val->grant" value="{$val->category_srl}" selected="selected"|cond="$val->grant&&$val->selected||$val->category_srl==$oDocument->get('category_srl')">
+						{str_repeat("&nbsp;&nbsp;",$val->depth)} {$val->title}
+					</option>
+				</select>
+			</form>
+		</block>
+		<h1 class="ah-title">
+			<a href="{$oDocument->getPermanentUrl()}">{$oDocument->getTitle()}</a>
+		</h1>
+		<p class="ah-meta" cond="$mi->show_meta == ''">
+			<span class="ahm-author"><a cond="$module_info->display_author!='N' && $oDocument->getMemberSrl() <= 0 && $oDocument->isExistsHomepage()" href="{$oDocument->getHomepageUrl()}" onclick="window.open(this.href);return false;" class="">{$oDocument->getNickName()}</a><block cond="$module_info->display_author!='N' && $oDocument->getMemberSrl() <= 0 && !$oDocument->isExistsHomepage()">{$oDocument->getNickName()}</block><a cond="$module_info->display_author!='N' && $oDocument->getMemberSrl() > 0" href="#popup_menu_area" class="member_{$oDocument->get('member_srl')} author" onclick="return false">{$oDocument->getNickName()}</a></span><span>{getTimeGap($oDocument->get('regdate'), "Y.m.d H:i")}</span><span>{$lang->readed_count} <span class="ab-point-color">{$oDocument->get('readed_count')}</span></span><span cond="$oDocument->get('voted_count') > 0">{$lang->voted_count} <span class="ab-point-color">{$oDocument->get('voted_count')}</span></span><span style="display:inline-block;"><a href="#comment"|cond="$oDocument->getCommentcount() > 0">{$lang->comment} <span class="ab-point-color">{$oDocument->getCommentcount()}</span></a></span><span cond="$mi->show_ipaddr == 'all' || ($grant->manager && $mi->show_ipaddr == 'admin')"> {$lang->ab_ipaddress} <span class="ab-point-color">{@ $temp_ip=explode('.',$oDocument->get('ipaddress'));}{$temp_ip[0]}.<!--@if(!$grant->manager)-->***<!--@else-->{$temp_ip[1]}<!--@end-->.{$temp_ip[2]}.{$temp_ip[3]}</span></span><span cond="$mi->read_this_post=='y'"><a class="hidden-mobile document_{$oDocument->document_srl} action" href="#popup_menu_area" onclick="return false">{$lang->cmd_document_do}</a><a class="hidden-desktop document_{$oDocument->document_srl} action" href="#popup_menu_area" onclick="return false">…</a></span>
+		</p>
+	</div>
+	<!-- /게시글 헤더 -->
+
+	<div class="article-tool rs header">
+		<ul class="etc">
+		<!--@if($nonmemberArticleShow || ($is_logged && $mi->p_nonmember_blind == 'article') || ($is_logged && $mi->p_nonmember_blind == 'both') || $mi->p_nonmember_blind == '')-->
+			<li cond="$oDocument->hasUploadedFiles() && $mi->show_attachment == ''" class="attachment">
+				<a class="ab-btn" data-remodal-target="attachment"><i class="fas fa-paperclip fa-fw"></i> {$oDocument->get('uploaded_count')}</a>
+			</li>
+		<!--@end-->
+			<li class="do" cond="$mi->show_help == ''">
+				<a class="ab-btn showPopover"><i class="fas fa-ellipsis-v fa-fw"></i></a>
+				<!-- Do Popup -->
+				<div class="ab-popover helper header">
+					<ul>
+						<li><span>{$lang->font_size}</span></li>
+						<li class="font-size clear"><a id="fs_down" onclick="ab_fontSizeCtr('m');"><i class="fas fa-minus fa-xs fa-fw"></i></a><a id="fs_up" onclick="ab_fontSizeCtr('p');"><i class="fas fa-plus fa-xs fa-fw"></i></a></li>
+						<li cond="$is_logged"><a href="javascript:doCallModuleAction('member','procMemberScrapDocument',{$document_srl})" class="ab-btn">{$lang->cmd_scrap}</a></li>
+						<li cond="$update_view && $mi->update_log == 'y'"><a href="{getUrl('act','dispBoardUpdateLog','document_srl',$oDocument->document_srl,'comment_srl','')}">{$lang->update_log}</a></li>
+						<li cond="$grant->manager"><a class="ab-btn delete" href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl,'comment_srl','')}">{$lang->cmd_delete}</a></li>
+						<li cond="$grant->manager"><a class="ab-btn" href="{getUrl('act','dispBoardWrite','document_srl',$oDocument->document_srl,'comment_srl','')}">{$lang->cmd_modify}</a></li>
+					</ul>
+				</div>
+				<!--/Do Popup -->
+			</li>
+		</ul>
+	</div>
+
+<!--@if( !$nonmemberArticleShow && ( (!$is_logged && $mi->p_nonmember_blind == 'article') || (!$is_logged && $mi->p_nonmember_blind == 'both') ) )-->
+<block cond="$mi->p_nonmember_blind_article_summary">{$oDocument->getSummary($mi->p_nonmember_blind_article_summary)}</block>
+<div class="alert-box blind-message-article" style="">
+	<p>{$dateArticleRem->format($lang->time_remain)}</p>
+</div>
+
+<!--@else-->
+
+	<include target="button_custom_1.html" cond="$mi->button_custom1_article == 'both' || $mi->button_custom1_article == 'top'" />
+
+	<!-- 게시글 본문 -->
+	<div class="article-content">
+		<!--@if($oDocument->isSecret() && !$oDocument->isGranted())-->
+		<form action="./" method="get" onsubmit="return procFilter(this, input_password)" class="">
+			<input type="hidden" name="mid" value="{$mid}" />
+			<input type="hidden" name="page" value="{$page}" />
+			<input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
+			<h1 class="align-center">{$lang->msg_is_secret}</h1>
+			<div class="align-center">
+				<input class="align-center" type="password" name="password" id="cpw" class="iText" placeholder="{$lang->password}" /><button type="submit" class="ab-btn">{$lang->cmd_input}</button>
+			</div>
+			</p>
+		</form>
+		<!--@else-->
+		<div cond="$mi->p_download_area != ''" class="article-download-area clear">
+			<block loop="$oDocument->getUploadedFiles()=>$key,$file">
+{@
+	$ext = substr($file->source_filename, -4);
+	$ext = strtolower($ext);
+	if ($mi->p_download_jpg == '' && in_array($ext,array('.jpg','jpeg','.gif','.png')))
+		$except = true;
+	else
+		$except = false;
+}
+				<div class="download-item clear" cond="!$except">
+					<div class="download-icon"><i class="fas fa-download ab-point-color"></i></div>
+					<div class="download-content ab-truncate">{$file->source_filename}<br><span class="ab-text-muted ab-text-sm">{FileHandler::filesize($file->file_size)} / Download {number_format($file->download_count)}</span></div>
+					<a class="ab-link" href="{getUrl('')}{$file->download_url}" title="{$file->source_filename}"></a>
+				</div>
+			</block>
+		</div>
+		<div class="article-extra-value rs" cond="$oDocument->isExtraVarsExists()">
+			{@ $evalCount = 0; }
+			<table>
+				<block loop="$oDocument->getExtraVars() => $key,$val" cond="$val->getValueHTML()">
+					<!--@if($val->eid == $mi->button_custom1_link)-->
+					<!--@elseif($val->eid == $mi->button_custom2_link)-->
+					<!--@else-->
+						<tr>
+							{@ $evalCount++; }
+							<th scope="row">{$val->name}</th>
+							<td><include target="fn_exval.html" /></td>
+						</tr>
+					<!--@end-->
+				</block>
+			</table>
+		</div>
+		<article>
+			{@$content_ = $oDocument->getContent(false)}
+			<!--@if($module_info->autoreplace_use == 'y')-->
+				{@
+				$pregs = explode("\n", $module_info->autoreplace_text);
+				$items = array();
+				foreach($pregs as $key=>$val)
+				preg_match_all("/\"(.+)\"(?:\s*?),(?:\s*?)\"(.+)\"(?:\s+?|)/", $val, $items[$key]);
+
+				foreach($items as $key=>$val)
+				$content_ = preg_replace($val[1], $val[2], $content_);
+				}
+				{$content_}
+			<!--@else-->
+				{$content_}
+			<!--@end-->
+		</article>
+		<!--@end-->
+	</div>
+	<!-- /게시글 본문 -->
+
+	<include target="button_custom_1.html" cond="$mi->button_custom1_article == 'both' || $mi->button_custom1_article == 'bottom'" />
+
+	<include target="voteblame.html" cond="$mi->voteblame != 'n' && $is_logged" />
+
+	<!-- 글쓴이 서명란 -->
+	<div cond="$mi->signature == ''" class="article-signature rs<!--@if($mi->signature_center == 'y')--> align-center<!--@end-->">
+		<div class="profile">
+			<div cond="$mi->signature_profile == ''" style="background-image: url('<!--@if($oDocument->getProfileImage())-->{$oDocument->getProfileImage()}<!--@else-->{$profileNo}<!--@end-->')" class="profile-image"></div><span class="profile-nickname"><a cond="$module_info->display_author!='N' && $oDocument->getMemberSrl() <= 0 && $oDocument->isExistsHomepage()" href="{$oDocument->getHomepageUrl()}" onclick="window.open(this.href);return false;" class="">{$oDocument->getNickName()}</a><block cond="$module_info->display_author!='N' && $oDocument->getMemberSrl() <= 0 && !$oDocument->isExistsHomepage()">{$oDocument->getNickName()} (비회원)</block><a cond="$module_info->display_author!='N' && $oDocument->getMemberSrl() > 0" href="#popup_menu_area" class="member_{$oDocument->get('member_srl')} author" onclick="return false">{$oDocument->getNickName()}</a>
+		</div>
+		<div cond="$oDocument->getSignature()" class="text">{$oDocument->getSignature()}</div>
+	</div>
+	<!-- /글쓴이 서명란 -->
+
+<!--@end-->
+
+	<div class="share-custom rs" cond="$mi->share_article_custom">
+		{$mi->share_article_custom}
+	</div>
+
+	<!-- 게시글 푸터 -->
+	<!--@if($mi->show_tag == '')-->
+	{@ $tag_list = $oDocument->get('tag_list') }
+	<div class="article-tags rs" cond="$tag_list">
+		<!--@foreach($tag_list as $tag)-->
+			<a href="{getUrl('search_target','tag','search_keyword',$tag,'document_srl','')}" class="tag ab-point-bgcolor" rel="tag">{htmlspecialchars($tag)}</a>
+		<!--@end-->
+	</div>
+	<!--@end-->
+
+	<div class="article-tool clear rs" style="height: 2em;">
+		<ul class="vs" cond="$doc_config->use_vote_up != 'N' || $doc_config->use_vote_down != 'N' || $mi->share_article != 'n'">
+	{@
+	if ($doc_config->use_vote_up == 'S'):
+		$args = new stdClass();
+		$args->more_point = 1;
+		$args->document_srl = $document_srl;
+		$output_voted = executeQueryArray('document.getVotedMemberList',$args);
+	endif;
+	if ($doc_config->use_vote_down == 'S'):
+		$args = new stdClass();
+		$args->below_point = 1;
+		$args->document_srl = $document_srl;
+		$output_blamed = executeQueryArray('document.getVotedMemberList',$args);
+	endif;
+	}
+			<li class="vb-list" cond="$doc_config->use_vote_up != 'N'">
+	<!--@if($doc_config->use_vote_up == 'S')-->
+				<a class="ab-btn" data-remodal-target="voted_user"><i class="fas fa-heart fa-fw"></i> <span class="">{$oDocument->get('voted_count')}</a>
+	<!--@elseif($doc_config->use_vote_up == 'Y' || $doc_config->use_vote_up == '')-->
+				<a class="ab-btn" style="cursor: default;"><i class="fas fa-heart fa-fw"></i> <span class="">{$oDocument->get('voted_count')}</span></a>
+	<!--@end-->
+			</li>
+			<li class="vb-list" cond="$doc_config->use_vote_down != 'N'">
+	<!--@if($doc_config->use_vote_down == 'S')-->
+				<a class="ab-btn" data-remodal-target="blamed_user"><i class="far fa-heart fa-fw"></i> <span class="">{$oDocument->get('blamed_count')}</span></a>
+	<!--@elseif($doc_config->use_vote_down == 'Y' || $doc_config->use_vote_down == '')-->
+				<a class="ab-btn" style="cursor: default;"><i class="far fa-heart fa-fw"></i> <span class="">{$oDocument->get('blamed_count')}</span></a>
+	<!--@end-->
+			</li>
+			<li class="share" cond="$mi->share_article == ''">
+				<a class="ab-btn" data-remodal-target="share"><i class="fas fa-share-alt fa-fw"></i></a>
+			</li>
+		</ul>
+		<ul class="etc">
+			<!--@if($nonmemberArticleShow || ($is_logged && $mi->p_nonmember_blind == 'article') || ($is_logged && $mi->p_nonmember_blind == 'both') || $mi->p_nonmember_blind == '' )-->
+			<li cond="$oDocument->hasUploadedFiles() && $mi->show_attachment == ''" class="attachment">
+				<a class="ab-btn" data-remodal-target="attachment"><i class="fas fa-paperclip fa-fw"></i> {$oDocument->get('uploaded_count')}</a>
+			</li>
+			<!--@end-->
+			<li class="do" cond="$mi->show_help == ''">
+				<a class="ab-btn showPopover"><i class="fas fa-ellipsis-v fa-fw"></i></a>
+				<!-- Do Popup -->
+				<div class="ab-popover helper tool-group">
+					<ul>
+						<li><span>{$lang->font_size}</span></li>
+						<li class="font-size clear"><a id="fs_down" onclick="ab_fontSizeCtr('m');"><i class="fas fa-minus fa-xs fa-fw"></i></a><a id="fs_up" onclick="ab_fontSizeCtr('p');"><i class="fas fa-plus fa-xs fa-fw"></i></a></li>
+						<li cond="$is_logged"><a href="javascript:doCallModuleAction('member','procMemberScrapDocument',{$document_srl})" class="ab-btn">{$lang->cmd_scrap}</a></li>
+						<li cond="$update_view && $mi->update_log == 'y'"><a href="{getUrl('act','dispBoardUpdateLog','document_srl',$oDocument->document_srl,'comment_srl','')}">{$lang->update_log}</a></li>
+					</ul>
+				</div>
+				<!--/Do Popup -->
+			</li>
+		</ul>
+	</div>
+
+<!--// 현재목록 외 이전글-다음글 구하기
+Source form : http://www.xpressengine.com/21617245 by 시니시즘. Thanks!
+1. search : X
+2. get image : X
+3. except_notice : /
+-->
+	<div cond="$mi->article_navi=='' && !$oDocument->isNotice()" class="article-navi rs clear">
+		<block loop="$document_list=>$no,$document" cond="$document_srl==$document->document_srl">
+			<!--// prev-next page -->
+			<block cond="!$search_keyword">
+				<block cond="(!$document_list[$no+1]->document_srl && $page!=1) || (!$document_list[$no-1]->document_srl && $page!=$total_page)">
+				{@
+					$oModuleModel = &getModel('module');
+					$module_srl_temp = $oModuleModel->getModuleSrlByMid($mid);
+					if(is_array($module_srl_temp)) $module_srl = $module_srl_temp[0];
+					else $module_srl = $module_srl_temp;
+					$args = new stdClass();
+					$args->module_srl = $module_srl;
+					$args->category_srl = $category;
+					$args->list_count = $module_info->list_count;
+					$args->sort_index = $module_info->order_target;
+					if($sort_index) $args->sort_index = $sort_index;
+					$args->order_type = $module_info->order_type;
+					if($sort_index) $args->order_type = $order_type;
+					if($module_info->except_notice=='Y') $prevnext_except_notice=1;
+				}
+				<!--@if(!$document_list[$no+1]->document_srl && $page!=1)-->
+					{@
+						$is_prevnext='P';
+						$args->page = $page-1;
+						$prevnext_list = executeQueryArray('document.getDocumentList',$args);
+						$prevnext_data = array_reverse($prevnext_list->data);
+					}
+				<!--@else if(!$document_list[$no-1]->document_srl && $page!=$total_page)-->
+					{@
+						$is_prevnext='N';
+						$args->page = $page+1;
+						$prevnext_list = executeQueryArray('document.getDocumentList',$args);
+						$prevnext_data = $prevnext_list->data;
+					}
+				<!--@end-->
+				<!--@foreach($prevnext_data as $no2 => $document2)-->
+					<block cond="!$prevnext_except_notice || ($prevnext_except_notice && $document2->is_notice!='Y')">
+						{@
+							$prevnext_doc = $document2->document_srl;
+							$prevnext_title = $document2->title;
+							$prevnext_date = $document2->regdate;
+							$prevnext_nick = $document2->nick_name;
+							break;
+						}
+					</block>
+				<!--@end-->
+				</block>
+			</block>
+			<a cond="$document_list[$no+1]->document_srl" class="" href="{getUrl('document_srl',$document_list[$no+1]->document_srl)}">
+				<i class="fas fa-caret-up fa-fw"></i> {$document_list[$no+1]->getTitle($mi->prev_next_cut_size)}<small style="font-weight: inherit;" cond="$document_list[$no+1]->getNickName()"> (by {$document_list[$no+1]->getNickName()})</small>
+			</a>
+			<!--// 현재목록 외 이전글-다음글 -->
+			<block cond="$is_prevnext">
+			<!--@if($is_prevnext=='P')-->
+				<a class="" href="{getUrl('document_srl',$prevnext_doc,'page','','cpage','')}">
+					<i class="fa fa-caret-up fa-fw"></i> {$prevnext_title}<small style="font-weight: inherit;" cond="$prevnext_nick"> (by {$prevnext_nick})</small>
+			<!--@else-->
+				<a class="" href="{getUrl('document_srl',$prevnext_doc,'page','','cpage','')}">
+					<i class="fa fa-caret-down fa-fw"></i> {$prevnext_title}<small style="font-weight: inherit;" cond="$prevnext_nick"> (by {$prevnext_nick})</small>
+			<!--@end-->
+				</a>
+			</block>
+			<a cond="$document_list[$no-1]->document_srl" class="" href="{getUrl('document_srl',$document_list[$no-1]->document_srl)}">
+				<i class="fa fa-caret-down fa-fw"></i> {$document_list[$no-1]->getTitle($mi->prev_next_cut_size)}<small style="font-weight: inherit;" cond="$document_list[$no-1]->getNickName()"> (by {$document_list[$no-1]->getNickName()})</small>
+			</a>
+			{@ break;}
+		</block>
+	</div>
+	<div cond="$mi->article_navi!='' || $oDocument->isNotice()" class="article-navi rs clear"></div>
+
+	<!-- 게시글 툴버튼 -->
+	<div class="article-tool-ex clear rs">
+		<div class="fl">
+			<a href="{getUrl('document_srl','')}" class="ab-btn">{$lang->cmd_list}</a>
+		</div>
+		<div class="fr" cond="$oDocument->isEditable()">
+			<a class="ab-btn ab-point-color" href="{getUrl('act','dispBoardWrite','document_srl',$oDocument->document_srl,'comment_srl','')}">{$lang->cmd_modify}</a>
+			<a class="ab-btn" href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl,'comment_srl','')}">{$lang->cmd_delete}</a>
+		</div>
+	</div>
+	<!-- /게시글 툴버튼 -->
+</div>
+
+<include target="comment_list.html" />
+
+<script>
+	$(document).ready(function() {
+		$('.ah-title span[style*="font-weight:bold"]').css('font-weight', '').wrap( '<strong></strong>');
+		$('.article-navi span[style*="font-weight:bold"]').css('font-weight', '').wrap( '<strong></strong>');
+		$('.ap_parser_title a').css('font-weight', 'inherit').wrap( '<strong></strong>');
+        <!--@if($evalCount == 0)-->
+            if ($('.article-extra-value').length) {
+                $('.article-extra-value').remove();
+            }
+        <!--@end-->
+	});
+	function ChangeCategory() {
+		alert('@@');
+	}
+	$('#ChangeCategory').change(function() {
+		var params = {
+			document_srl : '{$oDocument->document_srl}',
+			category_srl : $("#ChangeCategory option:selected").val()
+		};
+		exec_json('document.procDocumentCategoryUp', params, function() {
+			location.reload();
+		});
+	});
+</script>

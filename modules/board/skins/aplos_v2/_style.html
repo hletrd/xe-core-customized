@@ -1,0 +1,257 @@
+<load target="assets/css/remodal.css" />
+<load target="assets/css/remodal-macaron-theme.css" />
+<load target="assets/css/aplosboard.css" />
+<load target="assets/css/fontawesome-all.css" />
+<load target="assets/css/spectrum.css" />
+
+<load target="custom.css" cond="$mi->etc_custom_css_file == 'css'"/>
+<!--@if($mi->etc_custom_css_file == 'scss' && defined('RX_VERSION'))-->
+	<load target="custom.scss" />
+<!--@end-->
+
+<style>
+{$FontFamilyImport}
+.board-wrapper {
+	padding: {$board_pd_ver} {$board_pd_sm};
+	font-size: {$fs_ui_sm}px;
+	font-family: {$FontFamilyList};
+}
+.board-wrapper *:not(.fas, .far, .fab, .fa, .xi-icon, .xi-check-circle) {
+	font-family: {$FontFamilyList};
+}
+.board-wrapper table, .board-wrapper input, .board-wrapper textarea, .board-wrapper select, .board-wrapper button {
+	font-size: {$fs_ui_sm}px;
+	font-family: {$FontFamilyList};
+	letter-spacing: -0.5px;
+}
+.board-wrapper input[type=text]:focus, .board-wrapper input[type=password]:focus, .board-wrapper textarea:focus, .board-wrapper select:focus {
+	border: 1px solid {$color_point};
+}
+.remodal {
+	font-family: {$FontFamilyList};
+}
+.xe_content {
+	font-size: {$fs_content_sm}px;
+}
+@media (min-width: 576px){
+	.board-wrapper {
+		font-size: {$fs_ui_md}px;
+		padding: {$board_pd_ver} {$board_pd_md};
+	}
+	.board-wrapper table, .board-wrapper input, .board-wrapper textarea, .board-wrapper select, .board-wrapper button {
+		font-size: {$fs_ui_md}px;
+	}
+	.xe_content {
+		font-size: {$fs_content_md}px;
+	}
+}
+@media (min-width: 1024px){
+	.board-wrapper {
+		font-size: {$fs_ui_lg}px;
+		padding: {$board_pd_ver} {$board_pd_lg};
+	}
+	.board-wrapper table, .board-wrapper input, .board-wrapper textarea, .board-wrapper select, .board-wrapper button {
+		font-size: {$fs_ui_lg}px;
+	}
+	.xe_content {
+		font-size: {$fs_content_lg}px;
+	}
+}
+@media (min-width: 1280px){
+	.board-wrapper {
+		font-size: {$fs_ui_xl}px;
+		padding: {$board_pd_ver} {$board_pd_xl};
+	}
+	.board-wrapper table, .board-wrapper input, .board-wrapper textarea, .board-wrapper select, .board-wrapper button {
+		font-size: {$fs_ui_xl}px;
+	}
+	.xe_content {
+		font-size: {$fs_content_xl}px;
+	}
+}
+
+<!--@if ($mi->category_show == 'y_n')-->
+	.category_style_custom {
+		{$mi->category_custom}
+	}
+	.category_style_custom:hover {
+		{$mi->category_custom_hover}
+	}
+	.category_style_custom.on {
+		{$mi->category_custom_on}
+	}
+<!--@end-->
+
+/* Color Setting */
+.xe_content a {
+	color: {$color_point};
+	text-decoration: none;
+}
+.ab-btn-point, .ab-point-color, i.read {
+	color: {$color_point} !important;
+}
+.ab-point-bacolor, ul.lv-1 .ui-state-active {
+	border-color: {$color_point} !important;
+}
+.ab-point-bacolor-hover:hover {
+	border-color: {$color_point} !important;
+}
+.absc.list .notice, .ab-point-blcolor {
+	border-left-color: {$color_point};
+}
+.ab-point-bbcolor {
+	border-bottom-color: {$color_point} !important;
+}
+.ab-point-bbcolor-hover:hover {
+	border-bottom-color: {$color_point} !important;
+}
+.absc.pgnt strong.pagination-num, .ab-point-bgcolor, ul.lv-1 li:not(.on) ~ div .ui-slider-range, ul.lv-1 .ui-state-active {
+	background-color: {$color_point} !important;
+}
+.ab-checkbox input:checked ~ label {
+	color: {$color_point} !important;
+}
+.title-color-picker-modal .sp-choose, .title-color-picker-modal .sp-choose:hover {
+	color: {$color_point} !important;
+}
+
+/* Article Title Bolder */
+<!--@if($mi->list_title_bolder == 'y')-->
+.absc.list .ab-table tbody tr .title a:first-child, .absc.list .ab-webzine .wz-item .wz-item-header .title {
+	font-weight: bolder;
+}
+<!--@elseif($mi->list_title_bolder == 'table')-->
+.absc.list .ab-table tbody tr .title a:first-child {
+	font-weight: bolder;
+}
+<!--@elseif($mi->list_title_bolder == 'webzine')-->
+.absc.list .ab-webzine .wz-item .wz-item-header .title {
+	font-weight: bolder;
+}
+<!--@end-->
+
+/* Thumbnail Setting */
+.thumbwrap {
+	padding-bottom: {$thumbRatio}%;
+}
+.absc.list .ab-webzine .wz-item .thumbnail-left .wz-item-thumbnail {
+	width: {$webzineThumbnailWidthSmall}px;
+}
+.absc.list .ab-webzine .wz-item .thumbnail-left .wz-item-content {
+	width: calc(100% - {$webzineThumbnailWidthSmall}px - 1em);
+}
+@media (min-width: 641px){
+	.absc.list .ab-webzine .wz-item .thumbnail-left .wz-item-thumbnail {
+		width: {$webzineThumbnailWidthMedium}px;
+	}
+	.absc.list .ab-webzine .wz-item .thumbnail-left .wz-item-content {
+		width: calc(100% - {$webzineThumbnailWidthMedium}px - 1em);
+	}
+}
+@media (min-width: 1025px){
+	.absc.list .ab-webzine .wz-item .thumbnail-left .wz-item-thumbnail {
+		width: {$webzineThumbnailWidthLarge}px;
+	}
+	.absc.list .ab-webzine .wz-item .thumbnail-left .wz-item-content {
+		width: calc(100% - {$webzineThumbnailWidthLarge}px - 1em);
+	}
+}
+
+<!--@if(!$showAricleContent)-->
+.absc.list .ab-webzine:not(.notice) .wz-item:hover {
+	padding: 0.5em;
+}
+<!--@end-->
+
+<!--@if($mi->webzine_summary_line)-->
+.absc.list .ab-webzine .wz-item .wz-item-summary {
+	-webkit-line-clamp: {$mi->webzine_summary_line};
+}
+<!--@end-->
+
+.absc.list .ab-webzine .wz-item .wz-item-thumbnail {
+	{$thumbStyle};
+}
+
+<!--@if($listStyle == 'masonry')-->
+.absc.list .masonry {
+	margin-top: 1em;
+	<!--@if($masonryStyleMargin)-->
+		margin-right: -{$masonryStyleMargin} ;
+	<!--@end-->
+}
+.absc.list .masonry .ms-item {
+	border-bottom: none;
+	float: left;
+}
+.absc.list .masonry .ms-item .wz-item-content {
+}
+.ms-sizer, .absc.list .masonry .ms-item {
+	width: calc( ( 100% / {$masonryColumnSmall} )<!--@if($masonryStyleMargin)--> - {$masonryStyleMargin} <!--@end-->);
+	margin-bottom: {$masonryStyleMargin};
+	margin-right: {$masonryStyleMargin};
+	display: inline-block;
+}
+.absc.list .masonry .ms-item {
+	background-color: {$masonryStyleBackground};
+	border: {$masonryStyleBorder};
+	border-radius: {$masonryStyleRadius};
+	box-shadow: {$masonryStyleShadow};
+}
+@media (min-width: 641px) {
+	.ms-sizer, .absc.list .masonry .ms-item {
+		width: calc( ( 100% / {$masonryColumnMedium} )<!--@if($masonryStyleMargin)--> - {$masonryStyleMargin} <!--@end-->);
+	}
+}
+@media (min-width: 1025px) {
+	.ms-sizer, .absc.list .masonry .ms-item {
+		width: calc( ( 100% / {$masonryColumnLarge} )<!--@if($masonryStyleMargin)--> - {$masonryStyleMargin} <!--@end-->);
+	}
+}
+	<!--@if($mi->masonry_thumbnail_where == 'title_bottom')-->
+	.absc.list .ab-webzine .wz-item .wz-item-summary {
+		margin-top: 0.5em;
+	}
+	<!--@end-->
+
+	.board-wrapper .ab-btn.ab-btn-custom-1 {
+		{$mi->button_custom1_custom};
+	}
+	.board-wrapper .ab-btn.ab-btn-custom-1:hover {
+		{$mi->button_custom1_custom_hover};
+	}
+	.board-wrapper .ab-btn.ab-btn-custom-2 {
+		{$mi->button_custom2_custom};
+	}
+	.board-wrapper .ab-btn.ab-btn-custom-2:hover {
+		{$mi->button_custom2_custom_hover};
+	}
+<!--@end-->
+
+/* XEFU */
+.xefu-btn.fileinput-button > span {
+	color: {$color_point} !important;
+}
+.xefu-act-link-selected {
+	color: {$color_point} !important;
+}
+
+/* board list hover border-bottom */
+<!--@if($mi->hover_bottom_line != 'y')-->
+.absc.list .ab-table tbody tr .title a:first-child {
+	border-bottom: none !important;
+}
+.absc.list .ab-webzine .wz-item:hover .title {
+	border-bottom: none;
+}
+<!--@end-->
+
+/* visited link style */
+<!--@if($mi->visited_link == 'y')-->
+tr:not(.notice) .title a:visited, tr:not(.notice) .title a:visited *, .wz-item:not(.notice) a:visited, .wz-item:not(.notice) a:visited * {
+	color: #666 !important;
+}
+<!--@end-->
+
+{$mi->etc_custom_css}
+</style>

@@ -1,0 +1,86 @@
+<div cond="$notice_list" class="ab-webzine">
+	<div class="wz-item notice<!--@if($document_srl==$document->document_srl)--> active<!--@end-->" loop="$notice_list=>$no,$document">
+	{@
+		$oModuleModel = &getModel('module');
+		$mi_temp = getModel('module')->getModuleInfoByDocumentSrl($document->document_srl);
+		$grant_temp = $oModuleModel->getGrant($mi_temp, $logged_info);
+	}
+		<a class="ab-link" href="{getUrl('document_srl',$document->document_srl,'cpage','')}"<!--@if(!$grant_temp->view)--> onclick="alert('{$lang->msg_not_permitted}'); return false;"<!--@end-->></a>
+		<block cond="$grant->manager"><input class="cart" id="cart_{$document->document_srl}" type="checkbox" name="cart" value="{$document->document_srl}" title="Check This Article" onclick="doAddDocumentCart(this)" checked="checked"|cond="$document->isCarted()" /><label for="cart_{$document->document_srl}" class="cart"><i class="far fa-check-circle"></i><i class="fas fa-check-circle"></i></label></block>
+		<div class="wz-item-inner clear">
+		<div class="wz-item-header">
+			<!--@if($document->get('hot_document'))--><span class="document-hot">{$lang->ab_document_hot}</span><!--@end--><include cond="$mi->webzine_category_style != 'n'" target="fn_category.html" /><span class="title"><a href="{getUrl('document_srl',$document->document_srl,'cpage','')}">{$document->getTitle($mi->list_title_cut)}</a></span><a cond="$document->getCommentCount() && $mi->webzine_title_comment == ''" href="{getUrl('document_srl', $document->document_srl)}#comment" class="commentNum ab-point-color" title="{$lang->comment}">{$document->getCommentCount()}</a><include cond="$showIcon" target="print_icon.html" /></div>
+			<div cond="$showNoticeMeta" class="wz-item-meta">
+				<include target="print_meta.html" />
+			</div>
+		</div>
+	</div>
+</div>
+<div cond="$document_list" class="clear ab-webzine<!--@if($listStyle == 'masonry')--> masonry<!--@end-->">
+	<div cond="$listStyle == 'masonry' && $thumbType == 'ratio'" class="ms-sizer"></div>
+	<div class="wz-item<!--@if($document_srl==$document->document_srl)--> active<!--@end--><!--@if($listStyle == 'masonry')--> ms-item<!--@end-->" loop="$document_list=>$no,$document">
+	{@
+		$oModuleModel = &getModel('module');
+		$mi_temp = getModel('module')->getModuleInfoByDocumentSrl($document->document_srl);
+		$grant_temp = $oModuleModel->getGrant($mi_temp, $logged_info);
+	}
+		<a class="ab-link" href="{getUrl('document_srl',$document->document_srl,'cpage','')}"<!--@if(!$grant_temp->view)--> onclick="alert('{$lang->msg_not_permitted}'); return false;"<!--@end-->></a>
+		<block cond="$grant->manager"><input class="cart" id="cart_{$document->document_srl}" type="checkbox" name="cart" value="{$document->document_srl}" title="Check This Article" onclick="doAddDocumentCart(this)" checked="checked"|cond="$document->isCarted()" /><label for="cart_{$document->document_srl}" class="cart"><i class="far fa-check-circle"></i><i class="fas fa-check-circle"></i></label></block>
+		<div class="wz-item-inner clear<!--@if($thumbWhere != '')--> thumbnail-{$thumbWhere}<!--@end-->">
+			<div cond="$listStyle == 'masonry' && $mi->masonry_thumbnail_where == 'title_bottom'" class="thumbnail-top-header">
+				<div class="wz-item-header ab-truncate<!--@if($mi->webzine_header_align == 'center')--> align-center<!--@end-->">
+					<include cond="$mi->webzine_category_style != 'n'" target="fn_category.html" /><span class="title"><a href="{getUrl('document_srl',$document->document_srl,'cpage','')}">{$document->getTitle($mi->list_title_cut)}</a></span><include cond="$showIcon" target="print_icon.html" /></div>
+			</div>
+			<div cond="$thumbWhere && $document->thumbnailExists()" class="wz-item-thumbnail">
+				<div cond="$thumbType == 'crop'" class="thumbwrap">
+					<div class="" style="background-image: url('<!--@if(!$document->thumbnailExists())-->{$thumbNo}<!--@else-->{$document->getThumbnail($thumbWidth,$thumbHeight)}<!--@end-->');background-size: cover; background-position: center center;"></div>
+				</div>
+				<div cond="$thumbType == 'ratio'">
+					<img cond="$document->thumbnailExists()" src="{$document->getThumbnail($thumbWidth,$thumbHeight,ratio)}" style="width: 100%;" />
+					<div cond="!$document->thumbnailExists()" class="thumbwrap">
+						<div style="background-image: url('{$thumbNo}');background-size: cover; background-position: center center;"></div>
+					</div>
+				</div>
+			</div>
+			<div cond="$showAricleContent" class="wz-item-content">
+				<div cond="$listStyle == 'webzine' || ($listStyle == 'masonry' && $mi->masonry_thumbnail_where == '')" class="wz-item-header<!--@if($mi->webzine_content_line_one == 'y')--> ab-truncate<!--@end--><!--@if($mi->webzine_header_align == 'center')--> align-center<!--@end-->">
+					<include cond="$mi->webzine_category_style != 'n'" target="fn_category.html" /><a href="{getUrl('document_srl',$document->document_srl,'cpage','')}"><span class="title">{$document->getTitle($mi->list_title_cut)}</span></a><a cond="$document->getCommentCount() && $mi->webzine_title_comment == ''" href="{getUrl('document_srl', $document->document_srl)}#comment" class="commentNum ab-point-color" title="{$lang->comment}">{$document->getCommentCount()}</a><include cond="$showIcon" target="print_icon.html" /></div>
+				<div cond="$mi->webzine_summary == 'y'" class="wz-item-summary">{$document->getSummary($summaryCut)}</div>
+				<div cond="$showArticleMeta" class="wz-item-meta<!--@if($mi->webzine_exval_oloi == 'y')--> oloi {$mi->webzine_exval_oloi_style}<!--@end--><!--@if($mi->webzine_meta_align == 'center')--> align-center<!--@end-->">
+					<include target="print_meta.html" />
+				</div>
+			</div>
+			<include target="button_custom_1.html" cond="$mi->button_custom1 == 'y' && $listStyle == 'masonry'" />
+			<div cond="$mi->button_custom2_text && $listStyle == 'masonry'" style="height: 30px; margin-top: 1rem;"></div>
+		</div>
+		<a class="ab-btn ab-btn-custom-2<!--@if($mi->button_custom2_style == '')--> ab-point-bacolor ab-point-bgcolor ab-text-white<!--@elseif($mi->button_custom2_style == 'border')--> ab-point-bacolor ab-point-color<!--@end-->" cond="$mi->button_custom2_text && $listStyle == 'masonry'" href="<!--@if($mi->button_custom2_link != '')-->{$document->getExtraEidValue($mi->button_custom2_link)}<!--@else-->{getUrl('document_srl',$document->document_srl,'cpage','')}<!--@end-->" target="_blank"|cond="$mi->button_custom2_link_type != ''">{$mi->button_custom2_text}</a>
+	</div>
+</div>
+
+<!--@if($listStyle == 'masonry')-->
+	<!--@if($thumbType == 'ratio')-->
+		<load target="../assets/js/masonry.pkgd.js" />
+		<script type="text/javascript">
+			$(window).load(function(){
+				$('.ab-webzine.masonry').masonry({
+					// options
+					itemSelector: '.ms-item',
+					columnWidth: '.ms-sizer',
+					percentPosition: true
+				});
+			});
+		</script>
+	<!--@else-->
+		<load target="../assets/js/jquery.matchHeight.js" />
+		<script type="text/javascript">
+			$(window).load(function(){
+				$('.ms-item').matchHeight();
+			});
+		</script>
+	<!--@end-->
+<!--@end-->
+
+<script>
+	$('span.title span[style*="font-weight:bold"]').css('font-weight', '').wrap( '<strong></strong>');
+	$('.article-navi span[style*="font-weight:bold"]').css('font-weight', '').wrap( '<strong></strong>');
+</script>

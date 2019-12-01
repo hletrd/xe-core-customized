@@ -1,0 +1,126 @@
+<table class="ab-download">
+	<thead>
+		<!-- Header -->
+		<tr>
+			<block loop="$list_config=>$key,$val">
+				<block cond="$val->type=='title' && $val->idx==-1">
+					<th scope="col" class="title mobile-show"><span><a href="{getUrl('sort_index','title','order_type',$order_type)}">{$lang->title}<i cond="$sort_index=='title'" class="fa fa-angle-{$order_icon}"></i></a></span></th>
+					<th scope="col" cond="$showCategory" class="cat mobile-show"><span>{$lang->category}</span></th>
+				</block>
+				<th scope="col" cond="$val->type=='nick_name' && $val->idx==-1" style="display: none;"|cond="!$grant->manager && ($mi->consultation == 'Y' && $mi->table_consultation_author == 'n')"><span>{$lang->writer}</span></th>
+				<th scope="col" cond="$val->type=='user_id' && $val->idx==-1" style="display: none;"|cond="!$grant->manager && ($mi->consultation == 'Y' && $mi->table_consultation_author == 'n')"><span>{$lang->user_id}</span></th>
+				<th scope="col" cond="$val->type=='user_name' && $val->idx==-1" style="display: none;"|cond="!$grant->manager && ($mi->consultation == 'Y' && $mi->table_consultation_author == 'n')"><span>{$lang->user_name}</span></th>
+				<th scope="col" cond="$val->type=='regdate' && $val->idx==-1"><span><a href="{getUrl('sort_index','regdate','order_type',$order_type)}">{$lang->date}<i cond="$sort_index=='regdate'" class="fa fa-angle-{$order_icon}"></i></a></span></th>
+				<th scope="col" cond="$val->type=='last_update' && $val->idx==-1"><span><a href="{getUrl('sort_index','last_update','order_type',$order_type)}">{$lang->last_update}<i cond="$sort_index=='last_update'" class="fa fa-angle-{$order_icon}"></i></a></span></th>
+				<th scope="col" cond="$val->type=='last_post' && $val->idx==-1"><span>{$lang->last_post}</span></th>
+				<th scope="col" cond="$val->type=='voted_count' && $val->idx==-1"><span><a href="{getUrl('sort_index','voted_count','order_type',$order_type)}">{$lang->voted_count}<i cond="$sort_index=='voted_count'" class="fa fa-angle-{$order_icon}"></i></a></span></th>
+				<th scope="col" cond="$val->idx!=-1"><span><a href="{getUrl('sort_index',$val->eid,'order_type',$order_type)}">{$val->name}</a></span></th>
+			</block>
+			<th scope="col" class="download mobile-show"><span>{$lang->ab_download}</span></th>
+			<th cond="$grant->manager" scope="col" class="check mobile-show"><span><i class="fas fa-toolbox fa-fw"></i></span></th>
+			<th scope="col" cond="$grant->manager" class="check mobile-show"><input class="cart" id="cart_all" type="checkbox" onclick="XE.checkboxToggleAll({ doClick:true });" title="Check All" /><label for="cart_all" class="cart"><i class="far fa-check-circle fa-fw"></i><i class="fas fa-check-circle fa-fw"></i></label></th>
+		</tr>
+	</thead>
+	<tbody cond="!$document_list">
+		<tr>
+			<td colspan="{count($list_config)+1}"|cond="!$grant->manager" colspan="{count($list_config)+2}"|cond="$grant->manager">{$lang->no_documents}</td>
+		</tr>
+	</tbody>
+	<block cond="$document_list">
+		<tbody loop="$document_list=>$no,$document" id="t_{$document->document_srl}">
+			<tr class="list">
+				<block loop="$list_config=>$key,$val">
+					<block cond="$val->type=='title' && $val->idx==-1">
+						<td class="title mobile-show">
+								<div style="display: inline-block; width: 1.5em; margin-right: 0.5em; text-align: center; line-height: normal; vertical-align: top;"><i class="fas fa-caret-right fa-fw" style="display: inline-block;"></i></div><a srl="{$document->document_srl}" class="btn-view opener" style="display: inline-block; width: calc(100% - 2em);">{$document->getTitle($mi->list_title_cut)}</a>
+						</td>
+						<td cond="$showCategory" class="cat mobile-show"><include target="fn_category.html" /></td>
+					</block>
+					<td class="author" cond="$val->type=='nick_name' && $val->idx==-1" style="display: none;"|cond="!$grant->manager && ($mi->consultation == 'Y' && $mi->table_consultation_author == 'n')"><span><a href="#popup_menu_area" class="member_{$document->get('member_srl')}" onclick="return false">{$document->getNickName()}</a></span></td>
+					<td class="author" cond="$val->type=='user_id' && $val->idx==-1"><span>{$document->getUserID()}</span></td>
+					<td class="author" cond="$val->type=='user_name' && $val->idx==-1"><span>{$document->getUserName()}</span></td>
+					<td class="date" cond="$val->type=='regdate' && $val->idx==-1"><!--@if($mi->list_datetype == '')-->{getTimeGap($document->get('regdate'), $dateType)}<!--@else--><!--@if((int)($document->getRegdate('YmdHis')>date('YmdHis', time()-24*60*60)))-->{$document->getRegdate("H:i")}<!--@else-->{$document->getRegdate($dateType)}<!--@end--><!--@end--></td>
+					<td class="date last_update" cond="$val->type=='last_update' && $val->idx==-1">{zdate($document->get('last_update'),'Y.m.d')}</td>
+					<td class="date last_post" cond="$val->type=='last_post' && $val->idx==-1">
+						<!--@if((int)($document->get('comment_count'))>0)-->
+							<a class="opener" href="{getUrl('document_srl',$document->document_srl)}#{$document->document_srl}_comment" title="{getTimeGap($document->get('last_update'), "H:i")}">{zdate($document->get('last_update'),'Y.m.d')}<block cond="$document->getLastUpdater()"><br><small>(by {$document->getLastUpdater()})</small></block></a>
+						<!--@else-->
+							&nbsp;
+						<!--@end-->
+					</td>
+					<td cond="$val->type=='voted_count' && $val->idx==-1">{$document->get('voted_count')!=0?$document->get('voted_count'):'0'}</td>
+					<td cond="$val->idx!=-1" class="exval"><include target="fn_exval.html" /></td>
+				</block>
+<!--@if($document->hasUploadedFiles())-->
+				<td class="download mobile-show"><a class="btn-download" srl="{$document->document_srl}" tit="{$document->getTitle($mi->list_title_cut)}" cat="{$category_list[$document->get('category_srl')]->title}" data-remodal-target="download"><i class="fas fa-download fa-fw"></i></a></td>
+<!--@else-->
+				<td class="download mobile-show">&nbsp;</td>
+<!--@end-->
+				<td cond="$grant->manager" class="check mobile-show"><a href="{getUrl('act','dispBoardWrite','document_srl',$document->document_srl,'comment_srl','')}" class="ab-btn"><i class="fas fa-edit fa-fw"></i></a><a href="{getUrl('act','dispBoardDelete','document_srl',$document->document_srl,'comment_srl','')}" class="ab-btn"><i class="far fa-trash-alt fa-fw"></i></a></td>
+				<td cond="$grant->manager" class="check mobile-show"><input class="cart" id="cart_{$document->document_srl}" type="checkbox" name="cart" value="{$document->document_srl}" title="Check This Article" onclick="doAddDocumentCart(this)" checked="checked"|cond="$document->isCarted()" /><label for="cart_{$document->document_srl}" class="cart"><i class="far fa-check-circle fa-fw"></i><i class="fas fa-check-circle fa-fw"></i></label></td>
+			</tr>
+			<tr class="content">
+				<td class="mobile-show" colspan="100"></td>
+			</tr>
+		</tbody>
+	</block>
+</table>
+
+<script>
+	$('.btn-view').click(function(){
+		if($(this).hasClass("opener") === true) {
+			$(this).toggleClass("opener");
+			$(this).toggleClass("closer");
+			$($("#t_" + $(this).attr('srl') + " td.title")).find('.fas').toggleClass("fa-caret-right");
+			$($("#t_" + $(this).attr('srl') + " td.title")).find('.fas').toggleClass("fa-caret-down");
+			$("#t_" + $(this).attr('srl') + " .content").show();
+			if ($("#t_" + $(this).attr('srl') + " .content > td:empty").length) {
+				viewContent($(this).attr('srl'));
+			}
+		}
+		else {
+			$(this).toggleClass("opener");
+			$(this).toggleClass("closer");
+			$($("#t_" + $(this).attr('srl') + " td.title")).find('.fas').toggleClass("fa-caret-right");
+			$($("#t_" + $(this).attr('srl') + " td.title")).find('.fas').toggleClass("fa-caret-down");
+			$("#t_" + $(this).attr('srl') + " .content").hide();
+		}
+	});
+	
+	$('.btn-download').click(function(){
+		console.log($(this).attr('tit'));
+		if ($(this).attr('cat') != '') {
+			$desc = "[" + $(this).attr('cat') + "] " + $(this).attr('tit');
+		}
+		else {
+			$desc = $(this).attr('tit');
+		}
+		$('.remodal.remodal-download .desc').html($desc);
+		viewAttachment($(this).attr('srl'));
+	});
+
+	function viewContent(doc_srl){
+		$.exec_json("board.dispBoardContentView",{mid:"{$mi->mid}",document_srl:doc_srl}, function(data){
+			$("#t_" + doc_srl + " .content > td").html(data.oDocument.content);
+		});
+	}
+	function viewAttachment(doc_srl){
+		$('.remodal.remodal-download .download-area').empty();
+		$.exec_json("board.dispBoardContentFileList",{mid:"{$mi->mid}",document_srl:doc_srl}, function(data){
+			var c = 0;
+			$.each(data.file_list, function(key, val){
+				var ext = val.source_filename.split('.').pop().toLowerCase();
+				if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
+					$('.remodal.remodal-download .download-area').append("<div class='download-item clear'><div class='download-icon'><i class='fas fa-download fa-fw ab-point-color'></i></div><div class='download-content ab-truncate'>" + val.source_filename + "<br><span class='ab-text-muted ab-text-sm'>" + number_to_human_size(val.file_size) + "</span></div><a class='ab-link' href='{getUrl('')}{$file->download_url}' title='" + val.source_filename + "'></a></div>");
+					c++;
+				}
+			});
+			$('.remodal.remodal-download span.count').html(c);
+		});
+	}
+	function number_to_human_size(x) {
+		var s = ['bytes', 'kB', 'MB', 'GB', 'TB', 'PB'];
+		var e = Math.floor(Math.log(x) / Math.log(1024));
+		return (x / Math.pow(1024, e)).toFixed(2) + " " + s[e];
+	};
+</script>
